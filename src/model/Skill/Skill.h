@@ -1,0 +1,9 @@
+//
+// Created by Егор Кулин on 28.02.2024.
+//
+
+#ifndef DARKEST_DUNGEON_LITE_SKILL_H
+#define DARKEST_DUNGEON_LITE_SKILL_H
+
+
+#endif //DARKEST_DUNGEON_LITE_SKILL_H
