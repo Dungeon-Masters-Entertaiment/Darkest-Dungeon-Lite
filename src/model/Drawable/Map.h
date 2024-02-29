@@ -1,22 +1,24 @@
-//
-// Created by Егор Кулин on 28.02.2024.
-//
-
 #ifndef DARKEST_DUNGEON_LITE_MAP_H
 #define DARKEST_DUNGEON_LITE_MAP_H
 
 #include <vector>
+#include <memory>
 #include "Drawable.h"
+#include "Room.h"
 
 class Map : public AbstractDrawable {
 protected:
-    static Map *_instance;
-    std::vector <std::vector<char>> _body;
-    std::vector <Room> _rooms;
+    std::vector<std::vector<char>> _body;
+    std::vector<std::shared_ptr<Room>> _rooms;
+    Map() = default;
 public:
-    Map();
+    static Map& GetInstance() {
+        static Map instance;
+        return instance;
+    }
 
-    static Map *GetInstance();
+    Map(const Map&) = delete;
+    Map& operator=(const Map&) = delete;
 
     void Draw() override;
 };

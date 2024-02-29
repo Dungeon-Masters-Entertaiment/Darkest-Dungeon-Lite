@@ -1,12 +1,8 @@
-//
-// Created by Егор Кулин on 28.02.2024.
-//
 
 #ifndef DARKEST_DUNGEON_LITE_ROOM_H
 #define DARKEST_DUNGEON_LITE_ROOM_H
 
 #include <vector>
-#include <string.h>
 #include <iostream>
 #include "Drawable.h"
 #include "Entity.h"

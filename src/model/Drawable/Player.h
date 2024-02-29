@@ -1,7 +1,3 @@
-//
-// Created by Егор Кулин on 28.02.2024.
-//
-
 #ifndef DARKEST_DUNGEON_LITE_PLAYER_H
 #define DARKEST_DUNGEON_LITE_PLAYER_H
 
@@ -12,13 +8,17 @@
 
 class Player : public AbstractDrawable {
 private:
-    static Player *_instance;
     std::vector <std::vector<char>> _body;
     Inventory *_inventory;
+    Player() = default;
 public:
-    Player();
+    static Player& GetInstance() {
+        static Player instance;
+        return instance;
+    }
 
-    static Player *GetInstance();
+    Player(const Player&) = delete;
+    Player& operator=(const Player&) = delete;
 
     void Draw() override;
 };
