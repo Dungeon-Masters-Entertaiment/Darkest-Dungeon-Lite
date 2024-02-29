@@ -1,10 +1,8 @@
 #ifndef DARKEST_DUNGEON_LITE_MAP_H
 #define DARKEST_DUNGEON_LITE_MAP_H
 
-#include <vector>
-#include <memory>
+#include "../src/model/MapGenerator.h"
 #include "Drawable.h"
-#include "Room.h"
 
 class Map : public AbstractDrawable {
 protected:
@@ -21,6 +19,8 @@ public:
     Map& operator=(const Map&) = delete;
 
     void Draw() override;
+
+    void GenerateMap(int width, int height);
 };
 
 #endif //DARKEST_DUNGEON_LITE_MAP_H

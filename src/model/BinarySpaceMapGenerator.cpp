@@ -1,58 +1,34 @@
-
 #include "MapGenerator.h"
 #include <cstdlib> // for rand()
+#include <memory>
 
-void BinarySpaceMapGenerator::GenerateMap() {
-    // Start with a single room that covers the entire map
-    CreateRoom(0, 0, 50, 50);
+void BSP::Split() {
+    if (_left_child || _right_child) {
+        if (_left_child) _left_child->Split();
+        if (_right_child) _right_child->Split();
+    } else {
+        // Decide to split horizontally or vertically
+        if (_rect.width > _rect.height && _rect.width / _rect.height >= 1.25)
+            SplitHorizontally();
+        else if (_rect.height > _rect.width && _rect.height / _rect.width >= 1.25)
+            SplitVertically();
+        else if (rand() % 2 == 0)
+            SplitHorizontally();
+        else
+            SplitVertically();
 
-    // Divide the map into smaller rooms
-    for (int i = 0; i < 10; i++) {
-        // Choose a random room
-        int x = rand() % 50;
-        int y = rand() % 50;
-
-        // Choose a random direction for the corridor
-        int direction = rand() % 4;
-
-        // Draw the corridor and divide the room
-        switch (direction) {
-            case 0: // Up
-                CreateCorridor(x, y, 1, 3);
-                CreateRoom(x, y + 3, 3, 3);
-                break;
-            case 1: // Down
-                CreateCorridor(x, y, 1, 3);
-                CreateRoom(x, y - 3, 3, 3);
-                break;
-            case 2: // Left
-                CreateCorridor(x, y, 3, 1);
-                CreateRoom(x + 3, y, 3, 3);
-                break;
-            case 3: // Right
-                CreateCorridor(x, y, 3, 1);
-                CreateRoom(x - 3, y, 3, 3);
-                break;
-        }
-    }
-    void GenerateMap() {
-        Map& map = Map::GetInstance();
-        // Use the map instance to generate the map
+        // Create room in this node
+        _room = std::make_unique<Room>(_rect.x + 1, _rect.y + 1, _rect.width - 2, _rect.height - 2);
     }
 }
 
-void BinarySpaceMapGenerator::CreateRoom(int x, int y, int width, int height) {
-    for (int i = x; i < x + width && i < 50; i++) {
-        for (int j = y; j < y + height && j < 50; j++) {
-            map[i][j] = 1;  // 1 represents a room
-        }
-    }
+void BSP::SplitHorizontally() {
+    _left_child = std::make_unique<BSP>(_rect.x, _rect.y, _rect.width, _rect.height / 2);
+    _right_child = std::make_unique<BSP>(_rect.x, _rect.y + _rect.height / 2, _rect.width, _rect.height / 2);
 }
 
-void BinarySpaceMapGenerator::CreateCorridor(int x, int y, int width, int height) {
-    for (int i = x; i < x + width && i < 50; i++) {
-        for (int j = y; j < y + height && j < 50; j++) {
-            map[i][j] = 1;  // 1 represents a corridor
-        }
-    }
+void BSP::SplitVertically() {
+    _left_child = std::make_unique<BSP>(_rect.x, _rect.y, _rect.width / 2, _rect.height);
+    _right_child = std::make_unique<BSP>(_rect.x + _rect.width / 2, _rect.y, _rect.width / 2, _rect.height);
 }
+
