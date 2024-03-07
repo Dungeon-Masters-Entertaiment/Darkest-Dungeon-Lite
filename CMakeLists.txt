@@ -1,13 +1,8 @@
-cmake_minimum_required(VERSION 3.27)
-set(CMAKE_CXX_FLAGS "-lncurses")
-
+cmake_minimum_required(VERSION 3.22)
 project(Darkest_Dungeon_Lite)
-
-set(CMAKE_CXX_STANDARD 14)
-
-include_directories(.)
-
-add_executable(Darkest_Dungeon_Lite
-        main.cpp
-        graphics.h
-        )
+set(CMAKE_CXX_FLAGS "-lncurses")
+set(CMAKE_CXX_STANDARD 17)
+find_package(Curses REQUIRED)
+include_directories(${CURSES_INCLUDE_DIR})
+add_executable(Darkest_Dungeon_Lite main.cpp)
+target_link_libraries(Darkest_Dungeon_Lite ${CURSES_LIBRARIES})
