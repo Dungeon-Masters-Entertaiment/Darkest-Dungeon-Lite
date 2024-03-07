@@ -5,9 +5,9 @@
 #ifndef DARKEST_DUNGEON_LITE_MAPGENERATOR_H
 #define DARKEST_DUNGEON_LITE_MAPGENERATOR_H
 
-#include "../src/model/Drawable/Map.h"
 #include <vector>
 #include <memory>
+#include <random>
 
 struct Rectangle {
     int x, y, width, height;
@@ -20,31 +20,27 @@ struct Room {
             : x(x), y(y), width(width), height(height) {}
 };
 
-class MapGenerator {
+class GenerationAlgorithm {
 public:
-    virtual Map GenerateMap() = 0; // Pure virtual function
-
+    virtual void Generate() = 0; // Pure virtual function
 };
 
-class BinarySpaceMapGenerator : public MapGenerator {
-public:
-    friend class BSP;
+class Map;
 
-    Map GenerateMap() override;
-};
-
-class BSP {
+class BSP : public GenerationAlgorithm {
 public:
 
-    BSP(int x, int y, int width, int height) : _rect{x, y, width, height} {};
+    BSP(int x, int y, int width, int height, unsigned seed) : _rect{x, y, width, height}, generator(seed) {};
 
     void Split();
 
+    void Generate() override;
+
     std::unique_ptr<Room> _room = nullptr;
 
-    std::unique_ptr<BSP>& GetLeftChild();
+    std::unique_ptr<BSP> &GetLeftChild();
 
-    std::unique_ptr<BSP>& GetRightChild();
+    std::unique_ptr<BSP> &GetRightChild();
 
 private:
     void SplitHorizontally();
@@ -52,8 +48,37 @@ private:
     void SplitVertically();
 
     Rectangle _rect;
+
+    std::mt19937 generator;
     std::unique_ptr<BSP> _left_child = nullptr;
     std::unique_ptr<BSP> _right_child = nullptr;
 };
+
+
+template<typename T, typename... Args>
+class AlgorithmFabric {
+public:
+    virtual T *CreateAlgorithm(Args... args) = 0;
+};
+
+class BinarySpaceMapGenerator : public AlgorithmFabric<BSP, int, int, int, int> {
+private:
+    std::mt19937 generator;
+
+public:
+    BinarySpaceMapGenerator() {
+        unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+        generator.seed(seed);
+    }
+
+    std::mt19937 &GetGenerator() {
+        return generator;
+    }
+
+    BSP *CreateAlgorithm(int x, int y, int width, int height) override {
+        return new BSP(x, y, width, height, generator());
+    }
+};
+
 
 #endif //DARKEST_DUNGEON_LITE_MAPGENERATOR_H

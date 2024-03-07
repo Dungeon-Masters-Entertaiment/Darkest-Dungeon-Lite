@@ -1,14 +1,15 @@
 #ifndef DARKEST_DUNGEON_LITE_MAP_H
 #define DARKEST_DUNGEON_LITE_MAP_H
 
-#include "../src/model/MapGenerator.h"
+#include "MapGenerator.h"
 #include "Drawable.h"
 
 class Map : public AbstractDrawable {
 protected:
     std::vector<std::vector<char>> _body;
     std::vector<std::shared_ptr<Room>> _rooms;
-    Map() = default;
+    AlgorithmFabric<BSP, int, int, int, int, unsigned>* _fabric;
+    Map();
 public:
     static Map& GetInstance() {
         static Map instance;
