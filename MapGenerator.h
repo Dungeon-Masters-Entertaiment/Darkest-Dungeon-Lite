@@ -21,21 +21,15 @@ struct Room {
             : x(x), y(y), width(width), height(height) {}
 };
 
-class GenerationAlgorithm {
-public:
-    virtual void Generate() = 0; // Pure virtual function
-};
 
 class Map;
 
-class BSP : public GenerationAlgorithm {
+class BSP{
 public:
 
-    BSP(int x, int y, int width, int height, unsigned seed) : _rect{x, y, width, height}, generator(seed) {};
+    BSP(int x, int y, int width, int height, unsigned seed) : _rect{x, y, width, height}, seed(seed), generator(seed){};
 
     void Split();
-
-    void Generate() override;
 
     std::unique_ptr<Room> _room = nullptr;
 
@@ -51,6 +45,7 @@ private:
     Rectangle _rect;
 
     std::mt19937 generator;
+    unsigned int seed;
     std::unique_ptr<BSP> _left_child = nullptr;
     std::unique_ptr<BSP> _right_child = nullptr;
 };
@@ -72,9 +67,9 @@ public:
         generator.seed(seed);
     }
 
-    static BSP Generate(int x, int y, int width, int height);
+    BSP Generate(int x, int y, int width, int height);
 
-    static Map Build(int width, int height);
+    Map Build(int width, int height);
 
     std::mt19937 &GetGenerator() {
         return generator;

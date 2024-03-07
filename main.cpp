@@ -3,11 +3,12 @@
 //
 #include "src/controller/Game.h"
 #include "Map.h"
+#include "MapGenerator.h"
 
 void GenerateMap() {
-    Map &map = Map::GetInstance();
+    BinarySpaceMapGenerator generator;
     // Use the map instance to generate the map
-    map.GenerateMap(50, 50);
+    Map map = generator.Build(50, 50);
     map.Draw();
 }
 

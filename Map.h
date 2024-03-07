@@ -4,6 +4,8 @@
 #include "MapGenerator.h"
 #include "Drawable.h"
 
+struct Room;
+
 class Map : public AbstractDrawable {
 protected:
     std::vector<std::vector<char>> _body;
@@ -19,8 +21,6 @@ public:
     Map &operator=(const Map &) = delete;
 
     void Draw() override;
-
-    void GenerateMap(BSP &bsp, int width, int height);
 };
 
 #endif //DARKEST_DUNGEON_LITE_MAP_H
