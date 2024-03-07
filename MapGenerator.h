@@ -8,6 +8,7 @@
 #include <vector>
 #include <memory>
 #include <random>
+#include "Map.h"
 
 struct Rectangle {
     int x, y, width, height;
@@ -70,6 +71,10 @@ public:
         unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
         generator.seed(seed);
     }
+
+    static BSP Generate(int x, int y, int width, int height);
+
+    static Map Build(int width, int height);
 
     std::mt19937 &GetGenerator() {
         return generator;

@@ -8,20 +8,19 @@ class Map : public AbstractDrawable {
 protected:
     std::vector<std::vector<char>> _body;
     std::vector<std::shared_ptr<Room>> _rooms;
-    AlgorithmFabric<BSP, int, int, int, int, unsigned>* _fabric;
-    Map();
+
+    friend class BinarySpaceMapGenerator;
+
 public:
-    static Map& GetInstance() {
-        static Map instance;
-        return instance;
+    Map(int width, int height) {
+        _body.assign(width, std::vector<char>(height));
     }
 
-    Map(const Map&) = delete;
-    Map& operator=(const Map&) = delete;
+    Map &operator=(const Map &) = delete;
 
     void Draw() override;
 
-    void GenerateMap(int width, int height);
+    void GenerateMap(BSP &bsp, int width, int height);
 };
 
 #endif //DARKEST_DUNGEON_LITE_MAP_H

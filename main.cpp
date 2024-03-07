@@ -2,7 +2,7 @@
 // Created by Егор Кулин on 29.02.2024.
 //
 #include "src/controller/Game.h"
-#include "src/model/Drawable/Map.h"
+#include "Map.h"
 
 void GenerateMap() {
     Map &map = Map::GetInstance();
