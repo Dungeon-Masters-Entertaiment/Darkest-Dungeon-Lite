@@ -3,10 +3,6 @@
 //
 #include "graphics.h"
 
-void rectangle(int y1, int x1, int y2, int x2)
-{
-
-}
 
 int main(int argc, char **argv) {
     // /*
