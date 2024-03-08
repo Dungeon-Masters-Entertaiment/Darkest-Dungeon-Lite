@@ -17,6 +17,7 @@ public:
     ~Monitor();
     void draw_rectangle(int x1, int y1, int x2, int y2);
     void draw_hero_position(int x, int y);
+    void make_an_event_loop();
 };
 
 
