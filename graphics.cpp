@@ -3,6 +3,7 @@
 //
 
 #include "graphics.h"
+#include "BMP.h"
 
 Monitor::Monitor() {
     initscr();
@@ -25,6 +26,12 @@ void Monitor::draw_rectangle(int x1, int y1, int x2, int y2) {
     mvaddch(y2, x2, ACS_LRCORNER);
 }
 
+void Monitor::draw_dot(int x, int y) {
+    mvaddch(y, x, '.');
+}
+//making draw_circle method
+
+
 void Monitor::draw_hero_position(int x, int y) {
     mvaddch(y, x, '@');
 }
@@ -38,6 +45,10 @@ void Monitor::make_an_event_loop() {
         clear();
         draw_rectangle(3, 3, 7, 7);
         draw_rectangle(25, 10, 30, 20);
+
+        draw_dot(5, 5);
+        draw_dot(27, 15);
+
         if(input_char == KEY_UP) y--;
         else if(input_char == KEY_DOWN) y++;
         else if(input_char == KEY_LEFT) x--;
@@ -48,6 +59,10 @@ void Monitor::make_an_event_loop() {
     getch();
     endwin();
 
+
+
+
+    // это просто пример работы с ncurses
     /*
     // инициализация (должна быть выполнена
     // перед использованием ncurses)
