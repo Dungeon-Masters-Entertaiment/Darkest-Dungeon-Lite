@@ -10,10 +10,10 @@
 
 #include <ncurses.h>
 
-struct BMPFileHeader;
-struct BMPInfoHeader;
-struct BMPColorHeader;
-struct BMP;
+class BMPFileHeader;
+class BMPInfoHeader;
+class BMPColorHeader;
+class BMP;
 
 
 class BMPFileHeader {
@@ -25,7 +25,7 @@ public:
     uint32_t offset_data{0};             // Start position of pixel data (bytes from the beginning of the file)
 };
 
-struct BMPInfoHeader {
+class BMPInfoHeader {
 public:
     uint32_t size{ 0 };                      // Size of this header (in bytes)
     int32_t width{ 0 };                      // width of bitmap in pixels
@@ -42,7 +42,7 @@ public:
     uint32_t colors_important{ 0 };          // No. of colors used for displaying the bitmap. If 0 all colors are required
 };
 
-struct BMPColorHeader {
+class BMPColorHeader {
 public:
     uint32_t red_mask{ 0x00ff0000 };         // Bit mask for the red channel
     uint32_t green_mask{ 0x0000ff00 };       // Bit mask for the green channel
@@ -52,7 +52,7 @@ public:
     uint32_t unused[16]{ 0 };                // Unused data for sRGB color space
 };
 
-struct BMP{
+class BMP{
 public:
     BMPFileHeader file_header;
     BMPInfoHeader bmp_info_header;
