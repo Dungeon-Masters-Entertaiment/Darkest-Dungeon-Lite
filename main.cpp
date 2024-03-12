@@ -1,12 +1,13 @@
 //
 // Created by Егор Кулин on 29.02.2024.
 //
-#include "src/controller/Game.h"
+//#include "src/controller/Game.h"
 #include "Map.h"
-#include "MapGenerator.h"
+#include <iostream>
+#include "MapFabric.h"
 
 void GenerateMap() {
-    BinarySpaceMapGenerator generator;
+    AntohaFabric generator;
     // Use the map instance to generate the map
     Map map = generator.Build(50, 50);
     map.Draw();

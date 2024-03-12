@@ -9,6 +9,7 @@
 #include <memory>
 #include <random>
 #include "Map.h"
+#include <chrono>
 
 struct Rectangle {
     int x, y, width, height;
@@ -63,7 +64,7 @@ private:
 
 public:
     BinarySpaceMapGenerator() {
-        unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+        unsigned     seed = std::chrono::system_clock::now().time_since_epoch().count();
         generator.seed(seed);
     }
 
@@ -75,9 +76,7 @@ public:
         return generator;
     }
 
-    BSP *CreateAlgorithm(int x, int y, int width, int height) override {
-        return new BSP(x, y, width, height, generator());
-    }
+    BSP *CreateAlgorithm(int x, int y, int width, int height) override ;
 };
 
 

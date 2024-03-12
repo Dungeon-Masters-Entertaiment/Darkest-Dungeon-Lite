@@ -1,26 +1,27 @@
 #ifndef DARKEST_DUNGEON_LITE_MAP_H
 #define DARKEST_DUNGEON_LITE_MAP_H
 
-#include "MapGenerator.h"
+#include "MapFabric.h"
 #include "Drawable.h"
 
 struct Room;
 
-class Map : public AbstractDrawable {
-protected:
-    std::vector<std::vector<char>> _body;
-    std::vector<std::shared_ptr<Room>> _rooms;
+class Map : public AbstractDrawable 
+{
+    protected:
+        std::vector<std::vector<char>> _body;
+        std::vector<std::shared_ptr<Room>> _rooms;
 
-    friend class BinarySpaceMapGenerator;
+        friend class AntohaFabric;
 
-public:
-    Map(int width, int height) {
-        _body.assign(width, std::vector<char>(height));
-    }
+    public:
+        Map(int width, int height) {
+            _body.assign(width, std::vector<char>(height));
+        }
 
-    Map &operator=(const Map &) = delete;
+        Map &operator=(const Map &) = delete;
 
-    void Draw() override;
+        void Draw() override;
 };
 
 #endif //DARKEST_DUNGEON_LITE_MAP_H

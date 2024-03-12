@@ -3,7 +3,7 @@ project(MyGame)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(main main.cpp  Map.h Map.cpp MapGenerator.h BinarySpaceMapGenerator.cpp) # Include Map.cpp here
+add_executable(main main.cpp  Map.h Map.cpp MapFabric.h AntohaMapGenerator.cpp) # Include Map.cpp here
 
 target_include_directories(main PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}
