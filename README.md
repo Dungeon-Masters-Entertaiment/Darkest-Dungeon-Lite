@@ -20,7 +20,7 @@ chmod +x launch.sh
 
 ## For MacOs
 ```shell
-brew install ncurses
+brew install ncurses glog nlohmann-json
 git clone https://github.com/mregrock-Darkest-Dungeon-Lite
 cd Darkest-Dungeon-Lite
 chmod +x launch.sh

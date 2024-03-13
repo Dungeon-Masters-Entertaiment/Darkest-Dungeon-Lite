@@ -12,7 +12,7 @@ enum class CombatSkillType {
 };
 
 class CombatSkill {
-protected:
+public:
     // Name of the skill
     std::string _id;
     // Level of the skill
@@ -41,7 +41,7 @@ protected:
 
 public:
     // Use the skill
-    virtual void Use() = 0;
+//    virtual void Use() = 0;
 };
 
 #endif //DARKEST_DUNGEON_LITE_SKILL_H
