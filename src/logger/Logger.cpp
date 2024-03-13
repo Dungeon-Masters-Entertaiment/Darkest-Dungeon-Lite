@@ -2,6 +2,7 @@
 // Created by Natalya Sklyar on 09.03.2024.
 //
 
+
 #include "Logger.h"
 
 void MyLogger::LogDebug(const std::string &message) {
