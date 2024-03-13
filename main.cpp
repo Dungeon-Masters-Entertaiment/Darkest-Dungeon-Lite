@@ -6,5 +6,5 @@
 
 int main(int argc, char **argv) {
     Monitor monitor;
-    monitor.make_an_event_loop();
+    monitor.draw_blinking_rectangle(5, 5, 20, 20, 2);
 }

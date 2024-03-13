@@ -78,3 +78,22 @@ void Monitor::make_an_event_loop() {
     endwin(); // завершение работы с ncurses
     */
 }
+
+void Monitor::draw_blinking_rectangle(int x1, int y1, int x2, int y2, int color) {
+    start_color();
+    init_pair(1, 2, 3);
+    for(int i = 1; i <= 5; i++) {
+        attron(COLOR_PAIR(1));
+        for(int i = x1; i <= x2; i++) {
+            for (int j = y1; j < y2; j++) {
+                mvprintw(j, i, "#");
+            }
+        }
+        refresh();
+        usleep(500000);
+        clear();
+        refresh();
+        usleep(500000);
+        attron(COLOR_PAIR(1));
+    }
+}
