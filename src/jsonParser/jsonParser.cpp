@@ -1,5 +1,25 @@
-//
-// Created by Natalya Sklyar on 13.03.2024.
-//
+#include "JSONParser.h"
 
-#include "jsonParser.h"
+std::map<std::string, nlohmann::json> JSONParser::parseJSON(const std::string& jsonString) {
+  nlohmann::json json = nlohmann::json::parse(jsonString);
+  return json.get<std::map<std::string, nlohmann::json>>();
+}
+
+std::string JSONParser::toJson(const std::map<std::string, nlohmann::json>& jsonMap) {
+  nlohmann::json json(jsonMap);
+  return json.dump();
+}
+
+template <typename T>
+std::string JSONParser::objectToJson(const T& obj) {
+  nlohmann::json json = obj;
+  return json.dump();
+}
+
+template <typename T>
+T JSONParser::jsonToObject(const std::string& jsonString) {
+  nlohmann::json json = nlohmann::json::parse(jsonString);
+  return json.get<T>();
+}
+
+template class JSONParser;
