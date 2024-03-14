@@ -30,6 +30,9 @@ public:
     void draw_colored_rectangle(int x1, int y1, int x2, int y2, int color); //прямоугольник с цветными границами
     void fill_rectangle(int x1, int y1, int x2, int y2, int color); // заливка прясоугольника
     void fill_area(std::pair <int, int> * pairs, int color); // заливка набора квадратов (по идее может пригодиться для отрисовки боя)
+
+
+
     void draw_blinking_rectangle(int x1, int y1, int x2, int y2, short colour_1, short colour_2); // можно юзать либу std::chrono для засекания времени
     void draw_blinking_area(std::pair <int, int> * pairs, int * colors); //мигающая область
     void draw_circle(int x0, int y0, int r); // не идеальный круг, просто какой-то из каких-то ascii символов (типа *)

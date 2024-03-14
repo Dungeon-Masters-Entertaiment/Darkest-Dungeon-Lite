@@ -4,15 +4,19 @@
 
 #include "graphics.h"
 #include "BMP.h"
+
 auto begin_time = std::chrono::high_resolution_clock::now();
 Monitor::Monitor() {
+    // инициализация (должна быть выполнена
+    // перед использованием ncurses)
     initscr();
     keypad(stdscr, true);
     noecho();
+    nodelay(stdscr, TRUE);
     curs_set(0);
 }
 Monitor::~Monitor() {
-    endwin();
+    endwin(); // завершение работы с ncurses
 }
 
 void Monitor::draw_rectangle(int x1, int y1, int x2, int y2) {
@@ -61,17 +65,12 @@ void Monitor::make_an_event_loop() {
 
         draw_hero_position(x, y);
     }while((input_char = getch()) != 27);
-    getch();
+    getch(); // ждём нажатия символа
     endwin();
 
 
-
-
-    // это просто пример работы с ncurses
+    // подсказка
     /*
-    // инициализация (должна быть выполнена
-    // перед использованием ncurses)
-    initscr();
     // Измеряем размер экрана в рядах и колонках
     int row, col;
     getmaxyx(stdscr, row, col);
@@ -79,15 +78,17 @@ void Monitor::make_an_event_loop() {
     move(row / 2, col / 2 - 25);
     printw("Hello world"); // вывод строки
     refresh(); // обновить экран
-    getch(); // ждём нажатия символа
-    endwin(); // завершение работы с ncurses
     */
 }
+
 
 void Monitor::draw_blinking_rectangle(int x1, int y1, int x2, int y2, short colour_1, short colour_2) {
 
     auto cur_time = std::chrono::high_resolution_clock::now();
     auto amount_of_time = std::chrono::duration_cast<std::chrono::milliseconds>(cur_time - begin_time);
+
+
+
 
     start_color();
     init_pair(1, 1, colour_1);
