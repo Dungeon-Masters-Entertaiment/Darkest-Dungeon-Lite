@@ -50,14 +50,14 @@ void Monitor::make_an_event_loop() {
 
     do{
         clear();
-        //draw_rectangle(3, 3, 7, 7);
-        //draw_rectangle(25, 10, 30, 20);
+        draw_rectangle(3, 3, 7, 7);
+        draw_rectangle(25, 10, 30, 20);
 
-        //draw_dot(5, 5);
-        //draw_dot(27, 15);
+        draw_dot(5, 5);
+        draw_dot(27, 15);
 
-        //draw_blinking_rectangle(8, 8, 15, 15, 2, 4);
-        //draw_circle(10, 5, 5);
+        draw_blinking_rectangle(8, 8, 15, 15, 2, 4);
+
         if(input_char == KEY_UP) y--;
         else if(input_char == KEY_DOWN) y++;
         else if(input_char == KEY_LEFT) x--;
@@ -86,6 +86,10 @@ void Monitor::draw_blinking_rectangle(int x1, int y1, int x2, int y2, short colo
 
     auto cur_time = std::chrono::high_resolution_clock::now();
     auto amount_of_time = std::chrono::duration_cast<std::chrono::milliseconds>(cur_time - begin_time);
+
+
+
+
     start_color();
     init_pair(1, 1, colour_1);
     init_pair(2, 1, colour_2);
@@ -145,12 +149,10 @@ void Monitor::draw_circle(int x0, int y0, int r) {
     const int SIZE = 2 * r + 1;
     const double PI = 4 * atan( 1.0 );
     double dtheta = 2.0 * PI / N;
-    std::vector<std::vector <char>> grid( SIZE, std::vector<char>( SIZE, ' '));
     for ( int t = 0; t < N; t++ ) {
         double theta = PI - ( t + 1 ) * dtheta;
         int i = 0.5 * ( 1 + cos( theta )) * ( SIZE - 1 ) + 0.5;
         int j = 0.5 * ( 1 + sin( theta )) * ( SIZE - 1 ) + 0.5;
-        grid[i][j] = '*';
         mvaddch(j + y0, i + x0, '*');
     }
 }
