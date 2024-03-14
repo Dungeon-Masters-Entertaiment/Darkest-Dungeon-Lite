@@ -14,7 +14,6 @@ Monitor::Monitor() {
 Monitor::~Monitor() {
     endwin();
 }
-
 void Monitor::draw_rectangle(int x1, int y1, int x2, int y2) {
     mvhline(y1, x1, 0, x2-x1);
     mvhline(y2, x1, 0, x2-x1);
@@ -36,31 +35,34 @@ void Monitor::draw_hero_position(int x, int y) {
     mvaddch(y, x, '@');
 }
 
+void Monitor::which_move(int input_char, int&x, int& y) {
+    if(input_char == KEY_UP) y--;
+    else if(input_char == KEY_DOWN) y++;
+    else if(input_char == KEY_LEFT) x--;
+    else if(input_char == KEY_RIGHT)x++;
+}
+
 void Monitor::make_an_event_loop() {
 
     begin_time = std::chrono::high_resolution_clock::now();
-
     int x = 0;
     int y = 0;
     int input_char = 0;
 
     do{
         clear();
-        draw_rectangle(3, 3, 7, 7);
-        draw_rectangle(25, 10, 30, 20);
+        //draw_rectangle(3, 3, 7, 7);
+        //draw_rectangle(25, 10, 30, 20); //Vanya testil
+        //draw_dot(5, 5);
+        //draw_dot(27, 15);
 
-        draw_dot(5, 5);
-        draw_dot(27, 15);
+        //draw_blinking_rectangle(8, 8, 15, 15, 2, 4);
+        //std::vector<std::pair <int, int>> cur = {{3, 4}, {5, 6}}; // Testes my functions
+        //draw_blinking_area(cur, 2, 4);
 
-        draw_blinking_rectangle(8, 8, 15, 15, 2, 4);
-
-        if(input_char == KEY_UP) y--;
-        else if(input_char == KEY_DOWN) y++;
-        else if(input_char == KEY_LEFT) x--;
-        else if(input_char == KEY_RIGHT)x++;
-
+        which_move(input_char, x, y);
         draw_hero_position(x, y);
-    }while((input_char = getch()) != 27);
+    } while((input_char = getch()) != 27); //27 is ESC
     getch();
     endwin();
 
@@ -117,3 +119,32 @@ void Monitor::draw_blinking_rectangle(int x1, int y1, int x2, int y2, short colo
     else attroff(COLOR_PAIR(2)); //attroff(2); //attroff(COLOR_PAIR(2));
 
 }
+
+void Monitor::draw_blinking_area(std::vector <std::pair<int, int>>& pairs, short colour_1, short colour_2) {
+    auto cur_time = std::chrono::high_resolution_clock::now();
+    auto amount_of_time = std::chrono::duration_cast<std::chrono::milliseconds>(cur_time - begin_time);
+
+    start_color();
+    init_pair(1, 1, colour_1);
+    init_pair(2, 1, colour_2);
+
+    int col_flag = 0;
+    if (amount_of_time.count() / 500 % 2) {
+        attron(COLOR_PAIR(1));
+        col_flag = 1;
+    }
+    else {
+        attron(COLOR_PAIR(2));
+        col_flag = 4;
+    }
+    for(auto & pair : pairs) {
+        mvprintw(pair.second, pair.first, " ");
+    }
+    if (col_flag == 1) attroff(COLOR_PAIR(1)); //attroff(1);//attroff(COLOR_PAIR(1));
+    else attroff(COLOR_PAIR(2)); //attroff(2); //attroff(COLOR_PAIR(2));
+
+}
+
+
+
+
