@@ -57,7 +57,7 @@ void Monitor::make_an_event_loop() {
         //draw_dot(27, 15);
 
         //draw_blinking_rectangle(8, 8, 15, 15, 2, 4);
-        draw_circle(10, 5, 5);
+        //draw_circle(10, 5, 5);
         if(input_char == KEY_UP) y--;
         else if(input_char == KEY_DOWN) y++;
         else if(input_char == KEY_LEFT) x--;
@@ -110,6 +110,31 @@ void Monitor::draw_blinking_rectangle(int x1, int y1, int x2, int y2, short colo
     //if (amount_of_time.count() % 500 < 100) refresh();
     //attroff(COLOR_PAIR(1));
 
+    if (col_flag == 1) attroff(COLOR_PAIR(1)); //attroff(1);//attroff(COLOR_PAIR(1));
+    else attroff(COLOR_PAIR(2)); //attroff(2); //attroff(COLOR_PAIR(2));
+
+}
+
+void Monitor::draw_blinking_area(std::vector <std::pair<int, int>>& pairs, short colour_1, short colour_2) {
+    auto cur_time = std::chrono::high_resolution_clock::now();
+    auto amount_of_time = std::chrono::duration_cast<std::chrono::milliseconds>(cur_time - begin_time);
+
+    start_color();
+    init_pair(1, 1, colour_1);
+    init_pair(2, 1, colour_2);
+
+    int col_flag = 0;
+    if (amount_of_time.count() / 500 % 2) {
+        attron(COLOR_PAIR(1));
+        col_flag = 1;
+    }
+    else {
+        attron(COLOR_PAIR(2));
+        col_flag = 4;
+    }
+    for(auto & pair : pairs) {
+        mvprintw(pair.second, pair.first, " ");
+    }
     if (col_flag == 1) attroff(COLOR_PAIR(1)); //attroff(1);//attroff(COLOR_PAIR(1));
     else attroff(COLOR_PAIR(2)); //attroff(2); //attroff(COLOR_PAIR(2));
 
