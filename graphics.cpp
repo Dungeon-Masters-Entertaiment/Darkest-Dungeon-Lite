@@ -118,3 +118,41 @@ void Monitor::draw_blinking_rectangle(int x1, int y1, int x2, int y2, short colo
     else attroff(COLOR_PAIR(2)); //attroff(2); //attroff(COLOR_PAIR(2));
 
 }
+
+void Monitor::draw_blinking_area(std::vector <std::pair<int, int>>& pairs, short colour_1, short colour_2) {
+    auto cur_time = std::chrono::high_resolution_clock::now();
+    auto amount_of_time = std::chrono::duration_cast<std::chrono::milliseconds>(cur_time - begin_time);
+
+    start_color();
+    init_pair(1, 1, colour_1);
+    init_pair(2, 1, colour_2);
+
+    int col_flag = 0;
+    if (amount_of_time.count() / 500 % 2) {
+        attron(COLOR_PAIR(1));
+        col_flag = 1;
+    }
+    else {
+        attron(COLOR_PAIR(2));
+        col_flag = 4;
+    }
+    for(auto & pair : pairs) {
+        mvprintw(pair.second, pair.first, " ");
+    }
+    if (col_flag == 1) attroff(COLOR_PAIR(1)); //attroff(1);//attroff(COLOR_PAIR(1));
+    else attroff(COLOR_PAIR(2)); //attroff(2); //attroff(COLOR_PAIR(2));
+
+}
+
+void Monitor::draw_circle(int x0, int y0, int r) {
+    const int N = 100;
+    const int SIZE = 2 * r + 1;
+    const double PI = 4 * atan( 1.0 );
+    double dtheta = 2.0 * PI / N;
+    for ( int t = 0; t < N; t++ ) {
+        double theta = PI - ( t + 1 ) * dtheta;
+        int i = 0.5 * ( 1 + cos( theta )) * ( SIZE - 1 ) + 0.5;
+        int j = 0.5 * ( 1 + sin( theta )) * ( SIZE - 1 ) + 0.5;
+        mvaddch(j + y0, i + x0, '*');
+    }
+}
