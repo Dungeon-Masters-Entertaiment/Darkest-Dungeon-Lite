@@ -7,7 +7,7 @@
 #include "Drawable.h"
 #include "Entity.h"
 
-class Room : public AbstractDrawable {
+class Room1 : public AbstractDrawable {
 protected:
     std::vector <std::vector<char>> body;
     std::vector <Entity> entities;
