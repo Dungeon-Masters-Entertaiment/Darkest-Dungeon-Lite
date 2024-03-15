@@ -8,7 +8,7 @@
 #include <vector>
 #include <memory>
 #include <random>
-#include "Map.h"
+#include "../Drawable/Map.h"
 #include <chrono>
 
 struct Room {
@@ -40,6 +40,18 @@ class AntohaFabric : public MapFabric<int, int> {
         virtual Map Build(int width, int height) override;
 };
 
+class EgorFabric : public MapFabric<int, int>{
+    private:
+        std::mt19937 generator;
+    public:
+        EgorFabric() {
+            unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+            generator.seed(seed);
+        }
+
+        virtual Map Build(int width, int height) override;
+
+};
 
 /*
 struct Rectangle {

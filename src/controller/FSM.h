@@ -6,6 +6,7 @@
 #define DARKEST_DUNGEON_LITE_FSM_H
 
 #include "State.h"
+class State;
 class FSM {
 public:
     virtual void ChangeState(State *new_state) = 0;

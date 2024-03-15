@@ -1,6 +1,6 @@
 #include "MapFabric.h"
 #include <iostream>
-#include "Map.h"
+#include "../Drawable/Map.h"
 
 char get_zn(int x, int y, int width, int height, std::vector<std::vector<char>> &_body){
     if(x < 0 || x >= width || y < 0 || y >= height) {

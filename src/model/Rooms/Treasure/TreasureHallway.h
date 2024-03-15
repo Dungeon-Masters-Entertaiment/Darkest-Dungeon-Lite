@@ -5,14 +5,14 @@
 #ifndef DARKEST_DUNGEON_LITE_TREASUREHALLWAY_H
 #define DARKEST_DUNGEON_LITE_TREASUREHALLWAY_H
 
+#include "TreasureCell.h"
 
-class TreasureHallway : public TreasureCell{
-    public:
-        TreasureHallway(int id) {
-            cell = TreasureCell(id);
-            cell.dificulty = "Low";
-            return cell;
-        }
+class TreasureHallway : public TreasureCell {
+public:
+    TreasureHallway(int id1, int id) : TreasureCell(id1) {
+        Cell cell = TreasureCell(id);
+        cell.difficulty = "Low";
+    }
 };
 
 

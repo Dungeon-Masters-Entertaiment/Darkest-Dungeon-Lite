@@ -3,6 +3,8 @@
 
 #include "FSM.h"
 
+class FSM;
+
 class State {
 public:
     virtual void Handle(FSM *fsm) = 0;

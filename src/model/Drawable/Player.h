@@ -3,13 +3,12 @@
 
 #include <vector>
 #include "Drawable.h"
-#include "Entity.h"
-#include "Inventory.h"
+#include "../Entities/Entity.h"
 
 class Player : public AbstractDrawable {
 private:
     std::vector <std::vector<char>> _body;
-    Inventory *_inventory;
+    //Inventory *_inventory;
     Player() = default;
 public:
     static Player& GetInstance() {
@@ -17,8 +16,8 @@ public:
         return instance;
     }
 
-    Player(const Player&) = delete;
-    Player& operator=(const Player&) = delete;
+    Player(const Player&) = default;
+    Player& operator=(const Player&) = default;
 
     void Draw() override;
 };

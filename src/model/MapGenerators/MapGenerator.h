@@ -8,7 +8,7 @@
 #include <vector>
 #include <memory>
 #include <random>
-#include "Map.h"
+#include "model/Drawable/Map.h"
 #include <chrono>
 
 struct Rectangle {

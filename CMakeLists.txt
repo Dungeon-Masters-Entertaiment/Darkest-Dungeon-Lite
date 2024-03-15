@@ -3,10 +3,11 @@ project(MyGame)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(main main.cpp Map.h Map.cpp MapFabric.h AntohaMapGenerator.cpp Cell.h Cell.cpp) # Include Map.cpp here
+file(GLOB_RECURSE SOURCES src/*.cpp)
+add_executable(main main.cpp ${SOURCES}) # Include Map.cpp here
+target_include_directories(main PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
-target_include_directories(main PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/controller
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/model/Drawable
-        )
+find_package(glog REQUIRED)
+target_link_libraries(main glog::glog)
+find_package(nlohmann_json REQUIRED)
+target_link_libraries(main nlohmann_json::nlohmann_json)

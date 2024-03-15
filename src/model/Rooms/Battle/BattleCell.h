@@ -4,7 +4,7 @@
 
 #ifndef DARKEST_DUNGEON_LITE_BATTLEROOM_H
 #define DARKEST_DUNGEON_LITE_BATTLEROOM_H
-
+#include "../Cell.h"
 
 class BattleCell : public Cell {
     public:

@@ -4,14 +4,13 @@
 
 #ifndef DARKEST_DUNGEON_LITE_BATTLEHALLWAY_H
 #define DARKEST_DUNGEON_LITE_BATTLEHALLWAY_H
-
+#include "BattleCell.h"
 
 class BattleHallway: public BattleCell {
     public:
-        BattleHallway(int id) {
+        BattleHallway(int id1, int id) : BattleCell(id1) {
             Cell cell = BattleCell(id);
-            cell.dificulty = "Low";
-            return cell;
+            cell.difficulty = "Low";
         }
 };
 

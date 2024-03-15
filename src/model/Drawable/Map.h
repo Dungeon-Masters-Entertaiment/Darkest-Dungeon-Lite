@@ -1,9 +1,9 @@
 #ifndef DARKEST_DUNGEON_LITE_MAP_H
 #define DARKEST_DUNGEON_LITE_MAP_H
 
-#include "MapFabric.h"
+#include "model/MapGenerators/MapFabric.h"
 #include "Drawable.h"
-#include "Cell.h"
+#include "model/Rooms/Cell.h"
 
 struct Room;
 
@@ -14,6 +14,7 @@ protected:
     std::vector<std::shared_ptr<Cell>> _rooms;
 
     friend class AntohaFabric;
+    friend class BinarySpaceMapGenerator;
 
 public:
     Map(int width, int height) {

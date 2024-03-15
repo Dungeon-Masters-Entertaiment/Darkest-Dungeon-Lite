@@ -1,10 +1,11 @@
 
 #ifndef DARKEST_DUNGEON_LITE_GAME_H
 #define DARKEST_DUNGEON_LITE_GAME_H
-
+#include "../model/Drawable/Map.h"
 
 class Game { //singleton pattern
     static Game* _instance;
+    std::unique_ptr<Map> _map;
 public:
     Game();
     void Start();

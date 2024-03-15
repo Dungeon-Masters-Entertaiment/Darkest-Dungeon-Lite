@@ -4,7 +4,7 @@
 
 #ifndef DARKEST_DUNGEON_LITE_TRAP_H
 #define DARKEST_DUNGEON_LITE_TRAP_H
-
+#include "Cell.h"
 
 class Trap: public Cell{
     public:

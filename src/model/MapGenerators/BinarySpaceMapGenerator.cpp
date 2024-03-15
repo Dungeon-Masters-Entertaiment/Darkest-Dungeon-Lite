@@ -1,5 +1,5 @@
 #include "MapGenerator.h"
-#include "Map.h"
+#include "../Drawable/Map.h"
 #include <cstdlib> // for rand()
 #include <memory>
 

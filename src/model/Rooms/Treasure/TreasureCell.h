@@ -4,7 +4,7 @@
 
 #ifndef DARKEST_DUNGEON_LITE_TREASUREROOM_H
 #define DARKEST_DUNGEON_LITE_TREASUREROOM_H
-
+#include "../Cell.h"
 
 class TreasureCell : public Cell {
     public:
