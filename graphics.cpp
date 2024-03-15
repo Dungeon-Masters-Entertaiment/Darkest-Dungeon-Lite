@@ -43,27 +43,35 @@ void Monitor::draw_hero_position(int x, int y) {
 void Monitor::make_an_event_loop() {
 
     begin_time = std::chrono::high_resolution_clock::now();
-
     int x = 0;
     int y = 0;
     int input_char = 0;
 
+    start_color(); 
+    init_pair(1, COLOR_RED, COLOR_BLACK);
+    init_pair(2, COLOR_GREEN, COLOR_BLACK);
+    init_pair(3, COLOR_BLUE, COLOR_BLACK);
+
     do{
         clear();
-        draw_rectangle(3, 3, 7, 7);
-        draw_rectangle(25, 10, 30, 20);
+        // draw_rectangle(3, 3, 7, 7);
+        // draw_rectangle(25, 10, 30, 20);
 
-        draw_dot(5, 5);
-        draw_dot(27, 15);
+        // draw_dot(5, 5);
+        // draw_dot(27, 15);
 
-        draw_blinking_rectangle(8, 8, 15, 15, 2, 4);
+        // draw_blinking_rectangle(8, 8, 15, 15, 2, 4);
+
+        draw_colored_dot(5, 5, 1); 
+        draw_colored_rectangle(20, 5, 30, 10, 2); 
+        fill_rectangle(40, 5, 50, 10, 3);
 
         if(input_char == KEY_UP) y--;
         else if(input_char == KEY_DOWN) y++;
         else if(input_char == KEY_LEFT) x--;
         else if(input_char == KEY_RIGHT)x++;
-
-        draw_hero_position(x, y);
+        draw_colored_dot(x, y, 2);
+        // draw_hero_position(x, y);
     }while((input_char = getch()) != 27);
     getch(); // ждём нажатия символа
     endwin();
@@ -155,4 +163,38 @@ void Monitor::draw_circle(int x0, int y0, int r) {
         int j = 0.5 * ( 1 + sin( theta )) * ( SIZE - 1 ) + 0.5;
         mvaddch(j + y0, i + x0, '*');
     }
+}
+
+void Monitor::draw_colored_dot(int x, int y, int color) {
+    attron(COLOR_PAIR(color)); 
+    mvaddch(y, x, ACS_BULLET); 
+    attroff(COLOR_PAIR(color)); 
+}
+
+void Monitor::draw_colored_rectangle(int x1, int y1, int x2, int y2, int color) {
+    attron(COLOR_PAIR(color));
+
+    mvhline(y1, x1, 0, x2 - x1);
+    mvhline(y2, x1, 0, x2 - x1);
+    mvvline(y1, x1, 0, y2 - y1);
+    mvvline(y1, x2, 0, y2 - y1);
+
+    mvaddch(y1, x1, ACS_ULCORNER);
+    mvaddch(y2, x1, ACS_LLCORNER);
+    mvaddch(y1, x2, ACS_URCORNER);
+    mvaddch(y2, x2, ACS_LRCORNER);
+
+    attroff(COLOR_PAIR(color));
+}
+
+void Monitor::fill_rectangle(int x1, int y1, int x2, int y2, int color) {
+    attron(COLOR_PAIR(color));
+    for(int y = y1; y <= y2; y++) {
+        for (int x = x1; x <= x2; x++) {
+            mvaddch(y, x, ' ' | A_REVERSE); 
+        } 
+        
+    }
+
+    attroff(COLOR_PAIR(color));
 }
