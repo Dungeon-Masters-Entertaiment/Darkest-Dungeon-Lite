@@ -198,7 +198,7 @@ int distance(std::pair<int, int> first, std::pair<int, int> second) {
     return abs(first.first - second.first) + abs(first.second - second.second);
 }
 
-bool find(std::vector<std::shared_ptr<Room>> &conection, std::shared_ptr<Room> f){
+bool find(std::vector<std::shared_ptr<Cell>> &conection, std::shared_ptr<Cell> f){
     for(auto &i:conection) {
         if(i == f) return true;
     }
@@ -214,13 +214,13 @@ Map AntohaFabric::Build(int width, int height)
         }
     }
     int actual_number_of_rooms = 20 + generator() % 10;
-    std::vector<std::shared_ptr<Room>> chain;
+    std::vector<std::shared_ptr<Cell>> chain;
     int quantity = 0;
-    map._rooms.push_back(std::make_shared<Room>(25 + generator() % 3, 25 + generator() % 3, 3, 3));
-    map._rooms.push_back(std::make_shared<Room>(22 + generator() % 8,  17 + generator() % 2, 3, 3));
-    map._rooms.push_back(std::make_shared<Room>(22 + generator() % 8,  34 + generator() % 2, 3, 3));
-    map._rooms.push_back(std::make_shared<Room>(17 + generator() % 2,  22 + generator() % 8, 3, 3));
-    map._rooms.push_back(std::make_shared<Room>(34 + generator() % 2,  22 + generator() % 8, 3, 3));
+    map._rooms.push_back(std::make_shared<Cell>(25 + generator() % 3, 25 + generator() % 3, 3, 3));
+    map._rooms.push_back(std::make_shared<Cell>(22 + generator() % 8,  17 + generator() % 2, 3, 3));
+    map._rooms.push_back(std::make_shared<Cell>(22 + generator() % 8,  34 + generator() % 2, 3, 3));
+    map._rooms.push_back(std::make_shared<Cell>(17 + generator() % 2,  22 + generator() % 8, 3, 3));
+    map._rooms.push_back(std::make_shared<Cell>(34 + generator() % 2,  22 + generator() % 8, 3, 3));
     for(int i = 0; i < 5; i++) {
         draw_room(map._rooms[i]->x, map._rooms[i]->y, map._body);
     }
@@ -250,7 +250,7 @@ Map AntohaFabric::Build(int width, int height)
                 int proof = generator() % f;
                 if(!proof) {
                     draw_room(i, i1, map._body);
-                    map._rooms.push_back(std::make_shared<Room>(i, i1, 3, 3));
+                    map._rooms.push_back(std::make_shared<Cell>(i, i1, 3, 3));
                     f = 120;
                     quantity += 1;
                 }
@@ -263,13 +263,13 @@ Map AntohaFabric::Build(int width, int height)
     while(siz--) {
         if(generator() % 5 != 0){
 
-            std::shared_ptr<Room> index1, index2, index3;
+            std::shared_ptr<Cell> index1, index2, index3;
             int number = -1;
             int min_distanse = width * height, min_distanse1 = width * height;
             for(int pos = 0; pos < chain.size(); pos++) {
-                std::shared_ptr<Room> v = chain[pos];
+                std::shared_ptr<Cell> v = chain[pos];
                 int min = width * height, min1 = width * height;
-                std::shared_ptr<Room> neighbour = v, neighbour1 = v;
+                std::shared_ptr<Cell> neighbour = v, neighbour1 = v;
                 for(int i = 0; i < map._rooms.size(); i++) {
                     if(map._rooms[i] != v && !find(map._rooms[i] -> conection, v)) {
                         int dlin = distance({map._rooms[i] -> x, map._rooms[i] -> y}, {v -> x, v -> y});
@@ -295,9 +295,9 @@ Map AntohaFabric::Build(int width, int height)
             }
             if(number != -1) {
 
-                std::shared_ptr<Room> v = index1;
-                std::shared_ptr<Room> neighbour = index2;
-                std::shared_ptr<Room> neighbour1 = index3;
+                std::shared_ptr<Cell> v = index1;
+                std::shared_ptr<Cell> neighbour = index2;
+                std::shared_ptr<Cell> neighbour1 = index3;
                 int pos = number;
 
                 bool f = make_the_way(v -> x, v -> y, neighbour -> x, neighbour -> y, generator()%2, width, height, map._body);
@@ -328,9 +328,9 @@ Map AntohaFabric::Build(int width, int height)
         } else {
 
             int pos = generator()%chain.size();
-            std::shared_ptr<Room> v = chain[pos];
+            std::shared_ptr<Cell> v = chain[pos];
             int min = height * width, min1 = height * width;
-            std::shared_ptr<Room> neighbour = v, neighbour1 = v;
+            std::shared_ptr<Cell> neighbour = v, neighbour1 = v;
             for(int i = 0; i < map._rooms.size(); i++) {
                 if(map._rooms[i] != v && !find(map._rooms[i] -> conection, v)) {
                     int dlin = distance({map._rooms[i] -> x, map._rooms[i] -> y}, {v -> x, v -> y});

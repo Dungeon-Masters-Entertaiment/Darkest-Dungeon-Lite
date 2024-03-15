@@ -4,6 +4,10 @@
 
 #ifndef DARKEST_DUNGEON_LITE_Cell_H
 #define DARKEST_DUNGEON_LITE_Cell_H
+#include <iostream>
+#include <string>
+#include <utility>
+#include <vector>
 
 
 class Cell {
@@ -13,34 +17,39 @@ class Cell {
         int id;
         std::string name;
         std::string description;
-        bool enemyPresence;
+        bool enemy_presence;
         std::string difficulty;
-        std::vector<std::string> specialFeatures;
+        std::vector<std::string> special_features;
+        int x, y, width, height;
+        std::vector<std::shared_ptr<Cell>> conection;
+
+        Cell(int x, int y, int width, int height)
+            : x(x), y(y), width(width), height(height) {}
 
         Cell(char chr, int view, int id, std::string name,
                     std::string description,
                     bool enemyPresence,
                     std::string difficulty,
-                    std::vector<std::string> specialFeatures) :
-                    chr(chr)
+                    std::vector<std::string> special_features) :
+                    chr(chr),
                     view(view),
                     id(id),
-                    name(name),
-                    description(description),
-                    enemyPresence(enemyPresence),
+                    name(std::move(name)),
+                    description(std::move(description)),
+                    enemy_presence(enemyPresence),
                     difficulty(difficulty),
-                    specialFeatures(specialFeatures) {}
+                    special_features(special_features) {}
 
-        virtual void displayInfo() {
+        virtual void DisplayInfo() {
             std::cout << "Symbol: " << chr << "\n"
                       << "View: " << view << "\n"
                       << "Cell ID: " << id << "\n"
                       << "Name: " << name << "\n"
                       << "Description: " << description << "\n"
-                      << "Enemy Presence: " << (enemyPresence ? "Yes" : "No") << "\n"
+                      << "Enemy Presence: " << (enemy_presence ? "Yes" : "No") << "\n"
                       << "Difficulty: " << difficulty << "\n"
                       << "Special Features: ";
-            for (const auto& feature : specialFeatures) {
+            for (const auto& feature : special_features) {
                 std::cout << feature << " ";
             }
             std::cout << "\n\n";
