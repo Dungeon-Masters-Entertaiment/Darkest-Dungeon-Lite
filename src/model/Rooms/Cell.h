@@ -13,8 +13,8 @@
 class Cell {
     public:
         char chr;
-        int view;
         int id;
+        int view;
         std::string name;
         std::string description;
         bool enemy_presence;
