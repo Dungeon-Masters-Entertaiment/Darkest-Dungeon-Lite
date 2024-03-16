@@ -5,9 +5,12 @@
 #include "Cell.h"
 
 class Hall {
-    std::vector<std::shared_ptr<Cell>> rooms_in_hall;
-    std::shared_ptr<Cell> entrance;
-    std::shared_ptr<Cell> exit; 
+    public: 
+        Hall(std::shared_ptr<Cell> first, std::shared_ptr<Cell> second);
+    std::vector<std::shared_ptr <Cell>> rooms_in_hall;
+    std::shared_ptr <Cell> entrance;
+    std::shared_ptr <Cell> exit; 
+    std::shared_ptr <Cell> location;
     friend Cell;
 };
 #endif 
