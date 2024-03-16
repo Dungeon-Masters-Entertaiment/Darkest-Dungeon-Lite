@@ -62,19 +62,19 @@ void Monitor::make_an_event_loop() {
         clear();
 
         //draw_rectangle(3, 3, 7, 7);
-        //draw_rectangle(25, 10, 30, 20); 
+        //draw_rectangle(25, 10, 30, 20);
         //draw_dot(5, 5);
         //draw_dot(27, 15); //Ivan Tests
 
-        //draw_blinking_rectangle(8, 8, 15, 15, 2, 4);
-        //std::vector<std::pair <int, int>> cur = {{3, 4}, {5, 6}};
-        //draw_blinking_area(cur, 2, 4); //Ruslan Tests
+        draw_blinking_rectangle(8, 8, 15, 15, 1, 3);
+        std::vector<std::pair <int, int>> cur = {{3, 4}, {5, 6}};
+        draw_blinking_area(cur, 2, 4); //Ruslan Tests
 
-        //draw_colored_dot(5, 5, 1); 
-        //draw_colored_rectangle(20, 5, 30, 10, 2); 
+        //draw_colored_dot(5, 5, 1);
+        //draw_colored_rectangle(20, 5, 30, 10, 2);
         //fill_rectangle(40, 5, 50, 10, 3); //Alena Tests
 
-        draw_colored_dot(x, y, 2);
+        //draw_colored_dot(x, y, 2);
         which_move(input_char, x, y);
         draw_hero_position(x, y);
     }while((input_char = getch()) != 27); //27 is ESC
@@ -117,7 +117,7 @@ void Monitor::draw_blinking_rectangle(int x1, int y1, int x2, int y2, short colo
     else {
         attron(COLOR_PAIR(2));
         //attron(2);
-        col_flag = 4;
+        col_flag = 2;
     }
     for(int i = x1; i <= x2; i++) {
         for (int j = y1; j < y2; j++) {
@@ -137,23 +137,23 @@ void Monitor::draw_blinking_area(std::vector <std::pair<int, int>>& pairs, short
     auto amount_of_time = std::chrono::duration_cast<std::chrono::milliseconds>(cur_time - begin_time);
 
     start_color();
-    init_pair(1, 1, colour_1);
-    init_pair(2, 1, colour_2);
+    init_pair(3, 1, colour_1);
+    init_pair(4, 1, colour_2);
 
     int col_flag = 0;
     if (amount_of_time.count() / 500 % 2) {
-        attron(COLOR_PAIR(1));
-        col_flag = 1;
+        attron(COLOR_PAIR(3));
+        col_flag = 3;
     }
     else {
-        attron(COLOR_PAIR(2));
+        attron(COLOR_PAIR(4));
         col_flag = 4;
     }
     for(auto & pair : pairs) {
         mvprintw(pair.second, pair.first, " ");
     }
-    if (col_flag == 1) attroff(COLOR_PAIR(1)); //attroff(1);//attroff(COLOR_PAIR(1));
-    else attroff(COLOR_PAIR(2)); //attroff(2); //attroff(COLOR_PAIR(2));
+    if (col_flag == 3) attroff(COLOR_PAIR(3)); //attroff(1);//attroff(COLOR_PAIR(1));
+    else attroff(COLOR_PAIR(4)); //attroff(2); //attroff(COLOR_PAIR(2));
 
 }
 
