@@ -4,15 +4,19 @@
 
 #include "graphics.h"
 #include "BMP.h"
+
 auto begin_time = std::chrono::high_resolution_clock::now();
 Monitor::Monitor() {
+    // инициализация (должна быть выполнена
+    // перед использованием ncurses)
     initscr();
     keypad(stdscr, true);
     noecho();
+    nodelay(stdscr, TRUE);
     curs_set(0);
 }
 Monitor::~Monitor() {
-    endwin();
+    endwin(); // завершение работы с ncurses
 }
 void Monitor::draw_rectangle(int x1, int y1, int x2, int y2) {
     mvhline(y1, x1, 0, x2-x1);
@@ -49,31 +53,37 @@ void Monitor::make_an_event_loop() {
     int y = 0;
     int input_char = 0;
 
+    start_color(); 
+    init_pair(1, COLOR_RED, COLOR_BLACK);
+    init_pair(2, COLOR_GREEN, COLOR_BLACK);
+    init_pair(3, COLOR_BLUE, COLOR_BLACK);
+
     do{
         clear();
+
         //draw_rectangle(3, 3, 7, 7);
-        //draw_rectangle(25, 10, 30, 20); //Vanya testil
+        //draw_rectangle(25, 10, 30, 20); 
         //draw_dot(5, 5);
-        //draw_dot(27, 15);
+        //draw_dot(27, 15); //Ivan Tests
 
         //draw_blinking_rectangle(8, 8, 15, 15, 2, 4);
-        //std::vector<std::pair <int, int>> cur = {{3, 4}, {5, 6}}; // Testes my functions
-        //draw_blinking_area(cur, 2, 4);
+        //std::vector<std::pair <int, int>> cur = {{3, 4}, {5, 6}};
+        //draw_blinking_area(cur, 2, 4); //Ruslan Tests
 
+        //draw_colored_dot(5, 5, 1); 
+        //draw_colored_rectangle(20, 5, 30, 10, 2); 
+        //fill_rectangle(40, 5, 50, 10, 3); //Alena Tests
+
+        draw_colored_dot(x, y, 2);
         which_move(input_char, x, y);
         draw_hero_position(x, y);
-    } while((input_char = getch()) != 27); //27 is ESC
-    getch();
+    }while((input_char = getch()) != 27); //27 is ESC
+    getch(); // ждём нажатия символа
     endwin();
 
 
-
-
-    // это просто пример работы с ncurses
+    // подсказка
     /*
-    // инициализация (должна быть выполнена
-    // перед использованием ncurses)
-    initscr();
     // Измеряем размер экрана в рядах и колонках
     int row, col;
     getmaxyx(stdscr, row, col);
@@ -81,15 +91,17 @@ void Monitor::make_an_event_loop() {
     move(row / 2, col / 2 - 25);
     printw("Hello world"); // вывод строки
     refresh(); // обновить экран
-    getch(); // ждём нажатия символа
-    endwin(); // завершение работы с ncurses
     */
 }
+
 
 void Monitor::draw_blinking_rectangle(int x1, int y1, int x2, int y2, short colour_1, short colour_2) {
 
     auto cur_time = std::chrono::high_resolution_clock::now();
     auto amount_of_time = std::chrono::duration_cast<std::chrono::milliseconds>(cur_time - begin_time);
+
+
+
 
     start_color();
     init_pair(1, 1, colour_1);
@@ -146,5 +158,49 @@ void Monitor::draw_blinking_area(std::vector <std::pair<int, int>>& pairs, short
 }
 
 
+void Monitor::draw_circle(int x0, int y0, int r) {
+    const int N = 100;
+    const int SIZE = 2 * r + 1;
+    const double PI = 4 * atan( 1.0 );
+    double dtheta = 2.0 * PI / N;
+    for ( int t = 0; t < N; t++ ) {
+        double theta = PI - ( t + 1 ) * dtheta;
+        int i = 0.5 * ( 1 + cos( theta )) * ( SIZE - 1 ) + 0.5;
+        int j = 0.5 * ( 1 + sin( theta )) * ( SIZE - 1 ) + 0.5;
+        mvaddch(j + y0, i + x0, '*');
+    }
+}
 
+void Monitor::draw_colored_dot(int x, int y, int color) {
+    attron(COLOR_PAIR(color)); 
+    mvaddch(y, x, ACS_BULLET); 
+    attroff(COLOR_PAIR(color)); 
+}
 
+void Monitor::draw_colored_rectangle(int x1, int y1, int x2, int y2, int color) {
+    attron(COLOR_PAIR(color));
+
+    mvhline(y1, x1, 0, x2 - x1);
+    mvhline(y2, x1, 0, x2 - x1);
+    mvvline(y1, x1, 0, y2 - y1);
+    mvvline(y1, x2, 0, y2 - y1);
+
+    mvaddch(y1, x1, ACS_ULCORNER);
+    mvaddch(y2, x1, ACS_LLCORNER);
+    mvaddch(y1, x2, ACS_URCORNER);
+    mvaddch(y2, x2, ACS_LRCORNER);
+
+    attroff(COLOR_PAIR(color));
+}
+
+void Monitor::fill_rectangle(int x1, int y1, int x2, int y2, int color) {
+    attron(COLOR_PAIR(color));
+    for(int y = y1; y <= y2; y++) {
+        for (int x = x1; x <= x2; x++) {
+            mvaddch(y, x, ' ' | A_REVERSE); 
+        } 
+        
+    }
+
+    attroff(COLOR_PAIR(color));
+}
