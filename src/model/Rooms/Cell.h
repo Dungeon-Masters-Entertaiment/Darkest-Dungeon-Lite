@@ -8,7 +8,7 @@
 #include <string>
 #include <utility>
 #include <vector>
-
+#include <memory>
 
 class Cell {
     public:

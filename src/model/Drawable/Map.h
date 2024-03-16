@@ -5,9 +5,6 @@
 #include "Drawable.h"
 #include "model/Rooms/Cell.h"
 
-struct Room;
-
-
 class Map : public AbstractDrawable {
 protected:
     std::vector<std::vector<char>> _body;
