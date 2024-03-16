@@ -18,7 +18,6 @@ Monitor::Monitor() {
 Monitor::~Monitor() {
     endwin(); // завершение работы с ncurses
 }
-
 void Monitor::draw_rectangle(int x1, int y1, int x2, int y2) {
     mvhline(y1, x1, 0, x2-x1);
     mvhline(y2, x1, 0, x2-x1);
@@ -40,6 +39,13 @@ void Monitor::draw_hero_position(int x, int y) {
     mvaddch(y, x, '@');
 }
 
+void Monitor::which_move(int input_char, int&x, int& y) {
+    if(input_char == KEY_UP) y--;
+    else if(input_char == KEY_DOWN) y++;
+    else if(input_char == KEY_LEFT) x--;
+    else if(input_char == KEY_RIGHT)x++;
+}
+
 void Monitor::make_an_event_loop() {
 
     begin_time = std::chrono::high_resolution_clock::now();
@@ -54,25 +60,24 @@ void Monitor::make_an_event_loop() {
 
     do{
         clear();
-        // draw_rectangle(3, 3, 7, 7);
-        // draw_rectangle(25, 10, 30, 20);
 
-        // draw_dot(5, 5);
-        // draw_dot(27, 15);
+        //draw_rectangle(3, 3, 7, 7);
+        //draw_rectangle(25, 10, 30, 20); 
+        //draw_dot(5, 5);
+        //draw_dot(27, 15); //Ivan Tests
 
-        // draw_blinking_rectangle(8, 8, 15, 15, 2, 4);
+        //draw_blinking_rectangle(8, 8, 15, 15, 2, 4);
+        //std::vector<std::pair <int, int>> cur = {{3, 4}, {5, 6}};
+        //draw_blinking_area(cur, 2, 4); //Ruslan Tests
 
-        draw_colored_dot(5, 5, 1); 
-        draw_colored_rectangle(20, 5, 30, 10, 2); 
-        fill_rectangle(40, 5, 50, 10, 3);
+        //draw_colored_dot(5, 5, 1); 
+        //draw_colored_rectangle(20, 5, 30, 10, 2); 
+        //fill_rectangle(40, 5, 50, 10, 3); //Alena Tests
 
-        if(input_char == KEY_UP) y--;
-        else if(input_char == KEY_DOWN) y++;
-        else if(input_char == KEY_LEFT) x--;
-        else if(input_char == KEY_RIGHT)x++;
         draw_colored_dot(x, y, 2);
-        // draw_hero_position(x, y);
-    }while((input_char = getch()) != 27);
+        which_move(input_char, x, y);
+        draw_hero_position(x, y);
+    }while((input_char = getch()) != 27); //27 is ESC
     getch(); // ждём нажатия символа
     endwin();
 
@@ -151,6 +156,7 @@ void Monitor::draw_blinking_area(std::vector <std::pair<int, int>>& pairs, short
     else attroff(COLOR_PAIR(2)); //attroff(2); //attroff(COLOR_PAIR(2));
 
 }
+
 
 void Monitor::draw_circle(int x0, int y0, int r) {
     const int N = 100;
