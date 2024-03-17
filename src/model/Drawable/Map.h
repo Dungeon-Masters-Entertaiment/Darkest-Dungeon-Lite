@@ -1,11 +1,14 @@
 #ifndef DARKEST_DUNGEON_LITE_MAP_H
 #define DARKEST_DUNGEON_LITE_MAP_H
 
+#include <iostream>
+
 #include "model/MapGenerators/MapFabric.h"
 #include "Drawable.h"
 #include "model/Rooms/Cell.h"
 #include "model/Rooms/Hall.h"
 #include "model/Rooms/Room.h"
+
 
 class Map : public AbstractDrawable {
 protected:

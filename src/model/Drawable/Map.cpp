@@ -1,9 +1,25 @@
 #include "model/Drawable/Map.h"
-#include <iostream>
+#include "view/graphics.h"
+
+
 
 
 void Map::Draw() {
-    for (int i = 0; i < _body.size(); i++) {
+
+    Monitor monitor;
+    for (auto& room : _rooms) {
+        monitor.draw_colored_rectangle(room->x, room->y, room->width, room->height, 1);
+    }
+    for (auto& hall : _halls) {
+        for (auto& cell : hall->rooms_in_hall){
+            monitor.draw_colored_rectangle(cell->x, cell->y, cell->width, cell->height, 3);
+        }
+    }
+
+
+
+    // debug-вывод
+    /*for (int i = 0; i < _body.size(); i++) {
         for (int j = 0; j < _body[i].size(); j++) {
             switch (_body[i][j]) {
                 case ' ':
@@ -18,5 +34,7 @@ void Map::Draw() {
             }
         }
         std::cout << std::endl;
-    }
+    }*/
+
+
 }

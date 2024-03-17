@@ -5,6 +5,8 @@
 #include "model/Drawable/Map.h"
 #include <iostream>
 #include "model/MapGenerators/MapFabric.h"
+#include "view/graphics.h"
+
 
 void GenerateMap() {
     AntohaFabric generator;
@@ -14,5 +16,8 @@ void GenerateMap() {
 }
 
 int main(int argc, char **argv) {
-    GenerateMap();
+    //Generator();
+    Monitor monitor;
+    monitor.make_an_event_loop();
+
 }
