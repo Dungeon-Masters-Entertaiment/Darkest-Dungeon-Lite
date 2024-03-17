@@ -15,6 +15,7 @@ protected:
 
     friend class AntohaFabric;
     friend class BinarySpaceMapGenerator;
+    friend class Hall;
 
 public:
     Map(int width, int height) {

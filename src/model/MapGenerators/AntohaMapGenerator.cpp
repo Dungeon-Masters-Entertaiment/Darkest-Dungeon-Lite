@@ -26,8 +26,8 @@ void clear_point(int x, int y, int width, int height, std::vector<std::vector<ch
 
 bool search_around (int x, int y, int width, int height, std::vector<std::vector<char>> &_body) 
 {
-    for (int i = -3; i <= 3; i++) {
-        for(int i1 = -3; i1 <= 3; i1++) {
+    for (int i = -4; i <= 4; i++) {
+        for(int i1 = -4; i1 <= 4; i1++) {
             if(get_zn(x + i, y + i1, width, height, _body) != ' ') {
                 return false;
             }
@@ -150,6 +150,7 @@ std::pair<int, int> make_the_way(int x, int y, int x1, int y1, int type, int wid
     if(!proof_way(x, y, x1, y1, type,  width, height, _body)) {
         return {0, 0};
     }
+
     int last = 0;
  
     if(type == 0) {
@@ -229,6 +230,12 @@ bool find(std::vector<std::shared_ptr<T>> &conection, std::shared_ptr<Room> f){
     return false;
 }
 
+std::pair<int, int> normalised(std::pair<int, int> first) {
+    first.first -= 1;
+    first.second -= 1;
+    return first;
+}
+
 Map AntohaFabric::Build(int width, int height) 
 {
     Map map(width, height);
@@ -284,6 +291,7 @@ Map AntohaFabric::Build(int width, int height)
                 if(!proof) {
                     draw_room(i, i1, map._body);
                     map._rooms.push_back(std::make_shared<Room>(i, i1, 3, 3));
+                  //  std::cout<<map._rooms[map._rooms.size() - 1] ->conection[0]<< " " << map._rooms[map._rooms.size() - 1] ->conection[1] << map._rooms[map._rooms.size() - 1] ->conection[2] << map._rooms[map._rooms.size() - 1] ->conection[3]<<"\n\n";
                     f = 110;
                     quantity += 1;
                 }
@@ -293,6 +301,7 @@ Map AntohaFabric::Build(int width, int height)
     }
 
     int siz = 3 + generator() % actual_number_of_rooms;
+    
     while(siz--) {
         if(generator() % 5 != 0){
 
@@ -339,12 +348,15 @@ Map AntohaFabric::Build(int width, int height)
                     change_here = true;
                 }
                 std::pair<int, int> f = make_the_way(v -> x, v -> y, neighbour -> x, neighbour -> y, generator()%2, width, height, map._body);
+
                 if (f != std::pair{0, 0}) {
+                    f = normalised(f);
                     if(!find(chain, neighbour)) {
                         chain.push_back(neighbour);
                     }
                     v -> conection[f.first] = neighbour;
                     neighbour -> conection[f.second] = v;
+
                     bool flag = true;
                     for(int i = 0; i < 4 && flag; i++) {
                         flag = (v -> conection[i] != nullptr);
@@ -367,7 +379,7 @@ Map AntohaFabric::Build(int width, int height)
 
                     f = make_the_way(v -> x, v -> y, neighbour1 -> x, neighbour1 -> y, generator()%2, width, height, map._body);
                     if (f != std::pair{0, 0}) {
-
+                        f = normalised(f);
                         if(!find(chain, neighbour1)) {
                             chain.push_back(neighbour1);
                         }
@@ -419,6 +431,7 @@ Map AntohaFabric::Build(int width, int height)
 
             std::pair<int, int> f = make_the_way(v -> x, v -> y, neighbour -> x, neighbour -> y, generator()%2, width, height, map._body);
             if (f != std::pair{0, 0}) {
+                f = normalised(f);
                 if(!find(chain, neighbour)) {
                     chain.push_back(neighbour);
                 }
@@ -447,6 +460,7 @@ Map AntohaFabric::Build(int width, int height)
                 }
                 f = make_the_way(v -> x, v -> y, neighbour1 -> x, neighbour1 -> y, generator()%2, width, height, map._body);
                 if(f != std::pair{0, 0}) {
+                    f = normalised(f);
                     if(!find(chain, neighbour1)){
                         chain.push_back(neighbour1);
                     }
@@ -471,18 +485,31 @@ Map AntohaFabric::Build(int width, int height)
         }
 
     }
-    
-    for (int i = 0; i < map._rooms.size(); i++) {
-        bool j = false;
-        for(int i1 = 0; i1 < 4; i1 ++) {
-            if(map._rooms[i] -> conection[i1] != nullptr) {
-                j = true;
+
+    int N = map._rooms.size();
+    int i = 0;
+    while (i < N) {
+        int sizz = 0;
+        for(int i1 = 0; i1 < 4 ; i1 ++) {
+            if(map._rooms[i] -> conection[i1] == nullptr) {
+                sizz += 1;
             }
-        }//не прописано удаление map._rooms[i] если оно пустое
-        if (j) {
+        }
+        if (sizz == 4) {
             clear_point(map._rooms[i] -> x, map._rooms[i] -> y, width, height, map._body);
             map._rooms.erase(map._rooms.begin() + i);
+            i -= 2;
+            N--;
         }
+        i++;
+    }
+
+    for(int i = 0; i < map._rooms.size(); i++) {
+        std::cout<<map._rooms[i] -> x << " " << map._rooms[i] -> y << ":\n";
+        for(int i1 = 0; i1 < 4; i1++) {
+            std::cout<<map._rooms[i] -> conection[i1]<<" ";
+        }
+        std::cout<<"\n\n";
     }
     return map;
 }
