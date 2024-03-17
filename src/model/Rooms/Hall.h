@@ -12,7 +12,5 @@ class Hall {
     std::vector<std::shared_ptr <Cell>> rooms_in_hall;
     std::shared_ptr <Room> entrance;
     std::shared_ptr <Room> exit; 
-    std::shared_ptr <Cell> location;
-    //не забыть соединить entrance и exit
 };
 #endif 
