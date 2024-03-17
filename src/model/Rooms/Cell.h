@@ -8,11 +8,11 @@
 #include <string>
 #include <utility>
 #include <vector>
-#include<memory>
-
+#include <memory>
 
 class Cell {
     public:
+        inline static int size = 0;
         char chr;
         int id;
         int view;
@@ -22,10 +22,10 @@ class Cell {
         std::string difficulty;
         std::vector<std::string> special_features;
         int x, y, width, height;
-        std::vector<std::shared_ptr<Cell>> conection;
+        std::vector<std::shared_ptr<Cell>> conection = {nullptr, nullptr, nullptr, nullptr};
 
         Cell(int x, int y, int width, int height)
-            : x(x), y(y), width(width), height(height) {}
+            : x(x), y(y), width(width), height(height), id(size) {size+=1;}
 
         Cell(char chr, int view, int id, std::string name,
                     std::string description,

@@ -4,14 +4,14 @@
 #include "model/MapGenerators/MapFabric.h"
 #include "Drawable.h"
 #include "model/Rooms/Cell.h"
-
-struct Room;
-
+#include "model/Rooms/Hall.h"
+#include "model/Rooms/Room.h"
 
 class Map : public AbstractDrawable {
 protected:
     std::vector<std::vector<char>> _body;
-    std::vector<std::shared_ptr<Cell>> _rooms;
+    std::vector<std::shared_ptr<Room>> _rooms;
+    std::vector<std::shared_ptr<Hall>> _halls;
 
     friend class AntohaFabric;
     friend class BinarySpaceMapGenerator;

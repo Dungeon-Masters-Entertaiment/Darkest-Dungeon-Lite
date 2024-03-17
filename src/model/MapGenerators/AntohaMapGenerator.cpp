@@ -1,6 +1,7 @@
 #include "MapFabric.h"
 #include <iostream>
 #include "../Drawable/Map.h"
+#include "../Rooms/Hall.h"
 
 char get_zn(int x, int y, int width, int height, std::vector<std::vector<char>> &_body){
     if(x < 0 || x >= width || y < 0 || y >= height) {
@@ -25,8 +26,8 @@ void clear_point(int x, int y, int width, int height, std::vector<std::vector<ch
 
 bool search_around (int x, int y, int width, int height, std::vector<std::vector<char>> &_body) 
 {
-    for (int i = -3; i <= 3; i++) {
-        for(int i1 = -3; i1 <= 3; i1++) {
+    for (int i = -4; i <= 4; i++) {
+        for(int i1 = -4; i1 <= 4; i1++) {
             if(get_zn(x + i, y + i1, width, height, _body) != ' ') {
                 return false;
             }
@@ -99,7 +100,7 @@ bool proof_way(int x, int y, int x1, int y1, int type, int width, int height, st
     return true;
 }
  
-bool make_the_way(int x, int y, int x1, int y1, int type, int width, int height, std::vector<std::vector<char>> &_body) {
+std::pair<int, int> make_the_way(int x, int y, int x1, int y1, int type, int width, int height, std::vector<std::vector<char>> &_body) {
     if (abs(x - x1) == 0) {
         type = 1; 
     }
@@ -117,9 +118,14 @@ bool make_the_way(int x, int y, int x1, int y1, int type, int width, int height,
             make_the_way(x, y, x, y + 3 * k, type, width, height, _body);
             make_the_way(x, y + 3 * k, x1, y + 3 * k, type, width, height, _body);
             make_the_way(x1, y + 3 * k, x1, y1, type, width, height, _body);
-            return true;
+            
+            if(y < y1) {
+                return {2, 4};
+            } else {
+                return {4, 2};
+            }
         } 
-        return false;
+        return {0, 0};
  
     }
 
@@ -131,14 +137,21 @@ bool make_the_way(int x, int y, int x1, int y1, int type, int width, int height,
             make_the_way(x, y, x + 3 * k, y, type,  width, height,_body);
             make_the_way(x + 3 * k, y, x + 3 * k, y1, type, width, height, _body);
             make_the_way(x + 3 * k, y1, x1, y1, type,  width, height,_body);
-            return true;
+            
+            if(x < x1) {
+                return {3, 1};
+            } else {
+                return {1, 3};
+            }
         } 
-        return false;
+        return {0, 0};
     }
  
     if(!proof_way(x, y, x1, y1, type,  width, height, _body)) {
-        return false;
+        return {0, 0};
     }
+
+    int last = 0;
  
     if(type == 0) {
 
@@ -148,8 +161,8 @@ bool make_the_way(int x, int y, int x1, int y1, int type, int width, int height,
             if(_body[i][y] == ' ') {
                 _body[i][y] = 'C';
             }
-            if(i <= x1) i++;
-            else i--;
+            if(i <= x1) {i++; last = 1;}
+            else {i--; last = 3;};
         }
         if(_body[i][y] == ' '){
             _body[i][y] = 'C';
@@ -158,11 +171,17 @@ bool make_the_way(int x, int y, int x1, int y1, int type, int width, int height,
             if(_body[x1][i1] == ' ') {
                 _body[x1][i1] = 'C';
             }
-            if(i1 < y1) i1++;
-            else i1--;
+            if(i1 < y1) {i1++; last = 4;}
+            else {i1--, last = 2;};
         }
         if(_body[x1][i1] == ' ') {
             _body[x1][i1] = 'C';
+        }
+
+        if(x < x1) {
+            return {3, last};
+        } else {
+            return {1, last};
         }
  
     } else {
@@ -173,8 +192,8 @@ bool make_the_way(int x, int y, int x1, int y1, int type, int width, int height,
             if(_body[x][i1] == ' ') {
                 _body[x][i1] = 'C';
             }
-            if(i1 < y1) i1++;
-            else i1--;
+            if(i1 < y1) {i1++; last = 4;}
+            else {i1--; last = 2;}
         }
         if(_body[x][i1] == ' ') {
             _body[x][i1] = 'C';
@@ -183,14 +202,19 @@ bool make_the_way(int x, int y, int x1, int y1, int type, int width, int height,
             if(_body[i][y1] == ' ') {
                 _body[i][y1] = 'C';
             }
-            if(i <= x1) i++;
-            else i--;
+            if(i <= x1) {i++; last = 1;}
+            else {i--; last = 3;}
         }
         if(_body[i][y1] == ' ') {
             _body[i][y1] = 'C';
         }
+
+        if(y < y1) {
+            return {2, last};
+        } else {
+            return {4, last};
+        }
     }
-    return true;
 
 }
 
@@ -198,11 +222,18 @@ int distance(std::pair<int, int> first, std::pair<int, int> second) {
     return abs(first.first - second.first) + abs(first.second - second.second);
 }
 
-bool find(std::vector<std::shared_ptr<Cell>> &conection, std::shared_ptr<Cell> f){
+template<typename T>
+bool find(std::vector<std::shared_ptr<T>> &conection, std::shared_ptr<Room> f){
     for(auto &i:conection) {
-        if(i == f) return true;
+        if(i != 0 && i -> x == f -> x && i -> y == f -> y) return true;
     }
     return false;
+}
+
+std::pair<int, int> normalised(std::pair<int, int> first) {
+    first.first -= 1;
+    first.second -= 1;
+    return first;
 }
 
 Map AntohaFabric::Build(int width, int height) 
@@ -213,45 +244,77 @@ Map AntohaFabric::Build(int width, int height)
             map._body[i][i1] = ' ';
         }
     }
-    int actual_number_of_rooms = 20 + generator() % 10;
-    std::vector<std::shared_ptr<Cell>> chain;
+    int actual_number_of_rooms = 24 + generator() % 10;
+    std::vector<std::shared_ptr<Room>> chain;
     int quantity = 0;
-    map._rooms.push_back(std::make_shared<Cell>(25 + generator() % 3, 25 + generator() % 3, 3, 3));
-    map._rooms.push_back(std::make_shared<Cell>(22 + generator() % 8,  17 + generator() % 2, 3, 3));
-    map._rooms.push_back(std::make_shared<Cell>(22 + generator() % 8,  34 + generator() % 2, 3, 3));
-    map._rooms.push_back(std::make_shared<Cell>(17 + generator() % 2,  22 + generator() % 8, 3, 3));
-    map._rooms.push_back(std::make_shared<Cell>(34 + generator() % 2,  22 + generator() % 8, 3, 3));
+    map._rooms.push_back(std::make_shared<Room>(25 + generator() % 3, 25 + generator() % 3, 3, 3));
+    map._rooms.push_back(std::make_shared<Room>(22 + generator() % 8,  17 + generator() % 2, 3, 3));
+    map._rooms.push_back(std::make_shared<Room>(22 + generator() % 8,  34 + generator() % 2, 3, 3));
+    map._rooms.push_back(std::make_shared<Room>(17 + generator() % 2,  22 + generator() % 8, 3, 3));
+    map._rooms.push_back(std::make_shared<Room>(34 + generator() % 2,  22 + generator() % 8, 3, 3));
     for(int i = 0; i < 5; i++) {
         draw_room(map._rooms[i]->x, map._rooms[i]->y, map._body);
     }
 
     for(int i = 1 ; i < map._rooms.size();i++) {
-        if(i<=2 && make_the_way(map._rooms[0] -> x, map._rooms[0] -> y, map._rooms[i] -> x, map._rooms[i] -> y, 1,  width, height, map._body)){
-            chain.push_back(map._rooms[i]);
-            map._rooms[i] -> conection.push_back(map._rooms[0]);
-            map._rooms[0] -> conection.push_back(map._rooms[i]);
+        if(i <= 2){
+            std::pair<int, int> tip = make_the_way(map._rooms[0] -> x, map._rooms[0] -> y, map._rooms[i] -> x, map._rooms[i] -> y, 1,  width, height, map._body);
+            if(tip != std::pair{0, 0}) {
+                tip.first -= 1;
+                tip.second -= 1;
+                chain.push_back(map._rooms[i]);
+                map._rooms[0] -> conection[tip.first] = map._rooms[i];
+                map._rooms[i] -> conection[tip.second] = map._rooms[0];
+            
+                map._halls.push_back(std::make_shared<Hall>(map._rooms[0], map._rooms[i], 1, width, height, map._body)); 
+                map._rooms[0] -> _hall_connection[tip.first] = map._halls[map._halls.size() - 1];
+                map._rooms[i] -> _hall_connection[tip.second] = map._halls[map._halls.size() - 1];
+                // std::cout<<map._rooms[0] -> x<<"  "<<map._rooms[0] -> y<<"   "<<map._rooms[i] -> x<<"  "<<map._rooms[i] -> y << "\n\n";
+                // for(auto &ii : map._halls[0] -> rooms_in_hall) {
+                //     std::cout<<ii -> x << " " << ii -> y << " " << ii -> conection[0] << " " << ii -> conection[1] << " " << ii -> conection[2] << " " << ii -> conection[3]<<"\n";
+                // }
+                // return map;
+
+            }
         }
-        else if(i > 2 &&  make_the_way(map._rooms[0] -> x, map._rooms[0] -> y, map._rooms[i] -> x, map._rooms[i] -> y, 0,  width, height, map._body)){
-            chain.push_back(map._rooms[i]);
-            map._rooms[i] -> conection.push_back(map._rooms[0]);
-            map._rooms[0] -> conection.push_back(map._rooms[i]);
+        else if(i > 2){
+            std::pair<int, int> tip = make_the_way(map._rooms[0] -> x, map._rooms[0] -> y, map._rooms[i] -> x, map._rooms[i] -> y, 0,  width, height, map._body);
+            if(tip != std::pair{0, 0}) {
+                tip.first -= 1;
+                tip.second -= 1;
+                chain.push_back(map._rooms[i]);
+                map._rooms[0] -> conection[tip.first] = map._rooms[i];
+                map._rooms[i] -> conection[tip.second] = map._rooms[0];
+
+                map._halls.push_back(std::make_shared<Hall>(map._rooms[0], map._rooms[i], 0, width, height, map._body)); 
+                map._rooms[0] -> _hall_connection[tip.first] = map._halls[map._halls.size() - 1];
+                map._rooms[i] -> _hall_connection[tip.second] = map._halls[map._halls.size() - 1];
+
+                /*
+                std::cout<<map._rooms[2] -> x<<"  "<<map._rooms[0] -> y<<"   "<<map._rooms[i] -> x<<"  "<<map._rooms[i] -> y << "\n\n";
+                for(auto &ii : map._halls[2] -> rooms_in_hall) {
+                    std::cout<<ii -> x << " " << ii -> y << " " << ii -> conection[0] << " " << ii -> conection[1] << " " << ii -> conection[2] << " " << ii -> conection[3]<<"\n";
+                }
+                return map;
+                */
+            }
         }
     }
-
     if(map._rooms[0] -> conection.size() == 4) {
         chain.erase(chain.begin());
     }
 
     quantity = 5;
-    int f = 100;
+    int f = 110;
     for(int i = 1; i < width - 1 && quantity < actual_number_of_rooms; i++) { 
         for(int i1 = 1; i1 < height - 1 && quantity < actual_number_of_rooms; i1++) {
             if(search_around(i, i1,  width, height, map._body)) {
                 int proof = generator() % f;
                 if(!proof) {
                     draw_room(i, i1, map._body);
-                    map._rooms.push_back(std::make_shared<Cell>(i, i1, 3, 3));
-                    f = 120;
+                    map._rooms.push_back(std::make_shared<Room>(i, i1, 3, 3));
+                  //  std::cout<<map._rooms[map._rooms.size() - 1] ->conection[0]<< " " << map._rooms[map._rooms.size() - 1] ->conection[1] << map._rooms[map._rooms.size() - 1] ->conection[2] << map._rooms[map._rooms.size() - 1] ->conection[3]<<"\n\n";
+                    f = 110;
                     quantity += 1;
                 }
                 f--;
@@ -260,16 +323,17 @@ Map AntohaFabric::Build(int width, int height)
     }
 
     int siz = 3 + generator() % actual_number_of_rooms;
+    
     while(siz--) {
         if(generator() % 5 != 0){
 
-            std::shared_ptr<Cell> index1, index2, index3;
+            std::shared_ptr<Room> index1, index2, index3;
             int number = -1;
             int min_distanse = width * height, min_distanse1 = width * height;
             for(int pos = 0; pos < chain.size(); pos++) {
-                std::shared_ptr<Cell> v = chain[pos];
+                std::shared_ptr<Room> v = chain[pos];
                 int min = width * height, min1 = width * height;
-                std::shared_ptr<Cell> neighbour = v, neighbour1 = v;
+                std::shared_ptr<Room> neighbour = v, neighbour1 = v;
                 for(int i = 0; i < map._rooms.size(); i++) {
                     if(map._rooms[i] != v && !find(map._rooms[i] -> conection, v)) {
                         int dlin = distance({map._rooms[i] -> x, map._rooms[i] -> y}, {v -> x, v -> y});
@@ -295,32 +359,77 @@ Map AntohaFabric::Build(int width, int height)
             }
             if(number != -1) {
 
-                std::shared_ptr<Cell> v = index1;
-                std::shared_ptr<Cell> neighbour = index2;
-                std::shared_ptr<Cell> neighbour1 = index3;
+                std::shared_ptr<Room> v = index1;
+                std::shared_ptr<Room> neighbour = index2;
+                std::shared_ptr<Room> neighbour1 = index3;
                 int pos = number;
+                bool change_here = false;
 
-                bool f = make_the_way(v -> x, v -> y, neighbour -> x, neighbour -> y, generator()%2, width, height, map._body);
-                if (f) {
-                    if(!find(chain, neighbour)){
+                if(v -> id > neighbour -> id) {
+                    swap(v, neighbour);
+                    change_here = true;
+                }
+                int gen = generator()%2;
+                std::pair<int, int> f = make_the_way(v -> x, v -> y, neighbour -> x, neighbour -> y, gen, width, height, map._body);
+
+                if (f != std::pair{0, 0}) {
+                    f = normalised(f);
+                    if(!find(chain, neighbour)) {
                         chain.push_back(neighbour);
                     }
-                    neighbour -> conection.push_back(v);
-                    v -> conection.push_back(neighbour);
-                    if(v -> conection.size() == 4) {
+                    v -> conection[f.first] = neighbour;
+                    neighbour -> conection[f.second] = v;
+
+                    map._halls.push_back(std::make_shared<Hall>(v, neighbour, gen, width, height, map._body)); 
+                    v -> _hall_connection[f.first] = map._halls[map._halls.size() - 1];
+                    neighbour -> _hall_connection[f.second] = map._halls[map._halls.size() - 1];
+
+                    bool flag = true;
+                    for(int i = 0; i < 4 && flag; i++) {
+                        flag = (v -> conection[i] != nullptr);
+                    }  
+                    if(change_here) {
+                        swap(v, neighbour);
+                    }
+
+                    if(flag) {
                         chain.erase(chain.begin() + pos);
                     }
                 }
-                if(!f || generator()%2) {
-                    if (make_the_way(v -> x, v -> y, neighbour1 -> x, neighbour1 -> y, generator()%2, width, height, map._body)) {
-                        if(!find(chain, neighbour1)){
+                if(f == std::pair{0, 0} || generator() % 2) {
+                    change_here = false;
+                    if(v -> id > neighbour1 -> id) {
+                        swap(v, neighbour1);
+                        change_here = true;
+                    }
+
+                    gen = generator() % 2;
+                    f = make_the_way(v -> x, v -> y, neighbour1 -> x, neighbour1 -> y, gen, width, height, map._body);
+                    if (f != std::pair{0, 0}) {
+                        f = normalised(f);
+                        if(!find(chain, neighbour1)) {
                             chain.push_back(neighbour1);
                         }
-                        neighbour1 -> conection.push_back(v);
-                        v -> conection.push_back(neighbour1);
-                        if(v -> conection.size() == 4) {
+                        v -> conection[f.first] = neighbour1;
+                        neighbour1 -> conection[f.second] = v;
+
+                        map._halls.push_back(std::make_shared<Hall>(v, neighbour1, gen, width, height, map._body)); 
+                        v -> _hall_connection[f.first] = map._halls[map._halls.size() - 1];
+                        neighbour1 -> _hall_connection[f.second] = map._halls[map._halls.size() - 1];
+                        
+                        bool flag = true;
+                        for(int i = 0; i < 4 && flag; i++) {
+                            flag = (v -> conection[i] != nullptr);
+                        }
+
+                        if(flag) {
                             chain.erase(chain.begin() + pos);
                         }
+                        
+                        if(change_here) {
+                            swap(v, neighbour1);
+                        }
+
                     }
                 }
             }
@@ -328,9 +437,9 @@ Map AntohaFabric::Build(int width, int height)
         } else {
 
             int pos = generator()%chain.size();
-            std::shared_ptr<Cell> v = chain[pos];
+            std::shared_ptr<Room> v = chain[pos];
             int min = height * width, min1 = height * width;
-            std::shared_ptr<Cell> neighbour = v, neighbour1 = v;
+            std::shared_ptr<Room> neighbour = v, neighbour1 = v;
             for(int i = 0; i < map._rooms.size(); i++) {
                 if(map._rooms[i] != v && !find(map._rooms[i] -> conection, v)) {
                     int dlin = distance({map._rooms[i] -> x, map._rooms[i] -> y}, {v -> x, v -> y});
@@ -345,37 +454,100 @@ Map AntohaFabric::Build(int width, int height)
                     }
                 }
             }
-            bool f = make_the_way(v -> x, v -> y, neighbour -> x, neighbour -> y, generator()%2, width, height, map._body);
-            if (f) {
-                if(!find(chain, neighbour)){
+
+            bool change_here = false;
+            if ( v -> id > neighbour -> id) {
+                swap(v, neighbour);
+                change_here = true;
+            }
+
+            int gen = generator();
+            std::pair<int, int> f = make_the_way(v -> x, v -> y, neighbour -> x, neighbour -> y, gen, width, height, map._body);
+            if (f != std::pair{0, 0}) {
+                f = normalised(f);
+                if(!find(chain, neighbour)) {
                     chain.push_back(neighbour);
                 }
-                neighbour -> conection.push_back(v);
-                v -> conection.push_back(neighbour);
-                if(v -> conection.size() == 4) {
+
+                v -> conection[f.first] = neighbour;
+                neighbour -> conection[f.second] = v;
+            
+                map._halls.push_back(std::make_shared<Hall>(v, neighbour, gen, width, height, map._body)); 
+                v -> _hall_connection[f.first] = map._halls[map._halls.size() - 1];
+                neighbour -> _hall_connection[f.second] = map._halls[map._halls.size() - 1];
+                
+                bool flag = true;
+                for(int i = 0; i < 4 && flag; i++) {
+                    flag = (v -> conection[i] != nullptr);
+                }
+
+                if(flag) {
                     chain.erase(chain.begin() + pos);
                 }
+
+                if(change_here){
+                    swap(v, neighbour);
+                }
             }
-            if(!f ||  generator()%2) {
-                if(make_the_way(v -> x, v -> y, neighbour1 -> x, neighbour1 -> y, generator()%2, width, height, map._body)) {
+            if(f == std::pair{0, 0} ||  generator()%2) {
+                change_here = false;
+                if(v -> id > neighbour1 -> id) {
+                    swap(v, neighbour1);
+                    change_here = true;
+                }
+                gen = generator()%2;
+                f = make_the_way(v -> x, v -> y, neighbour1 -> x, neighbour1 -> y, gen, width, height, map._body);
+                if(f != std::pair{0, 0}) {
+                    f = normalised(f);
                     if(!find(chain, neighbour1)){
                         chain.push_back(neighbour1);
                     }
-                    neighbour1 -> conection.push_back(v);
-                    v -> conection.push_back(neighbour1);
-                    if(v -> conection.size() == 4) {
+
+                    v -> conection[f.first] = neighbour1;
+                    neighbour1 -> conection[f.second] = v;
+                    map._halls.push_back(std::make_shared<Hall>(v, neighbour1, gen, width, height, map._body)); 
+                    v -> _hall_connection[f.first] = map._halls[map._halls.size() - 1];
+                    neighbour1 -> _hall_connection[f.second] = map._halls[map._halls.size() - 1];
+                    
+
+                    bool flag = true;
+                    for(int i = 0; i < 4 && flag; i++) {
+                        flag = (v -> conection[i] != nullptr);
+                    }
+
+                    if(flag) {
                         chain.erase(chain.begin() + pos);
+                    }
+
+                    if(change_here){
+                        swap(v, neighbour);
                     }
                 }
             }
         }
 
     }
-    
-    for (int i = 0; i < map._rooms.size(); i++) {
-        if (map._rooms[i] -> conection.size() == 0) {
-            clear_point(map._rooms[i] -> x, map._rooms[i] -> y, width, height, map._body);
+
+    int N = map._rooms.size();
+    int i = 0;
+    while (i < N) {
+        int sizz = 0;
+        for(int i1 = 0; i1 < 4 ; i1 ++) {
+            if(map._rooms[i] -> conection[i1] == nullptr) {
+                sizz += 1;
+            }
         }
+        if (sizz == 4) {
+            clear_point(map._rooms[i] -> x, map._rooms[i] -> y, width, height, map._body);
+            map._rooms.erase(map._rooms.begin() + i);
+            i -= 2;
+            N--;
+        }
+        i++;
     }
+
     return map;
 }
+
+
+
