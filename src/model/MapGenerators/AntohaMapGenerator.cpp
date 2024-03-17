@@ -546,22 +546,6 @@ Map AntohaFabric::Build(int width, int height)
         i++;
     }
 
-    for(int i = 0; i < map._halls.size(); i++) {
-        std::cout<<i<<":\n";
-        for(auto &ii: map._halls[i] -> rooms_in_hall) {
-            std::cout<< ii -> x<<" "<<ii->y <<"   "<<ii->conection[0]<<" "<<ii->conection[1] << "   "<<ii->conection[2]<<"   "<<ii ->conection[3]<<"\n";
-        } 
-    }
-
-    /*
-    for(int i = 0; i < map._rooms.size(); i++) {
-        std::cout<<map._rooms[i] -> x << " " << map._rooms[i] -> y << ":\n";
-        for(int i1 = 0; i1 < 4; i1++) {
-            std::cout<<map._rooms[i] -> conection[i1]<<" ";
-        }
-        std::cout<<"\n\n";
-    }
-    */
     return map;
 }
 
