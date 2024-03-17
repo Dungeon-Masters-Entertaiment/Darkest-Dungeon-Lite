@@ -265,6 +265,16 @@ Map AntohaFabric::Build(int width, int height)
                 chain.push_back(map._rooms[i]);
                 map._rooms[0] -> conection[tip.first] = map._rooms[i];
                 map._rooms[i] -> conection[tip.second] = map._rooms[0];
+            
+                map._halls.push_back(std::make_shared<Hall>(map._rooms[0], map._rooms[i], 1, width, height, map._body)); 
+                map._rooms[0] -> _hall_connection[tip.first] = map._halls[map._halls.size() - 1];
+                map._rooms[i] -> _hall_connection[tip.second] = map._halls[map._halls.size() - 1];
+                // std::cout<<map._rooms[0] -> x<<"  "<<map._rooms[0] -> y<<"   "<<map._rooms[i] -> x<<"  "<<map._rooms[i] -> y << "\n\n";
+                // for(auto &ii : map._halls[0] -> rooms_in_hall) {
+                //     std::cout<<ii -> x << " " << ii -> y << " " << ii -> conection[0] << " " << ii -> conection[1] << " " << ii -> conection[2] << " " << ii -> conection[3]<<"\n";
+                // }
+                // return map;
+
             }
         }
         else if(i > 2){
@@ -275,6 +285,18 @@ Map AntohaFabric::Build(int width, int height)
                 chain.push_back(map._rooms[i]);
                 map._rooms[0] -> conection[tip.first] = map._rooms[i];
                 map._rooms[i] -> conection[tip.second] = map._rooms[0];
+
+                map._halls.push_back(std::make_shared<Hall>(map._rooms[0], map._rooms[i], 0, width, height, map._body)); 
+                map._rooms[0] -> _hall_connection[tip.first] = map._halls[map._halls.size() - 1];
+                map._rooms[i] -> _hall_connection[tip.second] = map._halls[map._halls.size() - 1];
+
+                /*
+                std::cout<<map._rooms[2] -> x<<"  "<<map._rooms[0] -> y<<"   "<<map._rooms[i] -> x<<"  "<<map._rooms[i] -> y << "\n\n";
+                for(auto &ii : map._halls[2] -> rooms_in_hall) {
+                    std::cout<<ii -> x << " " << ii -> y << " " << ii -> conection[0] << " " << ii -> conection[1] << " " << ii -> conection[2] << " " << ii -> conection[3]<<"\n";
+                }
+                return map;
+                */
             }
         }
     }
@@ -347,7 +369,8 @@ Map AntohaFabric::Build(int width, int height)
                     swap(v, neighbour);
                     change_here = true;
                 }
-                std::pair<int, int> f = make_the_way(v -> x, v -> y, neighbour -> x, neighbour -> y, generator()%2, width, height, map._body);
+                int gen = generator()%2;
+                std::pair<int, int> f = make_the_way(v -> x, v -> y, neighbour -> x, neighbour -> y, gen, width, height, map._body);
 
                 if (f != std::pair{0, 0}) {
                     f = normalised(f);
@@ -356,6 +379,10 @@ Map AntohaFabric::Build(int width, int height)
                     }
                     v -> conection[f.first] = neighbour;
                     neighbour -> conection[f.second] = v;
+
+                    map._halls.push_back(std::make_shared<Hall>(v, neighbour, gen, width, height, map._body)); 
+                    v -> _hall_connection[f.first] = map._halls[map._halls.size() - 1];
+                    neighbour -> _hall_connection[f.second] = map._halls[map._halls.size() - 1];
 
                     bool flag = true;
                     for(int i = 0; i < 4 && flag; i++) {
@@ -376,8 +403,8 @@ Map AntohaFabric::Build(int width, int height)
                         change_here = true;
                     }
 
-
-                    f = make_the_way(v -> x, v -> y, neighbour1 -> x, neighbour1 -> y, generator()%2, width, height, map._body);
+                    gen = generator() % 2;
+                    f = make_the_way(v -> x, v -> y, neighbour1 -> x, neighbour1 -> y, gen, width, height, map._body);
                     if (f != std::pair{0, 0}) {
                         f = normalised(f);
                         if(!find(chain, neighbour1)) {
@@ -385,6 +412,11 @@ Map AntohaFabric::Build(int width, int height)
                         }
                         v -> conection[f.first] = neighbour1;
                         neighbour1 -> conection[f.second] = v;
+
+                        map._halls.push_back(std::make_shared<Hall>(v, neighbour1, gen, width, height, map._body)); 
+                        v -> _hall_connection[f.first] = map._halls[map._halls.size() - 1];
+                        neighbour1 -> _hall_connection[f.second] = map._halls[map._halls.size() - 1];
+                        
                         bool flag = true;
                         for(int i = 0; i < 4 && flag; i++) {
                             flag = (v -> conection[i] != nullptr);
@@ -429,7 +461,8 @@ Map AntohaFabric::Build(int width, int height)
                 change_here = true;
             }
 
-            std::pair<int, int> f = make_the_way(v -> x, v -> y, neighbour -> x, neighbour -> y, generator()%2, width, height, map._body);
+            int gen = generator();
+            std::pair<int, int> f = make_the_way(v -> x, v -> y, neighbour -> x, neighbour -> y, gen, width, height, map._body);
             if (f != std::pair{0, 0}) {
                 f = normalised(f);
                 if(!find(chain, neighbour)) {
@@ -438,6 +471,10 @@ Map AntohaFabric::Build(int width, int height)
 
                 v -> conection[f.first] = neighbour;
                 neighbour -> conection[f.second] = v;
+            
+                map._halls.push_back(std::make_shared<Hall>(v, neighbour, gen, width, height, map._body)); 
+                v -> _hall_connection[f.first] = map._halls[map._halls.size() - 1];
+                neighbour -> _hall_connection[f.second] = map._halls[map._halls.size() - 1];
                 
                 bool flag = true;
                 for(int i = 0; i < 4 && flag; i++) {
@@ -458,7 +495,8 @@ Map AntohaFabric::Build(int width, int height)
                     swap(v, neighbour1);
                     change_here = true;
                 }
-                f = make_the_way(v -> x, v -> y, neighbour1 -> x, neighbour1 -> y, generator()%2, width, height, map._body);
+                gen = generator()%2;
+                f = make_the_way(v -> x, v -> y, neighbour1 -> x, neighbour1 -> y, gen, width, height, map._body);
                 if(f != std::pair{0, 0}) {
                     f = normalised(f);
                     if(!find(chain, neighbour1)){
@@ -467,6 +505,10 @@ Map AntohaFabric::Build(int width, int height)
 
                     v -> conection[f.first] = neighbour1;
                     neighbour1 -> conection[f.second] = v;
+                    map._halls.push_back(std::make_shared<Hall>(v, neighbour1, gen, width, height, map._body)); 
+                    v -> _hall_connection[f.first] = map._halls[map._halls.size() - 1];
+                    neighbour1 -> _hall_connection[f.second] = map._halls[map._halls.size() - 1];
+                    
 
                     bool flag = true;
                     for(int i = 0; i < 4 && flag; i++) {
@@ -504,6 +546,14 @@ Map AntohaFabric::Build(int width, int height)
         i++;
     }
 
+    for(int i = 0; i < map._halls.size(); i++) {
+        std::cout<<i<<":\n";
+        for(auto &ii: map._halls[i] -> rooms_in_hall) {
+            std::cout<< ii -> x<<" "<<ii->y <<"   "<<ii->conection[0]<<" "<<ii->conection[1] << "   "<<ii->conection[2]<<"   "<<ii ->conection[3]<<"\n";
+        } 
+    }
+
+    /*
     for(int i = 0; i < map._rooms.size(); i++) {
         std::cout<<map._rooms[i] -> x << " " << map._rooms[i] -> y << ":\n";
         for(int i1 = 0; i1 < 4; i1++) {
@@ -511,5 +561,9 @@ Map AntohaFabric::Build(int width, int height)
         }
         std::cout<<"\n\n";
     }
+    */
     return map;
 }
+
+
+

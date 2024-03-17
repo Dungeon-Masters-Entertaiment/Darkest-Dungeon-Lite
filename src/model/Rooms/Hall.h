@@ -4,6 +4,7 @@
 #include <vector>
 #include "Cell.h"
 #include "Room.h"
+#include "../Drawable/Map.h"
 
 class Hall {
     public: 
@@ -12,5 +13,6 @@ class Hall {
     std::shared_ptr <Room> entrance;
     std::shared_ptr <Room> exit; 
     std::shared_ptr <Cell> location;
+    //не забыть соединить entrance и exit
 };
 #endif 
