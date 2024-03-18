@@ -6,5 +6,5 @@
 
 int main(int argc, char **argv) {
     Monitor monitor;
-    monitor.make_an_event_loop();
+    monitor.divide_screen();
 }

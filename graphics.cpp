@@ -10,13 +10,133 @@ Monitor::Monitor() {
     // инициализация (должна быть выполнена
     // перед использованием ncurses)
     initscr();
-    keypad(stdscr, true);
     noecho();
-    nodelay(stdscr, TRUE);
+    cbreak();
+    //nodelay(stdscr, TRUE);
     curs_set(0);
 }
 Monitor::~Monitor() {
     endwin(); // завершение работы с ncurses
+}
+Dungeon_Map :: Dungeon_Map(WINDOW* win, int y, int x) {
+    cur_win = win;
+    y_cur = y;
+    x_cur = x;
+    getmaxyx(cur_win, y_mx, x_mx);
+    keypad(cur_win, true);
+}
+
+void Dungeon_Map :: mv_up() {
+    mvwaddch(cur_win, y_cur, x_cur, ' ');
+    y_cur--;
+    if(y_cur < 1) {
+        y_cur = 1;
+    }
+}
+
+void Dungeon_Map :: mv_down() {
+    mvwaddch(cur_win, y_cur, x_cur, ' ');
+    y_cur++;
+    if(y_cur == y_mx - 1) {
+        y_cur = y_mx - 2;
+    }
+}
+
+void Dungeon_Map :: mv_left() {
+    mvwaddch(cur_win, y_cur, x_cur, ' ');
+    x_cur--;
+    if(x_cur < 1) {
+        x_cur = 1;
+    }
+}
+
+void Dungeon_Map :: mv_right() {
+    mvwaddch(cur_win, y_cur, x_cur, ' ');
+    x_cur++;
+    if(x_cur == x_mx - 1) {
+        x_cur = x_mx - 2;
+    }
+}
+
+int Dungeon_Map :: get_mv() {
+    int cur_side = wgetch(cur_win);
+    switch(cur_side) {
+        case KEY_UP:
+            mv_up();
+            break;
+        case KEY_DOWN:
+            mv_down();
+            break;
+        case KEY_LEFT:
+            mv_left();
+            break;
+        case KEY_RIGHT:
+            mv_right();
+            break;
+        default:
+            break;
+    }
+    return cur_side;
+}
+
+void Dungeon_Map:: display_hero() {
+    mvwaddch(cur_win, y_cur, x_cur, '@');
+    update();
+}
+
+void Dungeon_Map:: update() {
+    wrefresh(cur_win);
+}
+void Dungeon_Map:: resize_win(int new_y, int new_x) {
+    werase(cur_win);
+    y_mx = new_y;
+    x_mx = new_x;
+    wresize(cur_win, y_mx, x_mx);
+}
+void Dungeon_Map:: paint_sides() {
+    box(cur_win, 0, 0);
+    update();
+}
+void Monitor::divide_screen() {
+    int height, width;
+    getmaxyx(stdscr, height, width);
+    width = width - (width % 2 == 1);
+    WINDOW *win = newwin(height / 3 * 2, width, 0, 0);
+    auto* Map = new Dungeon_Map(win, 1, 1); // Создаем класс карты
+    WINDOW *win2 = newwin(height / 3, width / 2, height / 3 * 2, 0);
+    WINDOW *win3 = newwin(height / 3, width / 2, height / 3 * 2, width / 2);
+    refresh(); // Обновляем ВЕСЬ экран
+    Map -> paint_sides();
+    box(win2, 0, 0);
+    box(win3, 0, 0);
+    wrefresh(win2);
+    wrefresh(win3);
+    Map -> display_hero();
+    int c;
+    do {
+        int n_height, n_width;
+        getmaxyx(stdscr, n_height, n_width);
+        if(n_height != height || n_width != width) {
+            height = n_height;
+            width = n_width;
+            width = width - (width % 2 == 1);
+            Map -> resize_win(height / 3 * 2, width);
+            werase(win2);
+            werase(win3);
+            wresize(win2, height - height / 3 * 2, width / 2);
+            mvwin(win2, height / 3 * 2, 0);
+            wresize(win3, height - height / 3 * 2, width / 2);
+            mvwin(win3, height / 3 * 2, width / 2);
+        }
+        refresh();
+        Map -> paint_sides();
+        box(win2, 0, 0);
+        box(win3, 0, 0);
+        wrefresh(win2);
+        wrefresh(win3);
+        c = Map -> get_mv();
+        Map -> display_hero();
+    } while(c != 27);
 }
 void Monitor::draw_rectangle(int x1, int y1, int x2, int y2) {
     mvhline(y1, x1, 0, x2-x1);
@@ -52,13 +172,12 @@ void Monitor::make_an_event_loop() {
     int x = 0;
     int y = 0;
     int input_char = 0;
-
     start_color(); 
     init_pair(1, COLOR_RED, COLOR_BLACK);
     init_pair(2, COLOR_GREEN, COLOR_BLACK);
     init_pair(3, COLOR_BLUE, COLOR_BLACK);
 
-    do{
+    /*do{
         clear();
 
         //draw_rectangle(3, 3, 7, 7);
@@ -79,7 +198,7 @@ void Monitor::make_an_event_loop() {
         draw_hero_position(x, y);
     }while((input_char = getch()) != 27); //27 is ESC
     getch(); // ждём нажатия символа
-    endwin();
+    endwin();*/
 
 
     // подсказка
@@ -201,6 +320,9 @@ void Monitor::fill_rectangle(int x1, int y1, int x2, int y2, int color) {
         } 
         
     }
-
     attroff(COLOR_PAIR(color));
 }
+
+
+
+
