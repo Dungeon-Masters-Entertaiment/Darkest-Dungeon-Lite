@@ -62,15 +62,21 @@ void Monitor::make_an_event_loop() {
 
         // draw_blinking_rectangle(8, 8, 15, 15, 2, 4);
 
-        draw_colored_dot(5, 5, 1); 
-        draw_colored_rectangle(20, 5, 30, 10, 2); 
-        fill_rectangle(40, 5, 50, 10, 3);
+        // draw_colored_dot(5, 5, 1); 
+        // draw_colored_rectangle(20, 5, 30, 10, 2); 
+        // fill_rectangle(40, 5, 50, 10, 3);
+        std::pair<int, int> Points[] = {
+            {10, 5}, {12, 5}, {14, 5}, // Три квадратика в ряд
+            {11, 6}, {13, 6}, {15, 6}, // Следующий ряд квадратиков
+            {-1, -1} // Стоп-пара, указывающая на конец данных
+        };
 
+        fill_area(Points, 1); // Заполняем красным цветом
         if(input_char == KEY_UP) y--;
         else if(input_char == KEY_DOWN) y++;
         else if(input_char == KEY_LEFT) x--;
         else if(input_char == KEY_RIGHT)x++;
-        draw_colored_dot(x, y, 2);
+        // draw_colored_dot(x, y, 2);
         // draw_hero_position(x, y);
     }while((input_char = getch()) != 27);
     getch(); // ждём нажатия символа
@@ -197,4 +203,12 @@ void Monitor::fill_rectangle(int x1, int y1, int x2, int y2, int color) {
     }
 
     attroff(COLOR_PAIR(color));
+}
+
+void Monitor::fill_area(std::pair<int, int>* pairs, int color) {
+    attron(COLOR_PAIR(color)); 
+    for (std::pair<int, int>* p = pairs; p->first != -1 && p->second != -1; ++p) {
+        mvaddch(p->second, p->first, ' ' | A_REVERSE); 
+    }
+    attroff(COLOR_PAIR(color)); 
 }
