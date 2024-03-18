@@ -12,6 +12,12 @@ Monitor::Monitor() {
     noecho();
     nodelay(stdscr, TRUE);
     curs_set(0);
+
+    start_color();
+    for (int i = 0; i < 16; i++) {
+        init_pair(i+1, 1, i);
+    }
+
 }
 
 Monitor::~Monitor() {
@@ -57,10 +63,8 @@ void Monitor::make_an_event_loop() {
     static Map map = generator.Build(50, 50);
 
 
-    //start_color();
-    //init_pair(1, COLOR_RED, COLOR_BLACK);
-    //init_pair(2, COLOR_GREEN, COLOR_BLACK);
-    //init_pair(3, COLOR_BLUE, COLOR_BLACK);
+
+
 
     do{
         clear();
@@ -83,11 +87,11 @@ void Monitor::make_an_event_loop() {
         //draw_colored_dot(x, y, 2);
 
 
-        monitor.draw_rectangle(5, 5, 7, 10);
+        //monitor.draw_rectangle(5, 5, 7, 10);
         //monitor.draw_colored_rectangle(10, 11, 12, 16, 3);
-        monitor.fill_rectangle(35, 35, 40, 50, 3);
+        //monitor.fill_rectangle(35, 35, 40, 50, 3);
 
-        draw_blinking_rectangle(10, 11, 12, 16, 3, 5);
+        //draw_blinking_rectangle(10, 11, 12, 16, 3, 5);
 
 
 
@@ -125,21 +129,14 @@ void Monitor::draw_blinking_rectangle(int x1, int y1, int x2, int y2, short colo
 
     //getch();
 
-
-
-    start_color();
-    init_pair(1, 1, colour_1);
-    init_pair(2, 1, colour_2);
-
-    //attron(COLOR_PAIR(1));
     int col_flag = 0;
     if (amount_of_time.count() / 500 % 2) {
-        attron(COLOR_PAIR(1));
+        attron(COLOR_PAIR(colour_1 + 1));
         //attron(1);
         col_flag = 1;
     }
     else {
-        attron(COLOR_PAIR(2));
+        attron(COLOR_PAIR(colour_2 + 1));
         //attron(2);
         col_flag = 2;
     }
@@ -148,11 +145,8 @@ void Monitor::draw_blinking_rectangle(int x1, int y1, int x2, int y2, short colo
             mvprintw(j, i, " ");
         }
     }
-    //if (amount_of_time.count() % 500 < 100) refresh();
-    //attroff(COLOR_PAIR(1));
-
-    if (col_flag == 1) attroff(COLOR_PAIR(1)); //attroff(1);//attroff(COLOR_PAIR(1));
-    else attroff(COLOR_PAIR(2)); //attroff(2); //attroff(COLOR_PAIR(2));
+    if (col_flag == 1) attroff(COLOR_PAIR(colour_1 + 1));
+    else attroff(COLOR_PAIR(colour_2 + 1));
 
 }
 
@@ -160,24 +154,20 @@ void Monitor::draw_blinking_area(std::vector <std::pair<int, int>>& pairs, short
     auto cur_time = std::chrono::high_resolution_clock::now();
     auto amount_of_time = std::chrono::duration_cast<std::chrono::milliseconds>(cur_time - begin_time);
 
-    start_color();
-    init_pair(3, 1, colour_1);
-    init_pair(4, 1, colour_2);
-
     int col_flag = 0;
     if (amount_of_time.count() / 500 % 2) {
-        attron(COLOR_PAIR(3));
-        col_flag = 3;
+        attron(COLOR_PAIR(colour_1 + 1));
+        col_flag = 1;
     }
     else {
-        attron(COLOR_PAIR(4));
-        col_flag = 4;
+        attron(COLOR_PAIR(colour_2 + 1));
+        col_flag = 2;
     }
     for(auto & pair : pairs) {
         mvprintw(pair.second, pair.first, " ");
     }
-    if (col_flag == 3) attroff(COLOR_PAIR(3)); //attroff(1);//attroff(COLOR_PAIR(1));
-    else attroff(COLOR_PAIR(4)); //attroff(2); //attroff(COLOR_PAIR(2));
+    if (col_flag == 1) attroff(COLOR_PAIR(colour_1 + 1)); //attroff(1);//attroff(COLOR_PAIR(1));
+    else attroff(COLOR_PAIR(colour_2 + 1)); //attroff(2); //attroff(COLOR_PAIR(2));
 
 }
 
@@ -202,7 +192,7 @@ void Monitor::draw_colored_dot(int x, int y, int color) {
 }
 
 void Monitor::draw_colored_rectangle(int x1, int y1, int x2, int y2, int color) {
-    attron(COLOR_PAIR(color));
+    attron(COLOR_PAIR(color + 1));
 
     mvhline(y1, x1, 0, x2 - x1);
     mvhline(y2, x1, 0, x2 - x1);
@@ -214,14 +204,14 @@ void Monitor::draw_colored_rectangle(int x1, int y1, int x2, int y2, int color) 
     mvaddch(y1, x2, ACS_URCORNER);
     mvaddch(y2, x2, ACS_LRCORNER);
 
-    attroff(COLOR_PAIR(color));
+    attroff(COLOR_PAIR(color + 1));
 }
 
 void Monitor::fill_rectangle(int x1, int y1, int x2, int y2, short colour) {
 
-    start_color();
-    init_pair(5, 1, colour);
-    attron(COLOR_PAIR(5));
+
+    //init_pair(5, 1, colour);
+    attron(COLOR_PAIR(colour + 1));
     for(int y = y1; y <= y2; y++) {
         for (int x = x1; x <= x2; x++) {
             //mvaddch(y, x, ' ' | A_REVERSE);
@@ -230,5 +220,5 @@ void Monitor::fill_rectangle(int x1, int y1, int x2, int y2, short colour) {
 
     }
 
-    attroff(COLOR_PAIR(5));
+    attroff(COLOR_PAIR(colour + 1));
 }
