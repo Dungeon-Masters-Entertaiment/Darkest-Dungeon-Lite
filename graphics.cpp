@@ -106,14 +106,15 @@ void Monitor::divide_screen() {
     WINDOW *win3 = newwin(height / 3, width / 2, height / 3 * 2, width / 2);
     auto* Map = new Dungeon_Map(win3, 1, 1); // Создаем класс карты
     refresh(); // Обновляем ВЕСЬ экран
-    Map -> paint_sides();
     box(win, 0, 0);
     box(win2, 0, 0);
+    Map -> paint_sides();
     wrefresh(win);
     wrefresh(win2);
     Map -> display_hero();
     int c;
     do {
+        Map -> display_hero();
         int n_height, n_width;
         getmaxyx(stdscr, n_height, n_width);
         if(n_height != height || n_width != width) {
@@ -124,11 +125,11 @@ void Monitor::divide_screen() {
             width = width - (width % 2 == 1);
             wresize(win, height / 3 * 2, width);
             wresize(win2, height - height / 3 * 2, width / 2);
-            mvwin(win2, height / 3 * 2, width / 2);
+            mvwin(win2, height / 3 * 2, 0);
             Map -> resize_win(height - height / 3 * 2, width / 2);
             mvwin(win3, height / 3 * 2, width / 2);
+            refresh();
         }
-        refresh();
         Map -> paint_sides();
         box(win, 0, 0);
         box(win2, 0, 0);
