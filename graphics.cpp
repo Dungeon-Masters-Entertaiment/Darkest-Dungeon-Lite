@@ -102,38 +102,38 @@ void Monitor::divide_screen() {
     getmaxyx(stdscr, height, width);
     width = width - (width % 2 == 1);
     WINDOW *win = newwin(height / 3 * 2, width, 0, 0);
-    auto* Map = new Dungeon_Map(win, 1, 1); // Создаем класс карты
     WINDOW *win2 = newwin(height / 3, width / 2, height / 3 * 2, 0);
     WINDOW *win3 = newwin(height / 3, width / 2, height / 3 * 2, width / 2);
+    auto* Map = new Dungeon_Map(win3, 1, 1); // Создаем класс карты
     refresh(); // Обновляем ВЕСЬ экран
     Map -> paint_sides();
+    box(win, 0, 0);
     box(win2, 0, 0);
-    box(win3, 0, 0);
+    wrefresh(win);
     wrefresh(win2);
-    wrefresh(win3);
     Map -> display_hero();
     int c;
     do {
         int n_height, n_width;
         getmaxyx(stdscr, n_height, n_width);
         if(n_height != height || n_width != width) {
+            werase(win);
+            werase(win2);
             height = n_height;
             width = n_width;
             width = width - (width % 2 == 1);
-            Map -> resize_win(height / 3 * 2, width);
-            werase(win2);
-            werase(win3);
+            wresize(win, height / 3 * 2, width);
             wresize(win2, height - height / 3 * 2, width / 2);
-            mvwin(win2, height / 3 * 2, 0);
-            wresize(win3, height - height / 3 * 2, width / 2);
+            mvwin(win2, height / 3 * 2, width / 2);
+            Map -> resize_win(height - height / 3 * 2, width / 2);
             mvwin(win3, height / 3 * 2, width / 2);
         }
         refresh();
         Map -> paint_sides();
+        box(win, 0, 0);
         box(win2, 0, 0);
-        box(win3, 0, 0);
+        wrefresh(win);
         wrefresh(win2);
-        wrefresh(win3);
         c = Map -> get_mv();
         Map -> display_hero();
     } while(c != 27);
