@@ -67,7 +67,7 @@ void Monitor::make_an_event_loop() {
 
 
     do{
-        clear();
+        //clear();
 
 
 
@@ -97,6 +97,10 @@ void Monitor::make_an_event_loop() {
 
         map.Draw();
 
+        //draw_colored_rectangle(x, y, x, y, COLOR_BLACK);
+
+
+        clear_trace(x, y);
         which_move(input_char, x, y);
         draw_hero_position(x, y);
 
@@ -183,6 +187,12 @@ void Monitor::draw_circle(int x0, int y0, int r) {
         int j = 0.5 * ( 1 + sin( theta )) * ( SIZE - 1 ) + 0.5;
         mvaddch(j + y0, i + x0, '*');
     }
+}
+
+void Monitor::clear_trace(int x, int y) {
+    attron(COLOR_PAIR(COLOR_BLACK));
+    mvaddch(y, x, ' ');
+    attroff(COLOR_PAIR(COLOR_BLACK));
 }
 
 void Monitor::draw_colored_dot(int x, int y, int color) {
