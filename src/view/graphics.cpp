@@ -134,16 +134,19 @@ void Monitor::draw_blinking_rectangle(int x1, int y1, int x2, int y2, short colo
     //getch();
 
     int col_flag = 0;
+
+    draw_rectangle(x1, y1, x2, y2);
     if (amount_of_time.count() / 500 % 2) {
-        attron(COLOR_PAIR(colour_1 + 1));
-        //attron(1);
-        col_flag = 1;
+        //attron(COLOR_PAIR(colour_1 + 1));
+        //col_flag = 1;
+        fill_rectangle(x1, y1, x2, y2, colour_1);
     }
     else {
-        attron(COLOR_PAIR(colour_2 + 1));
-        //attron(2);
-        col_flag = 2;
+        fill_rectangle(x1, y1, x2, y2, colour_2);
+        //attron(COLOR_PAIR(colour_2 + 1));
+        //col_flag = 2;
     }
+    /*
     for(int i = x1; i <= x2; i++) {
         for (int j = y1; j < y2; j++) {
             mvprintw(j, i, " ");
@@ -151,7 +154,7 @@ void Monitor::draw_blinking_rectangle(int x1, int y1, int x2, int y2, short colo
     }
     if (col_flag == 1) attroff(COLOR_PAIR(colour_1 + 1));
     else attroff(COLOR_PAIR(colour_2 + 1));
-
+    */
 }
 
 void Monitor::draw_blinking_area(std::vector <std::pair<int, int>>& pairs, short colour_1, short colour_2) {
@@ -218,17 +221,11 @@ void Monitor::draw_colored_rectangle(int x1, int y1, int x2, int y2, int color) 
 }
 
 void Monitor::fill_rectangle(int x1, int y1, int x2, int y2, short colour) {
-
-
-    //init_pair(5, 1, colour);
     attron(COLOR_PAIR(colour + 1));
     for(int y = y1; y <= y2; y++) {
         for (int x = x1; x <= x2; x++) {
-            //mvaddch(y, x, ' ' | A_REVERSE);
             mvaddch(y, x, ' ');
         }
-
     }
-
     attroff(COLOR_PAIR(colour + 1));
 }
