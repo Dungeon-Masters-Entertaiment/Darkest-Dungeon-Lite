@@ -1,6 +1,6 @@
 #include "view/graphics.h"
 #include "../../keyboard.h"
-//#include "BMPParser/BMP.h"
+
 
 auto begin_time = std::chrono::high_resolution_clock::now();
 
@@ -52,6 +52,11 @@ void Monitor::make_an_event_loop() {
     int y = 0;
     int input_char = 0;
 
+    AntohaFabric generator;
+    // Use the map instance to generate the map
+    static Map map = generator.Build(50, 50);
+
+
     //start_color();
     //init_pair(1, COLOR_RED, COLOR_BLACK);
     //init_pair(2, COLOR_GREEN, COLOR_BLACK);
@@ -59,6 +64,8 @@ void Monitor::make_an_event_loop() {
 
     do{
         clear();
+
+
 
         //draw_rectangle(3, 3, 7, 7);
         //draw_rectangle(25, 10, 30, 20);
@@ -76,6 +83,16 @@ void Monitor::make_an_event_loop() {
         //draw_colored_dot(x, y, 2);
 
 
+        monitor.draw_rectangle(5, 5, 7, 10);
+        //monitor.draw_colored_rectangle(10, 11, 12, 16, 3);
+        monitor.fill_rectangle(35, 35, 40, 50, 3);
+
+        draw_blinking_rectangle(10, 11, 12, 16, 3, 5);
+
+
+
+        map.Draw();
+
         which_move(input_char, x, y);
         draw_hero_position(x, y);
 
@@ -86,7 +103,7 @@ void Monitor::make_an_event_loop() {
 
     }while((input_char = getch()) != 27); //27 is ESC
     getch(); // ждём нажатия символа
-    endwin();
+    //endwin();
 
 
     // подсказка
@@ -106,7 +123,7 @@ void Monitor::draw_blinking_rectangle(int x1, int y1, int x2, int y2, short colo
     auto cur_time = std::chrono::high_resolution_clock::now();
     auto amount_of_time = std::chrono::duration_cast<std::chrono::milliseconds>(cur_time - begin_time);
 
-    getch();
+    //getch();
 
 
 
@@ -200,14 +217,18 @@ void Monitor::draw_colored_rectangle(int x1, int y1, int x2, int y2, int color) 
     attroff(COLOR_PAIR(color));
 }
 
-void Monitor::fill_rectangle(int x1, int y1, int x2, int y2, int color) {
-    attron(COLOR_PAIR(color));
+void Monitor::fill_rectangle(int x1, int y1, int x2, int y2, short colour) {
+
+    start_color();
+    init_pair(5, 1, colour);
+    attron(COLOR_PAIR(5));
     for(int y = y1; y <= y2; y++) {
         for (int x = x1; x <= x2; x++) {
-            mvaddch(y, x, ' ' | A_REVERSE);
+            //mvaddch(y, x, ' ' | A_REVERSE);
+            mvaddch(y, x, ' ');
         }
 
     }
 
-    attroff(COLOR_PAIR(color));
+    attroff(COLOR_PAIR(5));
 }
