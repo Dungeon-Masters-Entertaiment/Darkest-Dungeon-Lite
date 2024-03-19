@@ -183,7 +183,7 @@ void Monitor::divide_screen() {
     WINDOW *win = newwin(height / 3 * 2, width, 0, 0);
     WINDOW *win2 = newwin(height / 3, width / 2, height / 3 * 2, 0);
     WINDOW *win3 = newwin(height / 3, width / 2, height / 3 * 2, width / 2);
-    auto Dung_Map = new Dungeon_Map(win3, 1, 1); // Создаем класс карты
+    auto Dung_Map = std::make_shared<Dungeon_Map>(win3, 1, 1); // Создаем класс карты
     refresh(); // Обновляем ВЕСЬ экран
     box(win, 0, 0);
     box(win2, 0, 0);

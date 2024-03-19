@@ -4,8 +4,8 @@
 
 
 
-void Map::Draw(window_work* monitor) {
-    auto current_monitor = dynamic_cast<Dungeon_Map*>(monitor);
+void Map::Draw(std::shared_ptr<window_work> monitor) {
+    auto current_monitor = std::dynamic_pointer_cast<Dungeon_Map>(monitor);
     for (auto& hall : _halls) {
         for (auto& cell : hall->rooms_in_hall){
             //monitor.draw_rectangle(2 * cell->x + 2, cell->y + 1, 2 * (cell->x + cell->width) + 1, cell->y + cell->height);
