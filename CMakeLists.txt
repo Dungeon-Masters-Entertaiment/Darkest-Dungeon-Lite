@@ -4,7 +4,8 @@ project(MyGame)
 set(CMAKE_CXX_STANDARD 17)
 
 file(GLOB_RECURSE SOURCES src/*.cpp)
-add_executable(main main.cpp ${SOURCES}) # Include Map.cpp here
+add_executable(main main.cpp ${SOURCES}
+        src/model/Hero/Hero.h) # Include Map.cpp here
 target_include_directories(main PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 find_package(glog REQUIRED)
