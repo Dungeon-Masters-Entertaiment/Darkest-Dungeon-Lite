@@ -1,6 +1,6 @@
-#include "graphics.h"
-#include "keyboard.h"
-#include "BMP.h"
+#include "view/graphics.h"
+#include "../../keyboard.h"
+#include "../../BMP.h"
 
 Monitor::Monitor() {
     // инициализация (должна быть выполнена

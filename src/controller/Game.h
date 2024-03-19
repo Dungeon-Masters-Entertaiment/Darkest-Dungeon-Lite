@@ -3,6 +3,8 @@
 #define DARKEST_DUNGEON_LITE_GAME_H
 #include <memory>
 #include "../model/Drawable/Map.h"
+#include "view/graphics.h"
+class Monitor;
 class Game { //singleton pattern
     //static Game* _instance;
 

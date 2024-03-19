@@ -1,4 +1,6 @@
-enum class KeyboardKey{
+#ifndef DARKEST_DUNGEON_LITE_KEYBOARD_H
+#define DARKEST_DUNGEON_LITE_KEYBOARD_H
+enum class KeyboardKey {
     // Специальные клавиши
     ESC = 27,
     ENTER = 13,
@@ -26,14 +28,16 @@ enum class KeyboardKey{
     // Стрелки
     ARROW_UP = 30, ARROW_RIGHT, ARROW_DOWN, ARROW_LEFT
 };
+
 class Keyboard {
 public:
     // Запрещаем копирование и присваивание
-    Keyboard(const Keyboard&) = delete;
-    Keyboard& operator=(const Keyboard&) = delete;
+    Keyboard(const Keyboard &) = delete;
 
-    static Keyboard& getInstance() {
-        static Keyboard instance; 
+    Keyboard &operator=(const Keyboard &) = delete;
+
+    static Keyboard &getInstance() {
+        static Keyboard instance;
         return instance;
     }
 
@@ -46,5 +50,8 @@ private:
     char key;
 
     Keyboard() {}
+
     ~Keyboard() {}
 };
+
+#endif //DARKEST_DUNGEON_LITE_KEYBOARD_H

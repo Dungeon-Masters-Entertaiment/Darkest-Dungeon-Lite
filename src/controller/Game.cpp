@@ -1,9 +1,8 @@
 
 #include "Game.h"
 #include "../model/Drawable/Player.h"
-#include "../model/Drawable/Map.h"
 #include "FSM.h"
-#include "../graphics.h"
+
 Game::Game() {
     AntohaFabric generator;
     // Use the map instance to generate the map

@@ -4,6 +4,7 @@
 // #include "src/controller/Game.h"
 #include <iostream>
 #include "src/controller/Game.h"
+
 /*
 void GenerateMap() {
   AntohaFabric generator;
@@ -13,7 +14,7 @@ void GenerateMap() {
 }
 */
 int main(int argc, char **argv) {
-  Game start();
-  return 0;
+    Game start();
+    return 0;
 
 }

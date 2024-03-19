@@ -5,6 +5,8 @@
 class FSM;
 class State {
 public:
+
+    State() = default;
     virtual void Handle(FSM *fsm) = 0;
 
     virtual void Update(FSM *fsm) = 0;
@@ -14,8 +16,6 @@ public:
     virtual void OnEnter(FSM *fsm) = 0;
 
     virtual void OnExit(FSM *fsm) = 0;
-
-    virtual ~State() = default;
 };
 
 

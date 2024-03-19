@@ -4,11 +4,11 @@
 #ifndef DARKEST_DUNGEON_LITE_GRAPHICS_H
 #define DARKEST_DUNGEON_LITE_GRAPHICS_H
 
-#include "BMP.h"
+#include "../../BMP.h"
 #include <chrono>
 #include <cmath>
-#include "src/controller/FSM.h"
-
+#include "controller/FSM.h"
+#include "controller/Game.h"
 class Monitor{
 public:
     Monitor();
