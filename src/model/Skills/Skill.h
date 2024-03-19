@@ -7,6 +7,7 @@
 
 #include <string>
 #include <utility>
+#include <nlohmann/json.hpp>
 
 enum class SkillType { MELEE, RANGED, MOVE, NONE, TELEPORT };
 
@@ -33,7 +34,18 @@ class Skill {
   const std::string& getEffect() const;
   int getLaunch() const;
   const std::string& getTargets() const;
+
+  nlohmann::json toJson() const;
+  static Skill fromJson(const nlohmann::json& json);
+
+  NLOHMANN_DEFINE_TYPE_INTRUSIVE(Skill,
+      id,
+      type,
+      atk,
+      dmg,
+      crit,
+      launch,
+      targets)
 };
 
 #endif // SKILL_H
-

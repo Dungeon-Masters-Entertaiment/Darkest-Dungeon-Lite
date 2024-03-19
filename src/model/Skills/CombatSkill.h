@@ -1,14 +1,8 @@
-//
-// Created by Daniel Chiliaev on 16/03/2024.
-//
-
-#include <nlohmann/json.hpp>
-#include <string>
-
 #ifndef COMBATSKILL_H
 #define COMBATSKILL_H
 
 #include "Skill.h"
+#include <nlohmann/json.hpp>
 
 class CombatSkill : public Skill {
  protected:
@@ -24,7 +18,22 @@ class CombatSkill : public Skill {
   bool isCritValid() const;
   bool isGenerationGuaranteed() const;
   const std::pair<int, int>& getMove() const;
-};
 
+  // Методы сериализации и десериализации с использованием nlohmann::json
+  nlohmann::json toJson() const;
+  static CombatSkill fromJson(const nlohmann::json& json);
+
+  NLOHMANN_DEFINE_TYPE_INTRUSIVE(CombatSkill,
+                                 id,
+                                 type,
+                                 atk,
+                                 dmg,
+                                 crit,
+                                 launch,
+                                 targets,
+                                 is_crit_valid,
+                                 generation_guaranteed,
+                                 move)
+};
 #endif // COMBATSKILL_H
 

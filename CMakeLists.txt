@@ -5,7 +5,11 @@ set(CMAKE_CXX_STANDARD 17)
 
 file(GLOB_RECURSE SOURCES src/*.cpp)
 add_executable(main main.cpp ${SOURCES}
-        src/model/Hero/Hero.h) # Include Map.cpp here
+        src/model/Creature/Hero.h
+        src/model/Skills/Skill.cpp
+        src/model/Skills/Skill.h
+        src/model/Creature/Monster.cpp
+        src/model/Creature/Monster.h) # Include Map.cpp here
 target_include_directories(main PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 find_package(glog REQUIRED)
