@@ -65,13 +65,18 @@ void Monitor::make_an_event_loop() {
         // draw_colored_dot(5, 5, 1); 
         // draw_colored_rectangle(20, 5, 30, 10, 2); 
         // fill_rectangle(40, 5, 50, 10, 3);
-        std::pair<int, int> Points[] = {
-            {10, 5}, {12, 5}, {14, 5}, // Три квадратика в ряд
-            {11, 6}, {13, 6}, {15, 6}, // Следующий ряд квадратиков
-            {-1, -1} // Стоп-пара, указывающая на конец данных
-        };
+        // std::pair<int, int> Points[] = {
+        //     {10, 5}, {12, 5}, {14, 5}, // Три квадратика в ряд
+        //     {11, 6}, {13, 6}, {15, 6}, // Следующий ряд квадратиков
+        //     {-1, -1} // Стоп-пара, указывающая на конец данных
+        // };
 
-        fill_area(Points, 1); // Заполняем красным цветом
+        // fill_area(Points, 1); // Заполняем красным цветом
+
+        Text text("Hello!", 1, true); 
+
+        text.display(10, 5); // Вывод текста
+
         if(input_char == KEY_UP) y--;
         else if(input_char == KEY_DOWN) y++;
         else if(input_char == KEY_LEFT) x--;
@@ -211,4 +216,20 @@ void Monitor::fill_area(std::pair<int, int>* pairs, int color) {
         mvaddch(p->second, p->first, ' ' | A_REVERSE); 
     }
     attroff(COLOR_PAIR(color)); 
+}
+
+Text::Text(const std::string& text, int colorPair, bool isBold)
+    : text(text), colorPair(colorPair), isBold(isBold) {
+}
+
+void Text::display(int x, int y) const {
+    attron(COLOR_PAIR(colorPair));
+    if (isBold) {
+        attron(A_BOLD);
+    }
+    mvprintw(y, x, "%s", text.c_str());
+    if (isBold) {
+        attroff(A_BOLD);
+    }
+    attroff(COLOR_PAIR(colorPair));
 }
