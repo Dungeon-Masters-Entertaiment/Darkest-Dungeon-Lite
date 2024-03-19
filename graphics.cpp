@@ -6,24 +6,120 @@
 #include "BMP.h"
 
 auto begin_time = std::chrono::high_resolution_clock::now();
+
 Monitor::Monitor() {
     // инициализация (должна быть выполнена
     // перед использованием ncurses)
     initscr();
     noecho();
     cbreak();
-    //nodelay(stdscr, TRUE);
+    nodelay(stdscr, TRUE);
     curs_set(0);
 }
 Monitor::~Monitor() {
     endwin(); // завершение работы с ncurses
 }
-Dungeon_Map :: Dungeon_Map(WINDOW* win, int y, int x) {
+void window_work::draw_dot(int x, int y) {
+    mvwaddch(cur_win, y, x, '.');
+}
+
+void window_work::display_hero() {
+    mvwaddch(cur_win, y_cur, x_cur, '@');
+    update();
+}
+
+void window_work::update() {
+    wrefresh(cur_win);
+}
+
+void window_work::resize_win(int new_y, int new_x) {
+    werase(cur_win);
+    y_mx = new_y;
+    x_mx = new_x;
+    wresize(cur_win, y_mx, x_mx);
+}
+
+void window_work:: paint_sides() {
+    box(cur_win, 0, 0);
+    update();
+}
+
+void window_work::draw_rectangle(int x1, int y1, int x2, int y2) {
+    mvwhline(cur_win, y1, x1, 0, x2 - x1);
+    mvwhline(cur_win, y2, x1, 0, x2 - x1);
+    mvwvline(cur_win, y1, x1, 0, y2 - y1);
+    mvwvline(cur_win, y1, x2, 0, y2 - y1);
+
+    mvwaddch(cur_win, y1, x1, ACS_ULCORNER);
+    mvwaddch(cur_win, y2, x1, ACS_LLCORNER);
+    mvwaddch(cur_win, y1, x2, ACS_URCORNER);
+    mvwaddch(cur_win, y2, x2, ACS_LRCORNER);
+}
+
+void window_work::draw_colored_dot(int x, int y, int color) {
+    wattron(cur_win, COLOR_PAIR(color));
+    mvwaddch(cur_win, y, x, ACS_BULLET);
+    wattroff(cur_win, COLOR_PAIR(color));
+}
+
+void window_work::draw_colored_rectangle(int x1, int y1, int x2, int y2, int color) {
+    wattron(cur_win, COLOR_PAIR(color));
+
+    mvwhline(cur_win, y1, x1, 0, x2 - x1);
+    mvwhline(cur_win, y2, x1, 0, x2 - x1);
+    mvwvline(cur_win, y1, x1, 0, y2 - y1);
+    mvwvline(cur_win, y1, x2, 0, y2 - y1);
+
+    mvwaddch(cur_win, y1, x1, ACS_ULCORNER);
+    mvwaddch(cur_win, y2, x1, ACS_LLCORNER);
+    mvwaddch(cur_win, y1, x2, ACS_URCORNER);
+    mvwaddch(cur_win, y2, x2, ACS_LRCORNER);
+
+    wattroff(cur_win, COLOR_PAIR(color));
+}
+
+void window_work::fill_rectangle(int x1, int y1, int x2, int y2, int colour) {
+    wattron(cur_win, COLOR_PAIR(colour + 1));
+    for(int y = y1; y <= y2; y++) {
+        for (int x = x1; x <= x2; x++) {
+            mvwaddch(cur_win, y, x, ' ');
+        }
+    }
+    wattroff(cur_win, COLOR_PAIR(colour + 1));
+}
+
+void window_work::draw_blinking_rectangle(int x1, int y1, int x2, int y2, short colour_1, short colour_2) {
+    auto cur_time = std::chrono::high_resolution_clock::now();
+    auto amount_of_time = std::chrono::duration_cast<std::chrono::milliseconds>(cur_time - begin_time);
+
+    //getch();
+
+    int col_flag = 0;
+
+    draw_rectangle(x1, y1, x2, y2);
+    if (amount_of_time.count() / 500 % 2) {
+        //attron(COLOR_PAIR(colour_1 + 1));
+        //col_flag = 1;
+        fill_rectangle(x1, y1, x2, y2, colour_1);
+    }
+    else {
+        fill_rectangle(x1, y1, x2, y2, colour_2);
+        //attron(COLOR_PAIR(colour_2 + 1));
+        //col_flag = 2;
+    }
+}
+
+Dungeon_Map :: Dungeon_Map(WINDOW* win, int y, int x) : window_work() {
     cur_win = win;
     y_cur = y;
     x_cur = x;
     getmaxyx(cur_win, y_mx, x_mx);
     keypad(cur_win, true);
+    nodelay(cur_win, TRUE);
+    start_color();
+    for (int i = 0; i < 16; i++) {
+        init_pair(i + 1, 1, i);
+    }
 }
 
 void Dungeon_Map :: mv_up() {
@@ -79,24 +175,7 @@ int Dungeon_Map :: get_mv() {
     return cur_side;
 }
 
-void Dungeon_Map:: display_hero() {
-    mvwaddch(cur_win, y_cur, x_cur, '@');
-    update();
-}
 
-void Dungeon_Map:: update() {
-    wrefresh(cur_win);
-}
-void Dungeon_Map:: resize_win(int new_y, int new_x) {
-    werase(cur_win);
-    y_mx = new_y;
-    x_mx = new_x;
-    wresize(cur_win, y_mx, x_mx);
-}
-void Dungeon_Map:: paint_sides() {
-    box(cur_win, 0, 0);
-    update();
-}
 void Monitor::divide_screen() {
     int height, width;
     getmaxyx(stdscr, height, width);
@@ -114,7 +193,6 @@ void Monitor::divide_screen() {
     Map -> display_hero();
     int c;
     do {
-        Map -> display_hero();
         int n_height, n_width;
         getmaxyx(stdscr, n_height, n_width);
         if(n_height != height || n_width != width) {
@@ -139,6 +217,14 @@ void Monitor::divide_screen() {
         Map -> display_hero();
     } while(c != 27);
 }
+
+//Все что ниже использовалось для копирования в класс window_work
+//Все что ниже использовалось для копирования в класс window_work
+//Все что ниже использовалось для копирования в класс window_work
+//Все что ниже использовалось для копирования в класс window_work
+//Все что ниже использовалось для копирования в класс window_work
+
+
 void Monitor::draw_rectangle(int x1, int y1, int x2, int y2) {
     mvhline(y1, x1, 0, x2-x1);
     mvhline(y2, x1, 0, x2-x1);
@@ -219,9 +305,6 @@ void Monitor::draw_blinking_rectangle(int x1, int y1, int x2, int y2, short colo
 
     auto cur_time = std::chrono::high_resolution_clock::now();
     auto amount_of_time = std::chrono::duration_cast<std::chrono::milliseconds>(cur_time - begin_time);
-
-
-
 
     start_color();
     init_pair(1, 1, colour_1);
@@ -323,7 +406,4 @@ void Monitor::fill_rectangle(int x1, int y1, int x2, int y2, int color) {
     }
     attroff(COLOR_PAIR(color));
 }
-
-
-
 
