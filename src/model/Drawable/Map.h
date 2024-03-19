@@ -7,6 +7,7 @@
 #include "model/Rooms/Hall.h"
 #include "model/Rooms/Room.h"
 
+
 class Map : public AbstractDrawable {
 protected:
     std::vector<std::vector<char>> _body;
@@ -15,6 +16,7 @@ protected:
 
     friend class AntohaFabric;
     friend class BinarySpaceMapGenerator;
+    friend class Game;
 
 public:
     Map(int width, int height) {

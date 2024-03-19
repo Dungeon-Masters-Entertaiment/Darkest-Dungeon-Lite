@@ -1,6 +1,6 @@
 #ifndef DARKEST_DUNGEON_LITE_STATE_H
 #define DARKEST_DUNGEON_LITE_STATE_H
-
+#include "../../keyboard.h"
 
 class FSM;
 class State {

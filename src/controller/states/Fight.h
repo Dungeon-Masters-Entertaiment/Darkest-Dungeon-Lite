@@ -22,7 +22,7 @@ public:
 
   void OnExit() override;
 
-  void AddSubMachine(FSM *sub_machine) override;
+  //void AddSubMachine(FSM *sub_machine) override;
 };
 
 namespace states {

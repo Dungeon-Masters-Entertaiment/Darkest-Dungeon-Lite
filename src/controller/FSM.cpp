@@ -6,7 +6,7 @@
 #include "states/City.h"
 #include "states/Fight.h"
 #include "states/Loot.h"
-#include "states/Map.h"
+#include "states/MapState.h"
 #include "states/Walking.h"
 
 #include <memory>

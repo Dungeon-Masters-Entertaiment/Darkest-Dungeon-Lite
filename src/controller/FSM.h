@@ -7,6 +7,7 @@
 
 #include "State.h"
 #include <map>
+#include "../model/Drawable/Map.h"
 
 enum class StateType {
   CityState,
@@ -29,7 +30,7 @@ public:
 
   virtual void OnExit() = 0;
 
-  virtual void AddSubMachine(FSM *sub_machine) = 0;
+  //virtual void AddSubMachine(FSM *sub_machine) = 0;
 
   virtual ~FSM() = default;
 };
@@ -38,8 +39,10 @@ class FSMGame : public FSM {
 protected:
   State *curr_state = nullptr;
   std::map<StateType, State *> states;
+  friend class Game;
 
 public:
+  std::shared_ptr<Cell> this_room = nullptr;
   FSMGame();
 
   void ChangeState(StateType state_type) override;

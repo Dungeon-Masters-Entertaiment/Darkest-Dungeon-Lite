@@ -16,14 +16,15 @@ Monitor::~Monitor() {
     endwin(); // завершение работы с ncurses
 }
 
-void Monitor::make_an_event_loop() {
+void Monitor::make_an_event_loop(FSMGame fsm) {
     int input_char = 0;
     do{
         clear();
         if(input_char) Keyboard::getInstance().change_key(input_char);
         // STATE_MACHINE
+        fsm.Update();
         
-    }while((input_char = getch()) != 27); //27 is ESC
+    }while((input_char = getch()) != ((int)KeyboardKey::ESC)); //27 is ESC
 
     getch(); 
 

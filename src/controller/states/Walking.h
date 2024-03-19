@@ -4,15 +4,26 @@
 
 #ifndef STATE_WALKING_H
 #define STATE_WALKING_H
+//#include "../keyboard.h"
 class State;
 namespace states {
 class WalkingState : public State {
+  void update_position(int type, FSM *fsm, int direction) {
+      if(Keyboard::getInstance().get_key() == (type)) {
+        FSMGame* fsm1 = dynamic_cast<FSMGame *>(fsm);
+        if(fsm1 -> this_room -> conection[direction] != nullptr) {
+           fsm1 -> this_room = fsm1 -> this_room -> conection[direction];
+        }
+      } 
+  }
   void Handle(FSM *fsm) override{
 
   };
 
   void Update(FSM *fsm) override{
-
+      for(int direction = 0; direction < 4; direction++) {
+        update_position(direction +(int)KeyboardKey::ARROW_UP, fsm, direction);
+      }
   };
 
   void Render(FSM *fsm) override{};

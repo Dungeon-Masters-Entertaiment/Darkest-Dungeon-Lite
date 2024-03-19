@@ -3,7 +3,8 @@
 //
 
 #include "StateMachine.h"
+#include "../controller/FSM.h"
+void StateMachine::Update(FSM *fsm) {
 
-StateMachine::Update(FSM *fsm) {
-  fsm->Update();
+  dynamic_cast<FSMGame*>(fsm) -> Update();
 }

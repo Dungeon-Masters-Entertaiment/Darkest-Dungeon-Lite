@@ -7,12 +7,13 @@
 #include "BMP.h"
 #include <chrono>
 #include <cmath>
+#include "src/controller/FSM.h"
 
 class Monitor{
 public:
     Monitor();
     ~Monitor();
-    void make_an_event_loop();
+    void make_an_event_loop(FSMGame fsm);
 };
 
 
