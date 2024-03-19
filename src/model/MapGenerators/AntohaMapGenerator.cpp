@@ -388,13 +388,13 @@ Map AntohaFabric::Build(int width, int height)
                     for(int i = 0; i < 4 && flag; i++) {
                         flag = (v -> conection[i] != nullptr);
                     }  
-                    if(change_here) {
-                        swap(v, neighbour);
-                    }
 
                     if(flag) {
                         chain.erase(chain.begin() + pos);
                     }
+                }
+                if(change_here) {
+                    swap(v, neighbour);
                 }
                 if(f == std::pair{0, 0} || generator() % 2) {
                     change_here = false;
