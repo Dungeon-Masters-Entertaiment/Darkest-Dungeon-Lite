@@ -26,7 +26,7 @@ public:
 
     Map &operator=(const Map &) = delete;
 
-    void Draw() override;
+    void Draw(window_work*) override;
 };
 
 

@@ -20,7 +20,7 @@ void window_work::draw_dot(int x, int y) {
     mvwaddch(cur_win, y, x, '.');
 }
 
-void window_work::display_hero() {
+void Dungeon_Map::display_hero() {
     mvwaddch(cur_win, y_cur, x_cur, '@');
     update();
 }
@@ -106,6 +106,10 @@ void window_work::draw_blinking_rectangle(int x1, int y1, int x2, int y2, short 
     }
 }
 
+void window_work::fill_area(std::pair<int, int> *pairs, int color) {
+
+}
+
 Dungeon_Map :: Dungeon_Map(WINDOW* win, int y, int x) : window_work() {
     cur_win = win;
     y_cur = y;
@@ -179,7 +183,7 @@ void Monitor::divide_screen() {
     WINDOW *win = newwin(height / 3 * 2, width, 0, 0);
     WINDOW *win2 = newwin(height / 3, width / 2, height / 3 * 2, 0);
     WINDOW *win3 = newwin(height / 3, width / 2, height / 3 * 2, width / 2);
-    auto* Dung_Map = new Dungeon_Map(win3, 1, 1); // Создаем класс карты
+    auto Dung_Map = new Dungeon_Map(win3, 1, 1); // Создаем класс карты
     refresh(); // Обновляем ВЕСЬ экран
     box(win, 0, 0);
     box(win2, 0, 0);
@@ -213,19 +217,7 @@ void Monitor::divide_screen() {
         wrefresh(win2);
         c = Dung_Map -> get_mv();
         Dung_Map -> display_hero();
-        for (auto& hall : map._halls) {
-            for (auto& cell : hall->rooms_in_hall){
-                //monitor.draw_rectangle(2 * cell->x + 2, cell->y + 1, 2 * (cell->x + cell->width) + 1, cell->y + cell->height);
-                //monitor.fill_rectangle(2 * cell->x + 2, cell->y + 1, 2 * (cell->x + cell->width) + 1, cell->y + cell->height, COLOR_GREEN);
-                Dung_Map -> draw_blinking_rectangle(2 * cell->x + 2 - 15, cell->y + 1 - 15, 2 * (cell->x + cell->width) + 1 - 15, cell->y + cell->height - 15, COLOR_GREEN, COLOR_RED);
-            }
-        }
-
-        for (auto& room : map._rooms) {
-            //monitor.draw_rectangle(2 * room->x, room->y, 2 * (room->x + room->width) - 1, room->y + room->height - 1);
-            //monitor.fill_rectangle(2 * room->x, room->y, 2 * (room->x + room->width) - 1, room->y + room->height - 1, COLOR_RED);
-            Dung_Map -> draw_blinking_rectangle(2 * room->x - 15, room->y - 15, 2 * (room->x + room->width) - 1 - 15, room->y + room->height - 1 - 15, COLOR_RED, COLOR_GREEN);
-        }
+        map.Draw(Dung_Map);
     } while(c != 27);
 }
 

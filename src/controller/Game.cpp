@@ -9,5 +9,5 @@ Game::Game() {
 }
 
 void Game::Start(){
-    this->_map->Draw();
+    //this->_map->Draw();
 }

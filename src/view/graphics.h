@@ -46,19 +46,18 @@ protected:
     int x_cur;
 public:
     //friend class Map;
-    void display_hero();
-    void update();
-    void resize_win(int new_y, int new_x);
-    void paint_sides();
+    virtual void update();
+    virtual void resize_win(int new_y, int new_x);
+    virtual void paint_sides();
 
 
-    void draw_dot(int x, int y);
-    void draw_rectangle(int x1, int y1, int x2, int y2);
-    void draw_colored_dot(int x, int y, int color);
-    void draw_colored_rectangle(int x1, int y1, int x2, int y2, int color);
-    void draw_blinking_rectangle(int x1, int y1, int x2, int y2, short colour_1, short colour_2);
-    void fill_rectangle(int x1, int y1, int x2, int y2, int color);
-    void fill_area(std::pair <int, int> * pairs, int color);
+    virtual void draw_dot(int x, int y);
+    virtual void draw_rectangle(int x1, int y1, int x2, int y2);
+    virtual void draw_colored_dot(int x, int y, int color);
+    virtual void draw_colored_rectangle(int x1, int y1, int x2, int y2, int color);
+    virtual void draw_blinking_rectangle(int x1, int y1, int x2, int y2, short colour_1, short colour_2);
+    virtual void fill_rectangle(int x1, int y1, int x2, int y2, int color);
+    virtual void fill_area(std::pair <int, int> * pairs, int color);
 
 };
 class Dungeon_Map : public window_work {
@@ -66,6 +65,7 @@ public:
     friend class Map;
     friend void Monitor::divide_screen();
     Dungeon_Map(WINDOW* win, int y, int x);
+    void display_hero();
     void mv_up(); // Движение вверх
     void mv_down(); // Движение вниз
     void mv_left(); // Движение влево
