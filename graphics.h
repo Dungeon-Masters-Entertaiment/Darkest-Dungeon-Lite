@@ -41,8 +41,17 @@ public:
     BlinkingArea parse_bmp(std::string filename); //парсим bmp (и вот тут нам придется написать свою либу...)
 };
 
+class Text {
+public:
+    std::string text; 
+    int colorPair; 
+    bool isBold; // Жирный текст
 
+    Text(const std::string& text, int colorPair, bool isBold = false);
 
+    // Метод для отображения текста
+    void display(int x, int y) const;
+};
 
 #endif //DARKEST_DUNGEON_LITE_GRAPHICS_H
 
