@@ -1,6 +1,6 @@
 #ifndef DARKEST_DUNGEON_LITE_KEYBOARD_H
 #define DARKEST_DUNGEON_LITE_KEYBOARD_H
-enum class KeyboardKey {
+enum class KeyboardKey : int {
     // Специальные клавиши
     ESC = 27,
     ENTER = 13,
@@ -26,7 +26,7 @@ enum class KeyboardKey {
     F1 = 112, F2, F3, F4, F5, F6, F7, F8, F9, F10,
     F11, F12,
     // Стрелки
-    ARROW_UP = 30, ARROW_RIGHT, ARROW_DOWN, ARROW_LEFT
+    ARROW_UP = 30, ARROW_DOWN, ARROW_LEFT, ARROW_RIGHT
 };
 
 class Keyboard {

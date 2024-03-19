@@ -25,9 +25,10 @@ namespace states {
         };
 
         void Update(FSM *fsm) override {
-            for (int direction = 0; direction < 4; direction++) {
-                update_position(direction + (int) KeyboardKey::ARROW_UP, fsm, direction);
-            }
+            update_position((int)KeyboardKey::ARROW_UP, fsm, 0);
+            update_position((int)KeyboardKey::ARROW_DOWN, fsm, 2);
+            update_position((int)KeyboardKey::ARROW_RIGHT, fsm, 1);
+            update_position((int)KeyboardKey::ARROW_LEFT, fsm, 3);
         };
 
         void Render(FSM *fsm) override {};

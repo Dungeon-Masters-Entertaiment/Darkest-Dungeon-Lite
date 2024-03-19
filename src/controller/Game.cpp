@@ -8,6 +8,7 @@ Game::Game() {
     // Use the map instance to generate the map
     this->_map = std::make_unique<Map>(generator.Build(50, 50));
     FSMGame fsm;
+    fsm.ChangeState(StateType::WalkingState);
     fsm.this_room = this ->_map -> _rooms[0];
     fsm.ChangeState(StateType::WalkingState);
     Monitor start_monitor;
