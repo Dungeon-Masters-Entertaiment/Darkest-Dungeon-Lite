@@ -250,8 +250,8 @@ Map AntohaFabric::Build(int width, int height)
     map._rooms.push_back(std::make_shared<Room>(25 + generator() % 3, 25 + generator() % 3, 3, 3));
     map._rooms.push_back(std::make_shared<Room>(22 + generator() % 8,  17 + generator() % 2, 3, 3));
     map._rooms.push_back(std::make_shared<Room>(22 + generator() % 8,  34 + generator() % 2, 3, 3));
-    map._rooms.push_back(std::make_shared<Room>(17 + generator() % 2,  22 + generator() % 8, 3, 3));
-    map._rooms.push_back(std::make_shared<Room>(34 + generator() % 2,  22 + generator() % 8, 3, 3));
+    map._rooms.push_back(std::make_shared<Room>(18 + generator() % 2,  26 + 5 * (generator()%2 *2 -1) + generator()%3, 3, 3));
+    map._rooms.push_back(std::make_shared<Room>(33 + generator() % 2,  26 + 5 * (generator()%2 *2 -1) + generator()%3, 3, 3));
     for(int i = 0; i < 5; i++) {
         draw_room(map._rooms[i]->x, map._rooms[i]->y, map._body);
     }
@@ -485,9 +485,9 @@ Map AntohaFabric::Build(int width, int height)
                     chain.erase(chain.begin() + pos);
                 }
 
-                if(change_here){
-                    swap(v, neighbour);
-                }
+            }
+            if(change_here){
+                swap(v, neighbour);
             }
             if(f == std::pair{0, 0} ||  generator()%2) {
                 change_here = false;
@@ -548,6 +548,5 @@ Map AntohaFabric::Build(int width, int height)
 
     return map;
 }
-
 
 
