@@ -13,8 +13,11 @@ void GenerateMap() {
   map.Draw();
 }
 */
-int main(int argc, char **argv) {
-    Game start();
-    return 0;
 
+
+
+int main(int argc, char **argv) {
+    Game game;
+    game.Start();
+    return 0;
 }
