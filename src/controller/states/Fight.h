@@ -8,23 +8,58 @@
 #include "controller/StateMachine.h"
 #include "../State.h"
 
+// need some wait before enemy attack.
+// may be 
+
+
+enum FightStateType {
+    START,
+    CHOOSEATTACK,
+    ATTACK,
+    ENEMYATTACK,
+    VICTORY,
+    DEFEAT
+};
+
+
 class State;
 
 class FSM;
 
-class FightFSM : public FSM {
+class FightFSM : public FSM, public State {
+private:
+    State* currentState;
+
 public:
-    void ChangeState(StateType state_type) override {};
+    FightFSM() : currentState(nullptr) {};
 
-    void Update() override {};
+    void FightChangeState(FightStateType state_type) {};
 
-    void Render() override {};
+    void Update() override {
+        if (currentState != nullptr) {
+            currentState->Update();
+        }
+    }
 
-    void OnEnter() override {};
+    void Render() override {
+        if (currentState != nullptr) {
+            currentState->Render();
+        }
+    }
 
-    void OnExit() override {};
+    void OnEnter() override {
+        FightChangeState(START);
+    }
 
-    //void AddSubMachine(FSM *sub_machine) override;
+    void OnExit() override {
+        if (currentState != nullptr) {
+            currentState->OnExit();
+            delete currentState;
+            currentState = nullptr;
+        }
+    }
+
+    // Определение и реализация конкретных состояний...
 };
 
 namespace states {
