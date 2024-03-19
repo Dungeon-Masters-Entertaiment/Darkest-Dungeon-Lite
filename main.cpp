@@ -23,6 +23,6 @@ int main(int argc, char **argv) {
     static Map map = generator.Build(50, 50);
     map.Draw();
     */
+    cur.divide_screen();
 
-    monitor.make_an_event_loop();
 }

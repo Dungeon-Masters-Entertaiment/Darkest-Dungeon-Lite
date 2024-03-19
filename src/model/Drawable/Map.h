@@ -11,7 +11,7 @@
 
 
 class Map : public AbstractDrawable {
-protected:
+public:
     std::vector<std::vector<char>> _body;
     std::vector<std::shared_ptr<Room>> _rooms;
     std::vector<std::shared_ptr<Hall>> _halls;
