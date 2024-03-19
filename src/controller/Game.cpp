@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "../model/Drawable/Player.h"
 #include "FSM.h"
+#include "../model/Rooms/Events/EnemyEncounter.h"
 
 Game::Game() {
     AntohaFabric generator;
@@ -10,8 +11,10 @@ Game::Game() {
     FSMGame fsm;
     fsm.this_room = this ->_map -> _rooms[0];
     fsm.ChangeState(StateType::WalkingState);
-    Monitor start_monitor;
-    start_monitor.make_an_event_loop(fsm);
+    EnemyEncounter Event;
+    Event.triggerEvent();
+    // Monitor start_monitor;
+    // start_monitor.make_an_event_loop(fsm);
 }
 
 void Game::Start(){

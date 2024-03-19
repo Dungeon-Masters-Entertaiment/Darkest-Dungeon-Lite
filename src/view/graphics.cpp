@@ -20,7 +20,7 @@ void Monitor::make_an_event_loop(FSMGame fsm) {
     int input_char = 0;
     do{
         clear();
-        if(input_char) Keyboard::getInstance().change_key(input_char);
+        if(input_char) Keyboard::getInstance().change_key(KeyboardKey(input_char));
         // STATE_MACHINE
         fsm.Update();
         

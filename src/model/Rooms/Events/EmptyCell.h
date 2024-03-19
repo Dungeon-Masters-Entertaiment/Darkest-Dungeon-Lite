@@ -1,0 +1,11 @@
+#pragma once
+#include "Event.h"
+#include <vector>
+#include "../../Hero/Hero.h"
+
+class EmptyCell : public Event {
+
+public:
+    void triggerEvent() override;
+    std::string getDescription() const override;
+};
