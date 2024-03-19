@@ -2,49 +2,29 @@
 // Created by Daniel Chiliaev on 16/03/2024.
 //
 
-#ifndef DARKEST_DUNGEON_LITE_SKILL_H
-#define DARKEST_DUNGEON_LITE_SKILL_H
-
 #include <nlohmann/json.hpp>
 #include <string>
 
-enum class CombatSkillType { MELEE, RANGED, MOVE, NONE, TELEPORT };
+#ifndef COMBATSKILL_H
+#define COMBATSKILL_H
 
-class CombatSkill {
-protected:
-  // Name of the skill
-  std::string _id;
-  // Level of the skill
-  int _level;
-  // Type of the skill
-  CombatSkillType _type;
-  // Accuracy of the skill
-  int _atk;
-  // Damage of the skill in percentage of the base damage
-  int _dmg;
-  // Critical chance of the skill
-  int _crit;
-  // The ranks that the ability targets. If an '@' symbol precedes the numbers,
-  // this indicates that it targets friendly ranks.
-  //  If an '~' symbol precedes the numbers, this indicates that it targets all
-  //  of the denoted ranks. If an '?' symbol precedes the numbers, this
-  //  indicates that it will randomly target one of the denoted ranks.
-  std::string _targets;
-  // The ranks that the ability can be used from.
-  int _launch;
-  // Is crit chance valid
-  bool _is_crit_valid;
-  // Is the skill guaranteed to be generated on the start of the battle
-  bool _generation_guaranteed;
-  // Move backwards and forwards
-  std::pair<int, int> _move;
-  // Chance to cause bleeding
+#include "Skill.h"
 
-public:
-  CombatSkill() = default;
-  CombatSkill(std::string _id, int _level);
-  // virtual void Use() = 0;
-  NLOHMANN_DEFINE_TYPE_INTRUSIVE(CombatSkill, _id, _level);
+class CombatSkill : public Skill {
+ protected:
+  bool is_crit_valid;
+  bool generation_guaranteed;
+  std::pair<int, int> move;
+
+ public:
+  CombatSkill();
+  CombatSkill(std::string _id, SkillType _type, int _atk, std::pair<int, int> _dmg, int _crit, std::string _effect, int _launch, std::string _targets,
+              bool _is_crit_valid, bool _generation_guaranteed, std::pair<int, int> _move);
+
+  bool isCritValid() const;
+  bool isGenerationGuaranteed() const;
+  const std::pair<int, int>& getMove() const;
 };
 
-#endif // DARKEST_DUNGEON_LITE_SKILL_H
+#endif // COMBATSKILL_H
+
