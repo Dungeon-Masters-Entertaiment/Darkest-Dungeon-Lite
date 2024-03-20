@@ -36,6 +36,8 @@ public:
   virtual ~FSM() = default;
 };
 
+class State;
+
 class FSMGame : public FSM {
 protected:
   State *curr_state = nullptr;
