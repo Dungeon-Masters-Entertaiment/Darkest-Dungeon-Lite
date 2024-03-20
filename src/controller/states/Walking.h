@@ -20,20 +20,20 @@ namespace states {
                 if (typeid(*current_room_real_pointer) == typeid(Room)) {
                     auto current_room = std::dynamic_pointer_cast<Room>(fsm1->this_room);
                     if (current_room->_hall_connection[direction] != nullptr) {
-                        auto next_room = std::dynamic_pointer_cast<Room>(current_->connection[direction]);
-                        Cell *first_corridor_cell = nullptr;
+                        auto next_room = std::dynamic_pointer_cast<Room>(current_room->conection[direction]);
+                        std::shared_ptr<Cell> first_corridor_cell = nullptr;
                         if (current_room->id < next_room->id) {
                             first_corridor_cell = std::dynamic_pointer_cast<Cell>(
-                                    current_->_hall_connection[direction].entrance);
+                                    current_room->_hall_connection[direction]->entrance);
                         } else {
                             first_corridor_cell = std::dynamic_pointer_cast<Cell>(
-                                    current_->_hall_connection[direction].exit);
+                                    current_room->_hall_connection[direction]->exit);
                         }
                         fsm1->this_room = first_corridor_cell;
                     }
                 } else {
-                    if (current_room->connection[direction] != nullptr) {
-                        fsm1->this_room = std::dynamic_pointer_cast<Cell>(current_room->connection[direction]);
+                    if (fsm1->this_room->conection[direction] != nullptr) {
+                        fsm1->this_room = std::dynamic_pointer_cast<Cell>(fsm1->this_room->conection[direction]);
                     }
                 }
             }
