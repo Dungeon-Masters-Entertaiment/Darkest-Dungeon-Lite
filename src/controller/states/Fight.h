@@ -12,17 +12,18 @@ class FSM;
 
 class FightFSM : public FSM {
 public:
-  void ChangeState(StateType state_type) override;
 
-  void Update() override;
+  void ChangeState(StateType state_type) override {};
 
-  void Render() override;
+  void Update() override{};
 
-  void OnEnter() override;
+  void Render() override{};
 
-  void OnExit() override;
+  void OnEnter() override{};
 
-  void AddSubMachine(FSM *sub_machine) override;
+  void OnExit() override{};
+
+  //void AddSubMachine(FSM *sub_machine) override;
 };
 
 namespace states {

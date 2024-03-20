@@ -5,8 +5,8 @@
 #ifndef DARKEST_DUNGEON_LITE_FSM_H
 #define DARKEST_DUNGEON_LITE_FSM_H
 
-#include "State.h"
 #include <map>
+class State;
 
 enum class StateType {
   CityState,
@@ -19,6 +19,7 @@ enum class StateType {
 
 class FSM {
 public:
+
   virtual void ChangeState(StateType state_type) = 0;
 
   virtual void Update() = 0;
@@ -29,7 +30,7 @@ public:
 
   virtual void OnExit() = 0;
 
-  virtual void AddSubMachine(FSM *sub_machine) = 0;
+  //virtual void AddSubMachine(FSM *sub_machine) = 0;
 
   virtual ~FSM() = default;
 };

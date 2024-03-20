@@ -2,7 +2,10 @@
 #define DARKEST_DUNGEON_LITE_STATE_H
 
 
+#include "FSM.h"
 class FSM;
+
+
 class State {
 public:
     virtual void Handle(FSM *fsm) = 0;

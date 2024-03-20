@@ -4,14 +4,18 @@
 
 #ifndef STATEMACHINE_H
 #define STATEMACHINE_H
-class FSM;
+
+
+#include "State.h"
+
+//class FSM;
 
 class StateMachine : public State {
 protected:
   FSM *sub_machine;
 
 public:
-  void Update(FSM *fsm);
+  void Update(FSM *fsm) override;
 };
 
 #endif // STATEMACHINE_H

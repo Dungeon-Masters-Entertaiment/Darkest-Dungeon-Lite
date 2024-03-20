@@ -4,6 +4,7 @@
 
 #include "StateMachine.h"
 
-StateMachine::Update(FSM *fsm) {
+
+void StateMachine::Update(FSM *fsm) {
   fsm->Update();
 }
