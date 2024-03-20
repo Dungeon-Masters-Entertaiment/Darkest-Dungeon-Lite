@@ -9,16 +9,12 @@ namespace states {
     void FightState::Update(FSM *fsm) {
         KeyboardKey key = keyboard.get_key();
         
-        // Проверяем, была ли нажата клавиша ENTER
         if (key == KeyboardKey::ENTER) {
-            // Изменяем индекс героя
             heroidx++;
-            // Проверяем, чтобы индекс не вышел за пределы вектора heroes
             if (heroidx >= event.Heroes.size()) {
-                heroidx = 0; // Возвращаемся к началу списка, если достигли конца
+                heroidx = 0; 
             }
 
-            // Выводим имя героя через std::cout
             std::cout << event.Heroes[heroidx].getName() << std::endl;
         }
     }
