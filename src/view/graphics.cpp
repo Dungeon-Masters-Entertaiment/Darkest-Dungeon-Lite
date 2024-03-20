@@ -252,11 +252,8 @@ void Monitor::divide_screen(FSMGame &fsm, Map &map) {
         Fight_win -> paint_sides();
         Abilities_win -> paint_sides();
         Dung_Map -> paint_sides();
-
-        //c = Dung_Map -> get_mv();
-
-        Dung_Map -> get_mv();
-        Dung_Map -> display_hero();
+        int c = Dung_Map -> get_mv();
+        //Dung_Map -> display_hero();
         map.Draw(Dung_Map, fsm);
 
 
