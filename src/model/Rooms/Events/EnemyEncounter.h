@@ -1,11 +1,15 @@
 #pragma once
 #include "Event.h"
 #include "../../Creature/Hero.h"
+#include "../../Creature/Squad.h"
 
 class EnemyEncounter : public Event {
 public:
     ~EnemyEncounter() override = default;
-    std::vector<Hero> Heroes;
+
+    Squad Enemyes; 
+    Squad Heroes; 
+    
     void triggerEvent() override{};
     std::string getDescription() const override {
         return "EE";

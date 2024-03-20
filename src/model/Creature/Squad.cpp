@@ -16,9 +16,9 @@ void Squad::removeHero(int index) {
 
 // Атака другого отряда
 void Squad::attackSquad(Squad& enemySquad) {
-    int attackingindx = getRandomLivingHero();
+    int attackingindx               = getRandomLivingHero();
     int targetindx                  = enemySquad.getCount();
-    int damage                      = 12;
+    int damage                      = 12; // radom skill 
     
     // Взятие рандомного оружия
 
