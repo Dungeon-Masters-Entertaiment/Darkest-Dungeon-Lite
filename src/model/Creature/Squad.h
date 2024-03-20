@@ -19,7 +19,10 @@ public:
     int getRandomLivingHero(); // Получение случайного живого героя из отряда
     void takeDamage(int indx, int amount);
 
+    // Getters 
     int getCount() const { return heroes.size(); }
+    std::shared_ptr<Hero> get_by_inx(int idx) { return heroes[idx]; } 
+    
 private:
     std::vector<std::shared_ptr<Hero>> heroes; // Вектор героев в отряде
 };

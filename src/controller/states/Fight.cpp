@@ -11,11 +11,11 @@ namespace states {
         
         if (key == KeyboardKey::ENTER) {
             heroidx++;
-            if (heroidx >= event.Heroes.size()) {
+            if (heroidx >= event.Heroes.getCount()) {
                 heroidx = 0; 
             }
 
-            std::cout << event.Heroes[heroidx].getName() << std::endl;
+            std::cout << event.Heroes.get_by_inx(heroidx)->getName() << std::endl;
         }
     }
 
