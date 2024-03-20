@@ -14,7 +14,7 @@ namespace states {
     class WalkingState : public State {
     public:
         void update_position(int type, FSM *fsm, int direction) {
-            if ((int)Keyboard::getInstance().get_key() == (type)) {
+            if ((int) Keyboard::getInstance().get_key() == (type)) {
                 FSMGame *fsm1 = dynamic_cast<FSMGame *>(fsm);
                 auto current_room_real_pointer = fsm1->this_room.get();
                 if (typeid(*current_room_real_pointer) == typeid(Room)) {
@@ -30,8 +30,10 @@ namespace states {
                                     current_room->_hall_connection[direction]->exit);
                         }
                         fsm1->this_room = first_corridor_cell;
+                        std::cout << typeid(*fsm1->this_room).name() << std::endl;
                     }
                 } else {
+                    auto current_corridor_cell = fsm1->this_room;
                     if (fsm1->this_room->conection[direction] != nullptr) {
                         fsm1->this_room = std::dynamic_pointer_cast<Cell>(fsm1->this_room->conection[direction]);
                     }
