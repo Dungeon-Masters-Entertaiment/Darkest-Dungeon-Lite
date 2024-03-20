@@ -1,13 +1,18 @@
 #include "view/graphics.h"
 #include "../../keyboard.h"
 
+#include "../../BMP.h"
+
 
 auto begin_time = std::chrono::high_resolution_clock::now();
+
+
 
 Monitor::Monitor() {
     // инициализация (должна быть выполнена
     // перед использованием ncurses)
     initscr();
+
     noecho();
     cbreak();
     nodelay(stdscr, TRUE);

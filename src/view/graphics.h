@@ -4,11 +4,14 @@
 #ifndef DARKEST_DUNGEON_LITE_GRAPHICS_H
 #define DARKEST_DUNGEON_LITE_GRAPHICS_H
 
-#include "BMPParser/BMP.h"
+
+#include "../../BMP.h"
 #include <chrono>
 #include <cmath>
 #include "model/Drawable/Map.h"
 #include "model/MapGenerators/MapFabric.h"
+#include "controller/FSM.h"
+#include "controller/Game.h"
 
 struct BlinkingArea { // в каждой area ровно один color
     std::vector<std::vector <std::pair <int, int>>> area;
@@ -18,10 +21,14 @@ struct BlinkingArea { // в каждой area ровно один color
 
 
 
+
 class Monitor{
 public:
     Monitor();
     ~Monitor();
+  
+
+  
     void divide_screen();
     void draw_dot(int x, int y);
     void draw_rectangle(int x1, int y1, int x2, int y2);
@@ -73,5 +80,11 @@ public:
     int get_mv(); // Смотрим, что нажал пользователь
 };
 static Monitor cur;
+
+
+
+
+
+
 #endif //DARKEST_DUNGEON_LITE_GRAPHICS_H
 

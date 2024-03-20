@@ -1,0 +1,314 @@
+{
+  "combat_skills": [
+    {
+      "id": "smite",
+      "level": 0,
+      "type": "melee",
+      "_atk": "85%",
+      "_dmg": "0%",
+      "_crit": "0%",
+      "_launch": 21,
+      "_target": 12,
+      "_is_crit_valid": true,
+      "_generation_guaranteed": true
+    },
+    {
+      "id": "smite",
+      "level": 1,
+      "type": "melee",
+      "_atk": "90%",
+      "_dmg": "0%",
+      "_crit": "0%",
+      "_launch": 21,
+      "_target": 12,
+      "_is_crit_valid": true
+    },
+    {
+      "id": "smite",
+      "level": 2,
+      "type": "melee",
+      "_atk": "95%",
+      "_dmg": "0%",
+      "_crit": "1%",
+      "_launch": 21,
+      "_target": 12,
+      "_is_crit_valid": true
+    },
+    {
+      "id": "smite",
+      "level": 3,
+      "type": "melee",
+      "_atk": "100%",
+      "_dmg": "0%",
+      "_crit": "2%",
+      "_launch": 21,
+      "_target": 12,
+      "_is_crit_valid": true
+    },
+    {
+      "id": "smite",
+      "level": 4,
+      "type": "melee",
+      "_atk": "105%",
+      "_dmg": "0%",
+      "_crit": "2%",
+      "_launch": 21,
+      "_target": 12,
+      "_is_crit_valid": true
+    },
+    {
+      "id": "zealous_accusation",
+      "level": 0,
+      "type": "ranged",
+      "_atk": "85%",
+      "_dmg": "-40%",
+      "_crit": "0%",
+      "_launch": 21,
+      "_target": "~12",
+      "_is_crit_valid": true
+    },
+    {
+      "id": "zealous_accusation",
+      "level": 1,
+      "type": "ranged",
+      "_atk": "90%",
+      "_dmg": "-40%",
+      "_crit": "0%",
+      "_launch": 21,
+      "_target": "~12",
+      "_is_crit_valid": true
+    },
+    {
+      "id": "zealous_accusation",
+      "level": 2,
+      "type": "ranged",
+      "_atk": "95%",
+      "_dmg": "-40%",
+      "_crit": "1%",
+      "_launch": 21,
+      "_target": "~12",
+      "_is_crit_valid": true
+    },
+    {
+      "id": "zealous_accusation",
+      "level": 3,
+      "type": "ranged",
+      "_atk": "100%",
+      "_dmg": "-40%",
+      "_crit": "2%",
+      "_launch": 21,
+      "_target": "~12",
+      "_is_crit_valid": true
+    },
+    {
+      "id": "zealous_accusation",
+      "level": 4,
+      "type": "ranged",
+      "_atk": "105%",
+      "_dmg": "-40%",
+      "_crit": "2%",
+      "_launch": 21,
+      "_target": "~12",
+      "_is_crit_valid": true
+    },
+    {
+      "id": "stunning_blow",
+      "level": 0,
+      "type": "melee",
+      "_atk": "90%",
+      "_dmg": "-75%",
+      "_crit": "0%",
+      "_launch": 21,
+      "_target": 12,
+      "_is_crit_valid": true
+    },
+    {
+      "id": "stunning_blow",
+      "level": 1,
+      "type": "melee",
+      "_atk": "95%",
+      "_dmg": "-75%",
+      "_crit": "0%",
+      "_launch": 21,
+      "_target": 12,
+      "_is_crit_valid": true
+    },
+    {
+      "id": "bulwark_of_faith",
+      "level": 2,
+      "type": "melee",
+      "_atk": "0%",
+      "_dmg": "0%",
+      "_crit": "0%",
+      "_launch": 21,
+      "_target": "",
+      "_is_crit_valid": true
+    },
+    {
+      "id": "bulwark_of_faith",
+      "level": 3,
+      "type": "melee",
+      "_atk": "0%",
+      "_dmg": "0%",
+      "_crit": "0%",
+      "_launch": 21,
+      "_target": "",
+      "_is_crit_valid": true
+    },
+    {
+      "id": "bulwark_of_faith",
+      "level": 4,
+      "type": "melee",
+      "_atk": "0%",
+      "_dmg": "0%",
+      "_crit": "0%",
+      "_launch": 21,
+      "_target": "",
+      "_is_crit_valid": true
+    },
+    {
+      "id": "move",
+      "level": 0,
+      "type": "move",
+      "_move": [
+        1,
+        1
+      ],
+      "_launch": 4321
+    },
+    {
+      "id": "battle_heal",
+      "level": 0,
+      "_launch": 12,
+      "_target": "@123"
+    },
+    {
+      "id": "battle_heal",
+      "level": 1,
+      "_launch": 12,
+      "_target": "@123"
+    },
+    {
+      "id": "battle_heal",
+      "level": 2,
+      "_launch": 12,
+      "_target": "@123"
+    },
+    {
+      "id": "battle_heal",
+      "level": 3,
+      "_launch": 12,
+      "_target": "@123"
+    },
+    {
+      "id": "battle_heal",
+      "level": 4,
+      "_launch": 12,
+      "_target": "@123"
+    },
+    {
+      "id": "holy_lance",
+      "level": 0,
+      "type": "melee",
+      "_atk": "85%",
+      "_dmg": "0%",
+      "_crit": "5%",
+      "_move": [0, 1],
+      "_launch": 34,
+      "_target": 34,
+      "_is_crit_valid": true
+    },
+    {
+      "id": "holy_lance",
+      "level": 1,
+      "type": "melee",
+      "_atk": "90%",
+      "_dmg": "0%",
+      "_crit": "6%",
+      "_move": [0, 1],
+      "_launch": 34,
+      "_target": 34,
+      "_is_crit_valid": true
+    },
+    {
+      "id": "holy_lance",
+      "level": 2,
+      "type": "melee",
+      "_atk": "95%",
+      "_dmg": "0%",
+      "_crit": "6%",
+      "_move": [
+        0,
+        1
+      ],
+      "_launch": 34,
+      "_target": 34,
+      "_is_crit_valid": true
+    },
+    {
+      "id": "holy_lance",
+      "level": 3,
+      "type": "melee",
+      "_atk": "100%",
+      "_dmg": "0%",
+      "_crit": "6%",
+      "_move": [
+        0,
+        1
+      ],
+      "_launch": 34,
+      "_target": 34,
+      "_is_crit_valid": true
+    },
+    {
+      "id": "holy_lance",
+      "level": 4,
+      "type": "melee",
+      "_atk": "105%",
+      "_dmg": "0%",
+      "_crit": "7%",
+      "_move": [
+        0,
+        1
+      ],
+      "_launch": 34,
+      "_target": 34,
+      "_is_crit_valid": true
+    },
+    {
+      "id": "inspiring_cry",
+      "level": 0,
+      "heal": [
+        1,
+        1
+      ],
+      "_launch": 1234,
+      "_target": "@1234"
+    },
+    {
+      "id": "inspiring_cry",
+      "level": 1,
+      "_launch": 1234,
+      "_target": "@1234"
+    },
+    {
+      "id": "inspiring_cry",
+      "level": 2,
+      "_launch": 1234,
+      "_target": "@1234"
+    },
+    {
+      "id": "inspiring_cry",
+      "level": 3,
+      "_launch": 1234,
+      "_target": "@1234"
+    },
+    {
+      "id": "inspiring_cry",
+      "level": 4,
+      "_launch": 1234,
+      "_target": "@1234"
+    }
+  ]
+}
+

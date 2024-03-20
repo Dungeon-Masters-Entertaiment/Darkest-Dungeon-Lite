@@ -18,6 +18,7 @@ public:
 
     friend class AntohaFabric;
     friend class BinarySpaceMapGenerator;
+    friend class Game;
 
 public:
     Map(int width, int height) {

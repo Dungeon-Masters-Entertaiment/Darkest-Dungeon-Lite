@@ -6,37 +6,54 @@
 #define DARKEST_DUNGEON_LITE_FSM_H
 
 #include "State.h"
-class State;
+#include <map>
+#include "../model/Drawable/Map.h"
+
+enum class StateType {
+  CityState,
+  BuildingState,
+  MapState,
+  WalkingState,
+  LootState,
+  FightState
+};
+
 class FSM {
 public:
-    virtual void ChangeState(State *new_state) = 0;
+  virtual void ChangeState(StateType state_type) = 0;
 
-    virtual void Update() = 0;
+  virtual void Update() = 0;
 
-    virtual void Render() = 0;
+  virtual void Render() = 0;
 
-    virtual void OnEnter() = 0;
+  virtual void OnEnter() = 0;
 
-    virtual void OnExit() = 0;
+  virtual void OnExit() = 0;
 
-    virtual void AddSubMachine(FSM* sub_machine) = 0;
+  //virtual void AddSubMachine(FSM *sub_machine) = 0;
 
-    virtual ~FSM() = default;
+  virtual ~FSM() = default;
 };
 
 class FSMGame : public FSM {
+protected:
+  State *curr_state = nullptr;
+  std::map<StateType, State *> states;
+  friend class Game;
+
 public:
-    void ChangeState(State *new_state) override;
+  std::shared_ptr<Cell> this_room = nullptr;
+  FSMGame();
 
-    void Update() override;
+  void ChangeState(StateType state_type) override;
 
-    void Render() override;
+  void Update() override;
 
-    void OnEnter() override;
+  void Render() override;
 
-    void OnExit() override;
+  void OnEnter() override;
 
-    void AddSubMachine(FSM* sub_machine) override;
+  void OnExit() override;
 };
 
-#endif //DARKEST_DUNGEON_LITE_FSM_H
+#endif // DARKEST_DUNGEON_LITE_FSM_H
