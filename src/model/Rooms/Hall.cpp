@@ -165,11 +165,19 @@ void fill_rooms_in_hall(int x, int y, int x1, int y1, int type, int width, int h
 
 }
 
-Hall::Hall(std::shared_ptr<Room> first, std::shared_ptr<Room> second, int type, int width, int height, std::vector<std::vector<char>> _body) {
-    if(first -> id > second -> id) {
-        swap(first, second);
-    }
-    entrance = first;
-    exit = second;
-    fill_rooms_in_hall(first -> x, first -> y, second -> x, second -> y, type, width, height, _body, *this);
+Hall::Hall(std::shared_ptr<Room> first, std::shared_ptr<Room> second, int type,
+           int width, int height, std::vector<std::vector<char>> _body) {
+  if (first->id > second->id) {
+    swap(first, second);
+  }
+  entrance = first;
+  exit = second;
+  fill_rooms_in_hall(first->x, first->y, second->x, second->y, type, width,
+                     height, _body, *this);
+}
+void to_json(nlohmann::json &j, const Hall &hall) {
+
+}
+void from_json(const nlohmann::json &j, Hall &hall) {
+
 }
