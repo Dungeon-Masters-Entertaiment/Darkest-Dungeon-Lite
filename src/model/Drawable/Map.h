@@ -13,8 +13,8 @@ protected:
     std::vector<std::vector<char>> _body;
     std::vector<std::shared_ptr<Room>> _rooms;
     std::vector<std::shared_ptr<Hall>> _halls;
-    std::shared_ptr <Room> _starting_position;
-
+    std::shared_ptr <Room> _starting_position = nullptr;
+    
     friend class AntohaFabric;
     friend class BinarySpaceMapGenerator;
     friend class Game;

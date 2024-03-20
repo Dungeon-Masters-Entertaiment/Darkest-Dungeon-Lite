@@ -6,6 +6,7 @@
 class EmptyCell : public Event {
 
 public:
+    ~EmptyCell() override = default;
     void triggerEvent() override;
     std::string getDescription() const override {
         return "EC";
