@@ -22,8 +22,7 @@ Monitor::~Monitor() {
 void Monitor::make_an_event_loop(FSMGame fsm) {
     int input_char = -1;
     do{
-
-        Keyboard::getInstance().change_key(input_char);
+        Keyboard::getInstance().change_key(KeyboardKey(input_char));
         // STATE_MACHINE
         fsm.Update();
         //std::this_thread::sleep_for(std::chrono::milliseconds(100));

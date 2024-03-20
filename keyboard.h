@@ -41,13 +41,13 @@ public:
         return instance;
     }
 
-    void change_key(char _key) { key = _key; }
+    void change_key(KeyboardKey _key) { key = _key; }
 
     // getters
-    char get_key() { return key; }
+    KeyboardKey get_key() { return key; }
 
 private:
-    char key;
+    KeyboardKey key;
 
     Keyboard() {}
 

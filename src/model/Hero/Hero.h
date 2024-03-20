@@ -29,12 +29,33 @@ class Hero {
 
   friend void from_json(const nlohmann::json &j, Hero &hero) {
     const auto& combat_skills_json = j.at("combat_skills");
-    for (auto it = combat_skills_json.begin(); it != combat_skills_json.end(); ++it) {
+    for (auto it = combat_skills_json.begin(); it != combat_skills_json.end(); ++it) {  
       auto skill = std::make_shared<CombatSkill>();
       it.value().get_to(*skill);
       hero.combat_skills.push_back(skill);
     }
   }
+  Hero(std::string name, int health, int damage)
+        : name(name), health(health), damage(damage) {}
+
+    // Метод для атаки другого персонажа
+    void attack(Hero& target);
+
+    // Метод для получения урона
+    void takeDamage(int amount); 
+    
+    // Метод для лечения
+    void heal(int amount);
+
+    // Геттеры для атрибутов персонажа
+    std::string getName() const { return name; }
+    int getHealth() const { return health; }
+    int getDamage() const { return damage; }
+
+private:
+    std::string name; // Имя персонажа
+    int health;       // Здоровье
+    int damage;       // Урон
 
 };
 
