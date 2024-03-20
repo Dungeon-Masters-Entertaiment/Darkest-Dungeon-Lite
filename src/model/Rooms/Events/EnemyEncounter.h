@@ -1,6 +1,6 @@
 #pragma once
 #include "Event.h"
-#include "../../Hero/Hero.h"
+#include "../../Creature/Hero.h"
 
 class EnemyEncounter : public Event {
 public:

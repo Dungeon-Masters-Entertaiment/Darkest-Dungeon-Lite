@@ -1,7 +1,7 @@
 #pragma once
 #include "Event.h"
 #include <vector>
-#include "../../Hero/Hero.h"
+#include "../../Creature/Hero.h"
 
 class EmptyCell : public Event {
 

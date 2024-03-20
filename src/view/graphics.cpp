@@ -233,9 +233,9 @@ void Monitor::divide_screen(FSMGame &fsm, Map &map) {
     //static Map map = generator.Build(50, 50);
     //char c;
     do {
-        Keyboard::getInstance().change_key(getch());
+        Keyboard::getInstance().change_key(KeyboardKey(getch()));
         fsm.Update();
-        input_char = Keyboard::getInstance().get_key();
+        input_char = (int) Keyboard::getInstance().get_key();
         int n_height, n_width;
         getmaxyx(stdscr, n_height, n_width);
         if(n_height != height || n_width != width) {

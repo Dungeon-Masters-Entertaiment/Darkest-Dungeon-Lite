@@ -19,7 +19,7 @@ public:
     Player(const Player&) = default;
     Player& operator=(const Player&) = default;
 
-    void Draw(std::shared_ptr<window_work>) override;
+    void Draw(std::shared_ptr<window_work>, FSMGame &) override{};
 };
 
 #endif //DARKEST_DUNGEON_LITE_PLAYER_H
