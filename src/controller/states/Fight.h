@@ -1,10 +1,3 @@
-//
-// Created by Daniel Chiliaev on 18/03/2024.
-//
-
-#ifndef STATE_FIGHT_H
-#define STATE_FIGHT_H
-
 #include "controller/StateMachine.h"
 #include "../State.h"
 #include <iostream>
@@ -25,10 +18,10 @@
             enemyidx = 0;
         }
 
-         void Handle(FSM *fsm) override {};
+        void Handle(FSM *fsm) ;
 
-         void Update(FSM *fsm) override {};
-        void OnExit(FSM *fsm) override {};
+        void Update(FSM *fsm) ;
+        
+        void OnExit(FSM *fsm) ;
     };
 } 
-#endif STATE_FIGHT_H
