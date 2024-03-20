@@ -51,6 +51,9 @@ void Map::Draw(std::shared_ptr<window_work> monitor, FSMGame & fsm) {
                 case 'C':
                     std::cout << "C";  // Corridor
                     break;
+                default:
+                    std::cout<<_body[i][j];
+                    break;
             }
         }
         std::cout << std::endl;

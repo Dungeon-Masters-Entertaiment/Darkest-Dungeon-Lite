@@ -1,6 +1,11 @@
 #include "MapFabric.h"
 #include <iostream>
 #include "../Rooms/Hall.h"
+#include "../Rooms/Events/BossFight.h"
+#include "../Rooms/Events/EmptyCell.h"
+#include "../Rooms/Events/EnemyEncounter.h"
+#include "../Rooms/Events/Trap.h"
+#include "../Rooms/Events/Treasure.h"
 
 char get_zn(int x, int y, int width, int height, std::vector<std::vector<char>> &_body){
     if(x < 0 || x >= width || y < 0 || y >= height) {
@@ -235,6 +240,17 @@ std::pair<int, int> normalised(std::pair<int, int> first) {
     return first;
 }
 
+std::shared_ptr<Room> find_the_farthest_room(std::shared_ptr<Room> &first, std::vector<std::shared_ptr<Room>>&second) {
+    std::shared_ptr <Room> ans = first;
+    for(auto &i : second) {
+        if(distance({ans -> x, ans -> y}, {first -> x, first -> y}) < distance({first -> x, first -> y}, {i -> x, i -> y})) {
+            ans = i;
+        }
+    }
+    return ans;
+}
+
+
 Map AntohaFabric::Build(int width, int height) 
 {
     Map map(width, height);
@@ -243,14 +259,14 @@ Map AntohaFabric::Build(int width, int height)
             map._body[i][i1] = ' ';
         }
     }
-    int actual_number_of_rooms = 24 + generator() % 10;
+    int actual_number_of_rooms = 25 + generator() % 10;
     std::vector<std::shared_ptr<Room>> chain;
     int quantity = 0;
     map._rooms.push_back(std::make_shared<Room>(25 + generator() % 3, 25 + generator() % 3, 3, 3));
     map._rooms.push_back(std::make_shared<Room>(22 + generator() % 8,  17 + generator() % 2, 3, 3));
     map._rooms.push_back(std::make_shared<Room>(22 + generator() % 8,  34 + generator() % 2, 3, 3));
-    map._rooms.push_back(std::make_shared<Room>(18 + generator() % 2,  26 + 5 * (generator()%2 *2 -1) + generator()%3, 3, 3));
-    map._rooms.push_back(std::make_shared<Room>(33 + generator() % 2,  26 + 5 * (generator()%2 *2 -1) + generator()%3, 3, 3));
+    map._rooms.push_back(std::make_shared<Room>(17 + generator() % 2,  26 + generator()%3, 3, 3));
+    map._rooms.push_back(std::make_shared<Room>(34 + generator() % 2,  26 + generator()%3, 3, 3));
     for(int i = 0; i < 5; i++) {
         draw_room(map._rooms[i]->x, map._rooms[i]->y, map._body);
     }
@@ -321,7 +337,7 @@ Map AntohaFabric::Build(int width, int height)
         }
     }
 
-    int siz = 3 + generator() % actual_number_of_rooms;
+    int siz = 5 + generator() % actual_number_of_rooms;
     
     while(siz--) {
         if(generator() % 5 != 0){
@@ -544,6 +560,41 @@ Map AntohaFabric::Build(int width, int height)
         }
         i++;
     }
+
+    std::shared_ptr <Room> ans = map._rooms[0];
+    for(auto &i : map._rooms) {
+        if(distance({ans -> x, ans -> y}, {map._rooms[0] -> x, map._rooms[0] -> y}) < distance({map._rooms[0]-> x, map._rooms[0] -> y}, {i -> x, i -> y})) {
+            ans = i;
+        }
+    }
+     map._starting_position = ans;
+    map._starting_position -> events.push_back(std::make_shared<EmptyCell>());
+    //return map;
+    std::shared_ptr<Room> Boss = find_the_farthest_room(map._starting_position, map._rooms);
+    map._body[map._starting_position ->x][map._starting_position ->y] = 'V';
+    Boss -> events.push_back(std::make_shared<BossFight>());
+    map._body[Boss ->x][Boss->y] = 'B';
+
+    for(int i = 0; i < map._rooms.size(); i++) {
+        if(map._rooms[i] -> events.size() == 0) {
+            bool flag = false;
+            if(generator() % 100 >= 50) {map._rooms[i] -> events.push_back(std::make_shared<EnemyEncounter>()); flag = true;}//map._body[map._rooms[i]->x][map._rooms[i]->y] = 'E';
+            if(generator() % 100 >= 70) {map._rooms[i] -> events.push_back(std::make_shared<Treasure>()); flag = true;}//map._body[map._rooms[i]->x][map._rooms[i]->y] = 'T';
+            if(!flag)  {map._rooms[i] -> events.push_back(std::make_shared<EmptyCell>());}//;map._body[map._rooms[i]->x][map._rooms[i]->y] = 'F';
+        }
+    }
+    //return map;
+
+    for(int i1 = 0; i1 < map._halls.size(); i1++) {
+        for (int i = 0; i < map._halls[i1] -> rooms_in_hall.size(); i++) {
+            //std::cout<<"2222!!!\n";
+            bool flag = false;
+            if(generator() % 100 >= 90) {map._halls[i1] -> rooms_in_hall[i] ->events.push_back(std::make_shared<EnemyEncounter>()); flag = true; }//map._body[map._halls[i1] -> rooms_in_hall[i] ->x][map._halls[i1] -> rooms_in_hall[i] ->y] = 'E';
+            if(generator() % 100 >= 90) {map._halls[i1] -> rooms_in_hall[i] ->events.push_back(std::make_shared<Treasure>()); flag = true;}//map._body[map._halls[i1] -> rooms_in_hall[i] ->x][map._halls[i1] -> rooms_in_hall[i] ->y] = 'T';
+            if(!flag)  {map._halls[i1] -> rooms_in_hall[i] ->events.push_back(std::make_shared<EmptyCell>()); flag = true;}//map._body[map._halls[i1] -> rooms_in_hall[i] ->x][map._halls[i1] -> rooms_in_hall[i] ->y] = 'F';
+        }
+    }
+
 
     return map;
 }

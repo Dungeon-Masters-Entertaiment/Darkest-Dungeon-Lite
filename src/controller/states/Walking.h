@@ -12,7 +12,8 @@ namespace states {
     class WalkingState : public State {
     public:
         void update_position(int type, FSM *fsm, int direction) {
-            if (Keyboard::getInstance().get_key() == (type)) {
+            if ((int)Keyboard::getInstance().get_key() == (type)) {
+               //printw("213");
                 FSMGame *fsm1 = dynamic_cast<FSMGame *>(fsm);
                 if (fsm1->this_room->conection[direction] != nullptr) {
                     fsm1->this_room = fsm1->this_room->conection[direction];
@@ -25,10 +26,10 @@ namespace states {
         };
 
         void Update(FSM *fsm) override {
-            update_position((int)KeyboardKey::a, fsm, 0);
-            update_position((int)KeyboardKey::d, fsm, 2);
-            update_position((int)KeyboardKey::s, fsm, 1);
-            update_position((int)KeyboardKey::w, fsm, 3);
+            update_position((int)KeyboardKey::w, fsm, 0);
+            update_position((int)KeyboardKey::s, fsm, 2);
+            update_position((int)KeyboardKey::d, fsm, 1);
+            update_position((int)KeyboardKey::a, fsm, 3);
         };
 
         void Render(FSM *fsm) override {};

@@ -9,6 +9,7 @@
 #include <utility>
 #include <vector>
 #include <memory>
+#include "Events/Event.h"
 
 class Cell {
     public:
@@ -23,6 +24,7 @@ class Cell {
         std::vector<std::string> special_features;
         int x, y, width, height;
         std::vector<std::shared_ptr<Cell>> conection = {nullptr, nullptr, nullptr, nullptr};
+        std::vector<std::shared_ptr<Event>> events;
 
         Cell(int x, int y, int width, int height)
             : x(x), y(y), width(width), height(height), id(size) {size+=1;}
