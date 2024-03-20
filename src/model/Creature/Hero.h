@@ -47,10 +47,12 @@ class Hero {
     // Метод для лечения
     void heal(int amount);
 
+
     // Геттеры для атрибутов персонажа
     std::string getName() const { return name; }
     int getHealth() const { return health; }
     int getDamage() const { return damage; }
+    bool isDead() const { return health <= 0; }
 
 private:
     std::string name; // Имя персонажа
