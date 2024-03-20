@@ -8,7 +8,7 @@
 //#include "model/Rooms/Cell.h"
 #include "model/Rooms/Hall.h"
 //#include "model/Rooms/Room.h"
-
+class Hall;
 class Room;
 
 class Map : public AbstractDrawable {
