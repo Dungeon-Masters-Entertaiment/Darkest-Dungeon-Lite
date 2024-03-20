@@ -25,9 +25,6 @@ class Monitor{
 public:
     Monitor();
     ~Monitor();
-  
-
-  
     void divide_screen(FSMGame &fsm, Map &map);
     void draw_dot(int x, int y);
     void draw_rectangle(int x1, int y1, int x2, int y2);
@@ -56,7 +53,6 @@ public:
     virtual void resize_win(int new_y, int new_x);
     virtual void paint_sides();
 
-
     virtual void draw_dot(int x, int y);
     virtual void draw_rectangle(int x1, int y1, int x2, int y2);
     virtual void draw_colored_dot(int x, int y, int color);
@@ -78,12 +74,18 @@ public:
     void mv_right(); // Движение вправо
     int get_mv(); // Смотрим, что нажал пользователь
 };
+
+class Fight_Map : public window_work {
+public:
+    Fight_Map(WINDOW* win, int y, int x);
+
+};
+
+class Abilities_Map : public window_work {
+public:
+    Abilities_Map(WINDOW* win, int y, int x);
+};
 static Monitor cur;
-
-
-
-
-
 
 #endif //DARKEST_DUNGEON_LITE_GRAPHICS_H
 

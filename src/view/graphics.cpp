@@ -116,6 +116,31 @@ void window_work::fill_area(std::pair<int, int> *pairs, int color) {
 
 }
 
+Fight_Map::Fight_Map(WINDOW *win, int y, int x) {
+    cur_win = win;
+    y_cur = y;
+    x_cur = x;
+    getmaxyx(cur_win, y_mx, x_mx);
+    keypad(cur_win, true);
+    nodelay(cur_win, TRUE);
+    start_color();
+    for (int i = 0; i < 16; i++) {
+        init_pair(i + 1, 1, i);
+    }
+}
+Abilities_Map::Abilities_Map(WINDOW *win, int y, int x) {
+    cur_win = win;
+    y_cur = y;
+    x_cur = x;
+    getmaxyx(cur_win, y_mx, x_mx);
+    keypad(cur_win, true);
+    nodelay(cur_win, TRUE);
+    start_color();
+    for (int i = 0; i < 16; i++) {
+        init_pair(i + 1, 1, i);
+    }
+}
+
 Dungeon_Map :: Dungeon_Map(WINDOW* win, int y, int x) : window_work() {
     cur_win = win;
     y_cur = y;
@@ -165,7 +190,7 @@ void Dungeon_Map :: mv_right() {
 
 int Dungeon_Map :: get_mv() {
     //int cur_side = wgetch(cur_win);
-    int cur_side = (int)input_char;
+    int cur_side = (int) input_char;
     switch(cur_side) {
         case (int)'w':
             mv_up();
@@ -195,16 +220,15 @@ void Monitor::divide_screen(FSMGame &fsm, Map &map) {
     WINDOW *win = newwin(height / 3 * 2, width, 0, 0);
     WINDOW *win2 = newwin(height / 3, width / 2, height / 3 * 2, 0);
     WINDOW *win3 = newwin(height / 3, width / 2, height / 3 * 2, width / 2);
+    auto Fight_win = std::make_shared<Fight_Map>(win, 1, 1);
+    auto Abilities_win = std::make_shared<Abilities_Map>(win2, 1, 1);
     auto Dung_Map = std::make_shared<Dungeon_Map>(win3, 1, 1); // Создаем класс карты
     refresh(); // Обновляем ВЕСЬ экран
-    box(win, 0, 0);
-    box(win2, 0, 0);
+    Fight_win -> paint_sides();
+    Abilities_win -> paint_sides();
     Dung_Map -> paint_sides();
-    wrefresh(win);
-    wrefresh(win2);
     Dung_Map->get_mv();
     Dung_Map -> display_hero();
-
     //AntohaFabric generator;
     //static Map map = generator.Build(50, 50);
     //char c;
@@ -215,23 +239,19 @@ void Monitor::divide_screen(FSMGame &fsm, Map &map) {
         int n_height, n_width;
         getmaxyx(stdscr, n_height, n_width);
         if(n_height != height || n_width != width) {
-            werase(win);
-            werase(win2);
             height = n_height;
             width = n_width;
             width = width - (width % 2 == 1);
-            wresize(win, height / 3 * 2, width);
-            wresize(win2, height - height / 3 * 2, width / 2);
+            Fight_win -> resize_win(height / 3 * 2, width);
+            Abilities_win -> resize_win(height - height / 3 * 2, width / 2);;
             mvwin(win2, height / 3 * 2, 0);
             Dung_Map -> resize_win(height - height / 3 * 2, width / 2);
             mvwin(win3, height / 3 * 2, width / 2);
             //refresh();
         }
+        Fight_win -> paint_sides();
+        Abilities_win -> paint_sides();
         Dung_Map -> paint_sides();
-        box(win, 0, 0);
-        box(win2, 0, 0);
-        wrefresh(win);
-        wrefresh(win2);
 
         //c = Dung_Map -> get_mv();
 
