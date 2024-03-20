@@ -5,10 +5,9 @@
 #define DARKEST_DUNGEON_LITE_GRAPHICS_H
 
 
-#include "../../BMP.h"
+#include "BMPParser/BMP.h"
 #include <chrono>
 #include <cmath>
-#include "model/Drawable/Map.h"
 #include "model/MapGenerators/MapFabric.h"
 #include "controller/FSM.h"
 #include "controller/Game.h"
@@ -29,7 +28,7 @@ public:
   
 
   
-    void divide_screen();
+    void divide_screen(FSMGame &fsm, Map &map);
     void draw_dot(int x, int y);
     void draw_rectangle(int x1, int y1, int x2, int y2);
     void draw_hero_position(int x, int y);
@@ -70,7 +69,7 @@ public:
 class Dungeon_Map : public window_work {
 public:
     friend class Map;
-    friend void Monitor::divide_screen();
+    friend void Monitor::divide_screen(FSMGame &fsm, Map &map);
     Dungeon_Map(WINDOW* win, int y, int x);
     void display_hero();
     void mv_up(); // Движение вверх

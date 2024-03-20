@@ -1,6 +1,5 @@
 #include "MapFabric.h"
 #include <iostream>
-#include "../Drawable/Map.h"
 #include "../Rooms/Hall.h"
 
 char get_zn(int x, int y, int width, int height, std::vector<std::vector<char>> &_body){

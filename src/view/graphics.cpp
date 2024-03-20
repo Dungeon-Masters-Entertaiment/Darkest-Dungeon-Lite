@@ -1,7 +1,8 @@
 #include "view/graphics.h"
 #include "../../keyboard.h"
 
-#include "../../BMP.h"
+#include "BMPParser/BMP.h"
+#include "../keyboard.h"
 
 
 auto begin_time = std::chrono::high_resolution_clock::now();
@@ -128,6 +129,8 @@ Dungeon_Map :: Dungeon_Map(WINDOW* win, int y, int x) : window_work() {
     }
 }
 
+char input_char;
+
 void Dungeon_Map :: mv_up() {
     mvwaddch(cur_win, y_cur, x_cur, ' ');
     y_cur--;
@@ -139,7 +142,7 @@ void Dungeon_Map :: mv_up() {
 void Dungeon_Map :: mv_down() {
     mvwaddch(cur_win, y_cur, x_cur, ' ');
     y_cur++;
-    if(y_cur == y_mx - 1) {
+    if(y_cur >= y_mx - 1) {
         y_cur = y_mx - 2;
     }
 }
@@ -155,24 +158,25 @@ void Dungeon_Map :: mv_left() {
 void Dungeon_Map :: mv_right() {
     mvwaddch(cur_win, y_cur, x_cur, ' ');
     x_cur++;
-    if(x_cur == x_mx - 1) {
+    if(x_cur >= x_mx - 1) {
         x_cur = x_mx - 2;
     }
 }
 
 int Dungeon_Map :: get_mv() {
-    int cur_side = wgetch(cur_win);
+    //int cur_side = wgetch(cur_win);
+    int cur_side = (int)input_char;
     switch(cur_side) {
-        case KEY_UP:
+        case (int)'w':
             mv_up();
             break;
-        case KEY_DOWN:
+        case (int)'s':
             mv_down();
             break;
-        case KEY_LEFT:
+        case (int)'a':
             mv_left();
             break;
-        case KEY_RIGHT:
+        case (int)'d':
             mv_right();
             break;
         default:
@@ -181,7 +185,10 @@ int Dungeon_Map :: get_mv() {
     return cur_side;
 }
 
-void Monitor::divide_screen() {
+void Monitor::divide_screen(FSMGame &fsm, Map &map) {
+
+    Keyboard &keyboard = Keyboard::getInstance();
+
     int height, width;
     getmaxyx(stdscr, height, width);
     width = width - (width % 2 == 1);
@@ -195,11 +202,16 @@ void Monitor::divide_screen() {
     Dung_Map -> paint_sides();
     wrefresh(win);
     wrefresh(win2);
+    Dung_Map->get_mv();
     Dung_Map -> display_hero();
-    AntohaFabric generator;
-    static Map map = generator.Build(50, 50);
-    int c;
+
+    //AntohaFabric generator;
+    //static Map map = generator.Build(50, 50);
+    //char c;
     do {
+        Keyboard::getInstance().change_key(getch());
+        fsm.Update();
+        input_char = Keyboard::getInstance().get_key();
         int n_height, n_width;
         getmaxyx(stdscr, n_height, n_width);
         if(n_height != height || n_width != width) {
@@ -213,17 +225,22 @@ void Monitor::divide_screen() {
             mvwin(win2, height / 3 * 2, 0);
             Dung_Map -> resize_win(height - height / 3 * 2, width / 2);
             mvwin(win3, height / 3 * 2, width / 2);
-            refresh();
+            //refresh();
         }
         Dung_Map -> paint_sides();
         box(win, 0, 0);
         box(win2, 0, 0);
         wrefresh(win);
         wrefresh(win2);
-        c = Dung_Map -> get_mv();
+
+        //c = Dung_Map -> get_mv();
+
+        Dung_Map -> get_mv();
         Dung_Map -> display_hero();
-        map.Draw(Dung_Map);
-    } while(c != 27);
+        map.Draw(Dung_Map, fsm);
+
+
+    } while(input_char != 27);
 }
 
 //Все что ниже использовалось для копирования в класс window_work

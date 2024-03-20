@@ -47,9 +47,11 @@ public:
     char get_key() { return key; }
 
 private:
+    Keyboard() {}
+
     char key;
 
-    Keyboard() {}
+
 
     ~Keyboard() {}
 };

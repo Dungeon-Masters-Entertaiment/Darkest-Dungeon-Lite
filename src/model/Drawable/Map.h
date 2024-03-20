@@ -5,10 +5,11 @@
 
 #include "model/MapGenerators/MapFabric.h"
 #include "Drawable.h"
-#include "model/Rooms/Cell.h"
+//#include "model/Rooms/Cell.h"
 #include "model/Rooms/Hall.h"
-#include "model/Rooms/Room.h"
+//#include "model/Rooms/Room.h"
 
+class Room;
 
 class Map : public AbstractDrawable {
 public:
@@ -27,7 +28,7 @@ public:
 
     Map &operator=(const Map &) = delete;
 
-    void Draw(std::shared_ptr<window_work>) override;
+    void Draw(std::shared_ptr<window_work>, FSMGame &) override;
 };
 
 

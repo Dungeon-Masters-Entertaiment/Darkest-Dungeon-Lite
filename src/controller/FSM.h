@@ -7,7 +7,8 @@
 
 #include "State.h"
 #include <map>
-#include "../model/Drawable/Map.h"
+//#include "../model/Drawable/Map.h"
+#include "model/Rooms/Cell.h"
 
 enum class StateType {
   CityState,

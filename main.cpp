@@ -3,21 +3,12 @@
 //
 // #include "src/controller/Game.h"
 #include <iostream>
-#include "view/graphics.h"
+//#include "view/graphics.h"
 
-/*
+
 
 #include "src/controller/Game.h"
 
-
-/*
-void GenerateMap() {
-  AntohaFabric generator;
-  // Use the map instance to generate the map
-  Map map = generator.Build(50, 50);
-  map.Draw();
-}
-*/
 
 
 int main(int argc, char **argv) {
