@@ -17,7 +17,6 @@ public:
     void attackSquad(Squad& enemySquad, int enemyindx, int indx, int damage); // Атака другого отряда, определенного персонажа
     bool isAllDead() const; // Проверка на живость всех героев в отряде
     int getRandomLivingHero(); // Получение случайного живого героя из отряда
-    void healSquad(int amount); // Лечение всего отряда
     void takeDamage(int indx, int amount);
 
     int getCount() const { return heroes.size(); }

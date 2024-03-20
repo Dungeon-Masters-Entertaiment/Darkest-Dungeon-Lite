@@ -42,7 +42,7 @@ class Hero {
     void attack(Hero& target);
 
     // Метод для получения урона
-    void takeDamage(int amount); 
+    void takeDamage(int amount) { health -= amount; }
     
     // Метод для лечения
     void heal(int amount);

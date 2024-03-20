@@ -56,27 +56,18 @@ int Squad::getRandomLivingHero() {
     return -1; // В случае, если живых героев нет
 }
 
-// Лечение всего отряда
-void Squad::healSquad(int amount) {
-    for (auto& hero : heroes) {
-        if (!hero->isDead()) {
-            hero->heal(amount);
-        }
-    }
-}
-
 void Squad::takeDamage(int indx, int amount) {
     std::shared_ptr<Hero> target = heroes[indx];
 
-    if(target.get()->getHealth() > 0) {
-        target.get()->takeDamage(std::min(target.get()->getHealth(), amount));
-        if(target.get()->getHealth() == 0){
-            target.get()->takeDamage(12); // рандом хп для трупа
+    if(target->getHealth() > 0) {
+        target->takeDamage(std::min(target->getHealth(), amount));
+        if(target->getHealth() == 0){
+            target->takeDamage(12); // рандом хп для трупа
         }
     }
     else{
-        target.get()->takeDamage(std::min(target.get()->getHealth(), -amount));
-        if(target.get()->getHealth() == 0){
+        target->takeDamage(std::min(target->getHealth(), -amount));
+        if(target->getHealth() == 0){
             removeHero(indx);
         }
     }
