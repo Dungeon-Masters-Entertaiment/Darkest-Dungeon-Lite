@@ -12,7 +12,7 @@ namespace states {
     class WalkingState : public State {
     public:
         void update_position(int type, FSM *fsm, int direction) {
-            if (Keyboard::getInstance().get_key() == (type)) {
+            if ((int)Keyboard::getInstance().get_key() == (type)) {
                //printw("213");
                 FSMGame *fsm1 = dynamic_cast<FSMGame *>(fsm);
                 if (fsm1->this_room->conection[direction] != nullptr) {

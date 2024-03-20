@@ -2,8 +2,8 @@
 // Created by Daniel Chiliaev on 18/03/2024.
 //
 
-// #ifndef STATE_FIGHT_H
-// #define STATE_FIGHT_H
+#ifndef STATE_FIGHT_H
+#define STATE_FIGHT_H
 
 #include "controller/StateMachine.h"
 #include "../State.h"
@@ -30,5 +30,5 @@
          void Update(FSM *fsm) override {};
         void OnExit(FSM *fsm) override {};
     };
-} // namespace states
-#endif // STATE_FIGHT_H
+} 
+#endif STATE_FIGHT_H
