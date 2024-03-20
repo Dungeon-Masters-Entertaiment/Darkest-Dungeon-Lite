@@ -6,7 +6,7 @@
 #include "states/City.h"
 #include "states/Fight.h"
 #include "states/Loot.h"
-#include "states/Map.h"
+#include "states/MapState.h"
 #include "states/Walking.h"
 
 #include <memory>
@@ -17,8 +17,9 @@ FSMGame::FSMGame() {
   states[StateType::MapState] = new states::MapState();
   states[StateType::WalkingState] = new states::WalkingState();
   states[StateType::LootState] = new states::LootState();
-  states[StateType::FightState] = new states::FightState();
-  ChangeState(StateType::WalkingState);
+ // states[StateType::FightState] = new states::FightState();
+  curr_state = states[StateType::WalkingState];
+ // ChangeState(StateType::WalkingState);
 }
 
 void FSMGame::ChangeState(StateType state_type) {

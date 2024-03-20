@@ -4,6 +4,7 @@
 
 #ifndef STATE_LOOT_H
 #define STATE_LOOT_H
+#include "../State.h"
 class State;
 namespace states {
 

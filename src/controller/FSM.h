@@ -5,8 +5,10 @@
 #ifndef DARKEST_DUNGEON_LITE_FSM_H
 #define DARKEST_DUNGEON_LITE_FSM_H
 
+#include "State.h"
 #include <map>
-class State;
+//#include "../model/Drawable/Map.h"
+#include "model/Rooms/Cell.h"
 
 enum class StateType {
   CityState,
@@ -19,7 +21,6 @@ enum class StateType {
 
 class FSM {
 public:
-
   virtual void ChangeState(StateType state_type) = 0;
 
   virtual void Update() = 0;
@@ -39,8 +40,10 @@ class FSMGame : public FSM {
 protected:
   State *curr_state = nullptr;
   std::map<StateType, State *> states;
+  friend class Game;
 
 public:
+  std::shared_ptr<Cell> this_room = nullptr;
   FSMGame();
 
   void ChangeState(StateType state_type) override;

@@ -4,7 +4,7 @@
 
 #ifndef STATE_CITY_H
 #define STATE_CITY_H
-
+#include "../State.h"
 class State;
 namespace states {
 
