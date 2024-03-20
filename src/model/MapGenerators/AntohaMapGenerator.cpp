@@ -2,6 +2,11 @@
 #include <iostream>
 #include "../Drawable/Map.h"
 #include "../Rooms/Hall.h"
+#include "../Rooms/Events/BossFight.h"
+#include "../Rooms/Events/EmptyCell.h"
+#include "../Rooms/Events/EnemyEncounter.h"
+#include "../Rooms/Events/Trap.h"
+#include "../Rooms/Events/Treasure.h"
 
 char get_zn(int x, int y, int width, int height, std::vector<std::vector<char>> &_body){
     if(x < 0 || x >= width || y < 0 || y >= height) {
@@ -234,6 +239,16 @@ std::pair<int, int> normalised(std::pair<int, int> first) {
     first.first -= 1;
     first.second -= 1;
     return first;
+}
+
+std::shared_ptr<Room> find_the_farthest_room(std::shared_ptr<Room> first, std::vector<std::shared_ptr<Room>>second) {
+    std::shared_ptr <Room> ans = first;
+    for(auto &i : second) {
+        if(distance({ans -> x, ans -> y}, {first -> x, first -> y}) < distance({first -> x, first -> y}, {i -> x, i -> y})) {
+            ans = i;
+        }
+    }
+    return ans;
 }
 
 Map AntohaFabric::Build(int width, int height) 
@@ -545,6 +560,29 @@ Map AntohaFabric::Build(int width, int height)
         }
         i++;
     }
+
+    map._starting_position = find_the_farthest_room(map._rooms[0], map._rooms);
+    map._starting_position -> events.push_back(EmptyCell());
+    std::shared_ptr<Room> Boss = find_the_farthest_room(map._starting_position, map._rooms);
+    Boss -> events.push_back(BossFight());
+    for(int i = 0; i < map._rooms.size(); i++) {
+        if(map._rooms[i] -> events.size() == 0) {
+            bool flag = false;
+            if(generator() % 100 >= 40) {map._rooms[i] -> events.push_back(EnemyEncounter()); flag = true;}//map._body[map._rooms[i]->x][map._rooms[i]->y] = 'E';}
+            if(generator() % 100 >= 60) {map._rooms[i] -> events.push_back(Treasure()); flag = true;}//map._body[map._rooms[i]->x][map._rooms[i]->y] = 'T';}
+            if(!flag)  {map._rooms[i] -> events.push_back(EmptyCell());}//map._body[map._rooms[i]->x][map._rooms[i]->y] = 'F';}
+        }
+    }
+    for(int i1 = 0; i1 < map._halls.size(); i1++) {
+        for (int i = 0; i < map._halls[i1] -> rooms_in_hall.size(); i++) {
+            bool flag = false;
+            if(generator() % 100 >= 70) {map._halls[i1] -> rooms_in_hall[i] ->events.push_back(EnemyEncounter());}//map._body[map._rooms[i]->x][map._rooms[i]->y] = 'E';}//   map._rooms[i] -> events.push_back(EnemyEncounter()); flag = true;}
+            if(generator() % 100 >= 90) {map._halls[i1] -> rooms_in_hall[i] ->events.push_back(Treasure());}//map._body[map._rooms[i]->x][map._rooms[i]->y] = 'T';}
+            if(!flag)  {map._halls[i1] -> rooms_in_hall[i] ->events.push_back(EmptyCell());}//map._body[map._rooms[i]->x][map._rooms[i]->y] = 'F';}
+        }
+    }
+    //sha
+    //for(int i = 0; i )
 
     return map;
 }

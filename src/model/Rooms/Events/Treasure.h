@@ -4,5 +4,7 @@
 class Treasure : public Event {
 public:
     void triggerEvent() override;
-    std::string getDescription() const override;
+    std::string getDescription() const override {
+        return "T";
+    };
 };

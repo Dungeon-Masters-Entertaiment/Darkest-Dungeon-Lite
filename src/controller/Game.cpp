@@ -11,8 +11,8 @@ Game::Game() {
     FSMGame fsm;
     fsm.this_room = this ->_map -> _rooms[0];
     fsm.ChangeState(StateType::WalkingState);
-    EnemyEncounter Event;
-    Event.triggerEvent();
+    //EnemyEncounter Event;
+    //Event.triggerEvent();
     // Monitor start_monitor;
     // start_monitor.make_an_event_loop(fsm);
 }

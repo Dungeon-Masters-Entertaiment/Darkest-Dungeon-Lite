@@ -6,5 +6,7 @@ class EnemyEncounter : public Event {
 public:
     std::vector<Hero> Heroes;
     void triggerEvent() override;
-    std::string getDescription() const override;
+    std::string getDescription() const override {
+        return "EE";
+    };
 };
