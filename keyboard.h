@@ -26,7 +26,7 @@ enum class KeyboardKey : int {
     F1 = 112, F2, F3, F4, F5, F6, F7, F8, F9, F10,
     F11, F12,
     // Стрелки
-    ARROW_UP = 30, ARROW_DOWN, ARROW_LEFT, ARROW_RIGHT
+  //  ARROW_UP = 30, ARROW_DOWN, ARROW_LEFT, ARROW_RIGHT
 };
 
 class Keyboard {
