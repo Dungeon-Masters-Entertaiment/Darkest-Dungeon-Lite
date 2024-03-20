@@ -244,7 +244,7 @@ Map AntohaFabric::Build(int width, int height)
             map._body[i][i1] = ' ';
         }
     }
-    int actual_number_of_rooms = 24 + generator() % 10;
+    int actual_number_of_rooms = 25 + generator() % 10;
     std::vector<std::shared_ptr<Room>> chain;
     int quantity = 0;
     map._rooms.push_back(std::make_shared<Room>(25 + generator() % 3, 25 + generator() % 3, 3, 3));
@@ -322,7 +322,7 @@ Map AntohaFabric::Build(int width, int height)
         }
     }
 
-    int siz = 3 + generator() % actual_number_of_rooms;
+    int siz = 5 + generator() % actual_number_of_rooms;
     
     while(siz--) {
         if(generator() % 5 != 0){
