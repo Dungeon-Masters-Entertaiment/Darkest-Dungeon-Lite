@@ -77,12 +77,15 @@ public:
 
 class Fight_Map : public window_work {
 public:
+    friend class Map;
+    friend void Monitor::divide_screen(FSMGame &fsm, Map &map);
     Fight_Map(WINDOW* win, int y, int x);
-
 };
 
 class Abilities_Map : public window_work {
 public:
+    friend class Map;
+    friend void Monitor::divide_screen(FSMGame &fsm, Map &map);
     Abilities_Map(WINDOW* win, int y, int x);
 };
 static Monitor cur;
