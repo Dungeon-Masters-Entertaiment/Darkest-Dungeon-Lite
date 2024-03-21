@@ -3,36 +3,40 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <memory>
+#include "src/model/GameItems/Items.h"
+
 class Inventory {
 public:
-    // Статический метод для получения единственного экземпляра класса
     static Inventory& getInstance() {
-        static Inventory instance; // Создание единственного экземпляра при первом вызове
+        static Inventory instance; 
         return instance;
     }
 
-    // Методы для работы с инвентарем
-    void addItem(const std::string& item) {
-        items.push_back(item);
+    void addItem(std::shared_ptr<Item> first) {
+        items.push_back(first);
+    }
+
+    void deleteItem(int i) {
+        items.erase(items.begin() + i);
+    }
+
+    int getsizeItem(int i) {
+        return items.size();
     }
 
     void showItems() const {
-        std::cout << "Инвентарь:" << std::endl;
-        for (const auto& item : items) {
-            std::cout << "- " << item << std::endl;
-        }
+        std::cout << "Инвентарь: количество зелий лечени - " <<items.size()<<"\n";
     }
 
+
 private:
-    // Запрещаем явное создание объектов класса
     Inventory() {}
     ~Inventory() {}
 
-    // Запрещаем копирование и присваивание
     Inventory(const Inventory&) = delete;
     Inventory& operator=(const Inventory&) = delete;
 
-    // Вектор для хранения предметов в инвентаре
-    std::vector<std::string> items;
+    std::vector<std::shared_ptr<Item>> items;
 };
 #endif

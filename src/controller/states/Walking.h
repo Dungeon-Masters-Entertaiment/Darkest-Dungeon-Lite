@@ -8,6 +8,7 @@
 #include "../State.h"
 #include "../../model/Rooms/Room.h"
 #include "../../model/Rooms/Hall.h"
+#include "../../view/graphics.h"
 
 class State;
 namespace states {
@@ -36,10 +37,16 @@ namespace states {
             }
             return false;
         }
+        void inventory_processing(FSM *fsm){
+            if((int) Keyboard::getInstance().get_key() == (int) KeyboardKey::i){
+                Monitor inventory_monitor;
+                fsm->ChangeState(StateType::InventoryState);
+                inventory_monitor.make_an_event_loop1(*dynamic_cast<FSMGame *> (fsm));
+                fsm -> ChangeState(StateType::WalkingState);
+            }
+        }
 
-        void Handle(FSM *fsm) override {
-
-        };
+        void Handle(FSM *fsm) override {};
 
         void Update(FSM *fsm) override {
             bool f = false;
@@ -47,6 +54,8 @@ namespace states {
             f = std::max(f, update_position((int) KeyboardKey::d, fsm, 2));
             f = std::max(f, update_position((int) KeyboardKey::s, fsm, 1));
             f = std::max(f, update_position((int) KeyboardKey::w, fsm, 3));
+            inventory_processing(fsm);
+            /*
             if(f){
                 FSMGame *fsm1 = dynamic_cast<FSMGame *>(fsm);
                 auto current_room = std::dynamic_pointer_cast<Room>(fsm1->this_room);
@@ -62,6 +71,7 @@ namespace states {
                     }
                 }
             }
+            */
         };
 
         void Render(FSM *fsm) override {};

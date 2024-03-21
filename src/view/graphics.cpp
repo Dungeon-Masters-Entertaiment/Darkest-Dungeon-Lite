@@ -260,6 +260,20 @@ void Monitor::divide_screen(FSMGame &fsm, Map &map) {
     } while(input_char != 27);
 }
 
+void Monitor::make_an_event_loop1(FSMGame &fsm) {
+    int input_char = -1;
+    do{
+        Keyboard::getInstance().change_key(KeyboardKey(input_char));
+        // STATE_MACHINE
+        fsm.Update();
+        //std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        
+    }while((input_char = getch()) != ((int)KeyboardKey::ESC)); //27 is ESC
+
+    getch(); 
+
+    endwin();
+}
 //Все что ниже использовалось для копирования в класс window_work
 //Все что ниже использовалось для копирования в класс window_work
 //Все что ниже использовалось для копирования в класс window_work

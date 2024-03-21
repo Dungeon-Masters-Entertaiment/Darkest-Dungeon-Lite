@@ -30,6 +30,7 @@ public:
     void draw_rectangle(int x1, int y1, int x2, int y2);
     void draw_hero_position(int x, int y);
     void make_an_event_loop();
+    void make_an_event_loop1(FSMGame &fsm);
     void which_move(int input_char, int& x, int& y);
     void draw_colored_dot(int x, int y, int color); // тупо цветная точка (мб помогут функции attron и attroff)
     void draw_colored_rectangle(int x1, int y1, int x2, int y2, int color); //прямоугольник с цветными границами

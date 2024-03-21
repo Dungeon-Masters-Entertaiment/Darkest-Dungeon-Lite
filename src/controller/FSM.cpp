@@ -8,6 +8,7 @@
 #include "states/Loot.h"
 #include "states/MapState.h"
 #include "states/Walking.h"
+#include "states/InventoryState.h"
 
 #include <memory>
 
@@ -17,6 +18,7 @@ FSMGame::FSMGame() {
   states[StateType::MapState] = new states::MapState();
   states[StateType::WalkingState] = new states::WalkingState();
   states[StateType::LootState] = new states::LootState();
+  states[StateType::InventoryState] = new states::InventoryState();
  // states[StateType::FightState] = new states::FightState();
   curr_state = states[StateType::WalkingState];
  // ChangeState(StateType::WalkingState);
