@@ -56,29 +56,25 @@ namespace states {
             f = std::max(f, update_position((int) KeyboardKey::w, fsm, 3));
             inventory_processing(fsm);
             
-            // if(f){
-            //     FSMGame *fsm1 = dynamic_cast<FSMGame *>(fsm);
-            //     std::shared_ptr<Cell> current_room = std::dynamic_pointer_cast<Room>(fsm1->this_room);
-            //     if(current_room == nullptr){
-            //         printw("2222");
-            //     }
-            //     else{
-            //     for(int i = 0; i < current_room -> events.size(); i++) {
-            //         // if(current_room -> events[i] ->getDescription() == "BossFight") {
+            if(f){
+                FSMGame *fsm1 = dynamic_cast<FSMGame *>(fsm);
+                std::shared_ptr<Cell> current_room = std::dynamic_pointer_cast<Cell>(fsm1->this_room);
+                for(int i = 0; i < current_room -> events.size(); i++) {
+                    if(current_room -> events[i] ->getDescription() == "BossFight") {
 
-            //         // }
-            //         // if(current_room -> events[i] ->getDescription() == "EnemyEncounter") {
+                    }
+                    if(current_room -> events[i] ->getDescription() == "EnemyEncounter") {
 
-            //         // }
-            //         // if(current_room -> events[i] ->getDescription() == "Treasure") {
-            //         //     // Monitor Treasure_monitor;
-            //         //     // fsm->ChangeState(StateType::LootState);
-            //         //     // Treasure_monitor.make_an_event_loop2(*dynamic_cast<FSMGame *> (fsm));// make_an_event_loop1 нужно только для проверки работоспособности всего
-            //         //     // fsm -> ChangeState(StateType::WalkingState);
-            //         // }
-            //     }
-            //     }
-            // }
+                    }
+                    if(current_room -> events[i] ->getDescription() == "Treasure") {
+                         Monitor Treasure_monitor;
+                         fsm->ChangeState(StateType::LootState);
+                         Treasure_monitor.make_an_event_loop2(*dynamic_cast<FSMGame *> (fsm));// make_an_event_loop2 нужно только для проверки работоспособности всего
+                         fsm -> ChangeState(StateType::WalkingState);
+                    }
+                }
+                current_room -> events.clear();
+            }
             
         };
 

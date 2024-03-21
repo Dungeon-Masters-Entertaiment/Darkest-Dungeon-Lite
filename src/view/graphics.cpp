@@ -277,7 +277,7 @@ void Monitor::make_an_event_loop1(FSMGame &fsm) {
 
 void Monitor::make_an_event_loop2(FSMGame &fsm) {
     int input_char = -1;
-    printw("wwww");
+   // printw("вы нашли зелье что бы его забрать нажмите enter или esc чтобы уйти");
     do{
         Keyboard::getInstance().change_key(KeyboardKey(input_char));
         // STATE_MACHINE
