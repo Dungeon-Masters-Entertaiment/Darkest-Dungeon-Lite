@@ -14,30 +14,22 @@ namespace states {
     class WalkingState : public State {
     public:
         void update_position(int type, FSM *fsm, int direction) {
-            if ((int) Keyboard::getInstance().get_key() == (type)) {
+            if ((int) Keyboard::getInstance().get_key() == (type)) {   
                 FSMGame *fsm1 = dynamic_cast<FSMGame *>(fsm);
-                auto current_room_real_pointer = fsm1->this_room.get();
-                if (typeid(*current_room_real_pointer) == typeid(Room)) {
-                    auto current_room = std::dynamic_pointer_cast<Room>(fsm1->this_room);
-                    if (current_room->_hall_connection[direction] != nullptr) {
-                        auto next_room = std::dynamic_pointer_cast<Room>(current_room->conection[direction]);
-                        std::shared_ptr<Cell> first_corridor_cell = nullptr;
-                        if (current_room->id < next_room->id) {
-                            first_corridor_cell = std::dynamic_pointer_cast<Cell>(
-                                    current_room->_hall_connection[direction]->entrance);
-                        } else {
-                            first_corridor_cell = std::dynamic_pointer_cast<Cell>(
-                                    current_room->_hall_connection[direction]->exit);
-                        }
-                        fsm1->this_room = first_corridor_cell;
-                        std::cout << typeid(*fsm1->this_room).name() << std::endl;
+                if(std::dynamic_pointer_cast<Room>(fsm1->this_room) != nullptr) {
+                auto current_room = std::dynamic_pointer_cast<Room>(fsm1->this_room);
+                if (current_room->_hall_connection[direction] != nullptr) {
+                    if(current_room->id < current_room->_hall_connection[direction] ->exit ->id) {
+                        fsm1 ->this_room = current_room->_hall_connection[direction] ->rooms_in_hall[0];
+                    } else {
+                        fsm1 -> this_room = current_room->_hall_connection[direction] ->rooms_in_hall[current_room->_hall_connection[direction] ->rooms_in_hall.size() -1];
                     }
+                }
                 } else {
-                    auto current_corridor_cell = fsm1->this_room;
                     if (fsm1->this_room->conection[direction] != nullptr) {
                         fsm1->this_room = std::dynamic_pointer_cast<Cell>(fsm1->this_room->conection[direction]);
                     }
-                }
+                } 
             }
         }
 
