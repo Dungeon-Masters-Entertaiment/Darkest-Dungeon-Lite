@@ -12,13 +12,13 @@ class Map;
 
 class Monitor;
 class Game { //singleton pattern
-    //static Game* _instance;
+    inline static std::shared_ptr<Game> _instance = nullptr;
 
     std::unique_ptr<Map> _map;
     std::unique_ptr<Squad> _squad;
 public:
-    Game();
-
+    Game() = default;
+    static std::shared_ptr<Game> getInstance();
     void Start();
     void ParseHeroes();
     void End();

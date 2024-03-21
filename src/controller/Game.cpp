@@ -3,9 +3,14 @@
 #include "../model/Drawable/Player.h"
 #include "FSM.h"
 #include "../model/Rooms/Events/EnemyEncounter.h"
-Game::Game() {
 
+std::shared_ptr<Game> Game::getInstance() {
+    if (Game::_instance == nullptr) {
+        Game::_instance = std::make_unique<Game>();
+    }
+    return Game::_instance;
 }
+
 
 void Game::Start() {
     AntohaFabric generator;
