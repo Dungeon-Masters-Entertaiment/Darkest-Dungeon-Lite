@@ -12,10 +12,16 @@
 #include "model/MapSaver/MapSaver.h"
 
 int main(int argc, char **argv) {
-  AntohaFabric generator;
-  // // Use the map instance to generate the map
-  static Map map = generator.Build(50, 50);
-
+    /*AntohaFabric generator;
+    // Use the map instance to generate the map
+    static Map map = generator.Build(50, 50);
+    map.Draw();
+    */
+    
+    
+    //cur.divide_screen();
+    Game::getInstance()->Start();
+    return 0;
 
   MapSaver::save(&map);
 }

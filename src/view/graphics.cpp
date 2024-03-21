@@ -1,12 +1,11 @@
 #include "view/graphics.h"
 #include "../../keyboard.h"
-
+#include "../BMPParser/BMP.cpp"
 #include "BMPParser/BMP.h"
 #include "../keyboard.h"
 
 
 auto begin_time = std::chrono::high_resolution_clock::now();
-
 
 
 Monitor::Monitor() {
@@ -19,9 +18,11 @@ Monitor::Monitor() {
     nodelay(stdscr, TRUE);
     curs_set(0);
 }
+
 Monitor::~Monitor() {
     endwin(); // завершение работы с ncurses
 }
+
 void window_work::draw_dot(int x, int y) {
     mvwaddch(cur_win, y, x, '.');
 }
@@ -42,7 +43,7 @@ void window_work::resize_win(int new_y, int new_x) {
     wresize(cur_win, y_mx, x_mx);
 }
 
-void window_work:: paint_sides() {
+void window_work::paint_sides() {
     box(cur_win, 0, 0);
     update();
 }
@@ -83,7 +84,7 @@ void window_work::draw_colored_rectangle(int x1, int y1, int x2, int y2, int col
 
 void window_work::fill_rectangle(int x1, int y1, int x2, int y2, int colour) {
     wattron(cur_win, COLOR_PAIR(colour + 1));
-    for(int y = y1; y <= y2; y++) {
+    for (int y = y1; y <= y2; y++) {
         for (int x = x1; x <= x2; x++) {
             mvwaddch(cur_win, y, x, ' ');
         }
@@ -104,16 +105,11 @@ void window_work::draw_blinking_rectangle(int x1, int y1, int x2, int y2, short 
         //attron(COLOR_PAIR(colour_1 + 1));
         //col_flag = 1;
         fill_rectangle(x1, y1, x2, y2, colour_1);
-    }
-    else {
+    } else {
         fill_rectangle(x1, y1, x2, y2, colour_2);
         //attron(COLOR_PAIR(colour_2 + 1));
         //col_flag = 2;
     }
-}
-
-void window_work::fill_area(std::pair<int, int> *pairs, int color) {
-
 }
 
 Fight_Map::Fight_Map(WINDOW *win, int y, int x) {
@@ -128,6 +124,7 @@ Fight_Map::Fight_Map(WINDOW *win, int y, int x) {
         init_pair(i + 1, 1, i);
     }
 }
+
 Abilities_Map::Abilities_Map(WINDOW *win, int y, int x) {
     cur_win = win;
     y_cur = y;
@@ -141,7 +138,7 @@ Abilities_Map::Abilities_Map(WINDOW *win, int y, int x) {
     }
 }
 
-Dungeon_Map :: Dungeon_Map(WINDOW* win, int y, int x) : window_work() {
+Dungeon_Map::Dungeon_Map(WINDOW *win, int y, int x) : window_work() {
     cur_win = win;
     y_cur = y;
     x_cur = x;
@@ -156,57 +153,58 @@ Dungeon_Map :: Dungeon_Map(WINDOW* win, int y, int x) : window_work() {
 
 char input_char;
 
-void Dungeon_Map :: mv_up() {
+void Dungeon_Map::mv_up() {
     mvwaddch(cur_win, y_cur, x_cur, ' ');
     y_cur--;
-    if(y_cur < 1) {
+    if (y_cur < 1) {
         y_cur = 1;
     }
 }
 
-void Dungeon_Map :: mv_down() {
+void Dungeon_Map::mv_down() {
     mvwaddch(cur_win, y_cur, x_cur, ' ');
     y_cur++;
-    if(y_cur >= y_mx - 1) {
+    if (y_cur >= y_mx - 1) {
         y_cur = y_mx - 2;
     }
 }
 
-void Dungeon_Map :: mv_left() {
+void Dungeon_Map::mv_left() {
     mvwaddch(cur_win, y_cur, x_cur, ' ');
     x_cur--;
-    if(x_cur < 1) {
+    if (x_cur < 1) {
         x_cur = 1;
     }
 }
 
-void Dungeon_Map :: mv_right() {
+void Dungeon_Map::mv_right() {
     mvwaddch(cur_win, y_cur, x_cur, ' ');
     x_cur++;
-    if(x_cur >= x_mx - 1) {
+    if (x_cur >= x_mx - 1) {
         x_cur = x_mx - 2;
     }
 }
 
-int Dungeon_Map :: get_mv() {
+int Dungeon_Map::get_mv() {
     //int cur_side = wgetch(cur_win);
     int cur_side = (int) input_char;
-    switch(cur_side) {
-        case (int)'w':
+    switch (cur_side) {
+        case (int) 'w':
             mv_up();
             break;
-        case (int)'s':
+        case (int) 's':
             mv_down();
             break;
-        case (int)'a':
+        case (int) 'a':
             mv_left();
             break;
-        case (int)'d':
+        case (int) 'd':
             mv_right();
             break;
         default:
             break;
     }
+
     return cur_side;
 }
 
@@ -224,11 +222,11 @@ void Monitor::divide_screen(FSMGame &fsm, Map &map) {
     auto Abilities_win = std::make_shared<Abilities_Map>(win2, 1, 1);
     auto Dung_Map = std::make_shared<Dungeon_Map>(win3, 1, 1); // Создаем класс карты
     refresh(); // Обновляем ВЕСЬ экран
-    Fight_win -> paint_sides();
-    Abilities_win -> paint_sides();
-    Dung_Map -> paint_sides();
+    Fight_win->paint_sides();
+    Abilities_win->paint_sides();
+    Dung_Map->paint_sides();
     Dung_Map->get_mv();
-    Dung_Map -> display_hero();
+    Dung_Map->display_hero();
     //AntohaFabric generator;
     //static Map map = generator.Build(50, 50);
     //char c;
@@ -238,71 +236,111 @@ void Monitor::divide_screen(FSMGame &fsm, Map &map) {
         input_char = (int) Keyboard::getInstance().get_key();
         int n_height, n_width;
         getmaxyx(stdscr, n_height, n_width);
-        if(n_height != height || n_width != width) {
+        if (n_height != height || n_width != width) {
             height = n_height;
             width = n_width;
             width = width - (width % 2 == 1);
-            Fight_win -> resize_win(height / 3 * 2, width);
-            Abilities_win -> resize_win(height - height / 3 * 2, width / 2);;
+            Fight_win->resize_win(height / 3 * 2, width);
+            Abilities_win->resize_win(height - height / 3 * 2, width / 2);;
             mvwin(win2, height / 3 * 2, 0);
-            Dung_Map -> resize_win(height - height / 3 * 2, width / 2);
+            Dung_Map->resize_win(height - height / 3 * 2, width / 2);
             mvwin(win3, height / 3 * 2, width / 2);
             //refresh();
         }
-        Fight_win -> paint_sides();
-        Abilities_win -> paint_sides();
-        Dung_Map -> paint_sides();
-        int c = Dung_Map -> get_mv();
+        Fight_win->paint_sides();
+        Abilities_win->paint_sides();
+        Dung_Map->paint_sides();
+        int c = Dung_Map->get_mv();
         //Dung_Map -> display_hero();
         map.Draw(Dung_Map, fsm);
+        for (int i = 0; i < 3; i++){
+            //std::string bmp_name = Game::getInstance()->GetSquad()->get_by_inx(i)->getName();
+            //auto bitmap_vector = Bmp_Reader::get_character(bmp_name);
+            //Fight_win -> update();
+            //Fight_win->draw_sprite(bitmap_vector, 15, 0);
+            //Fight_win -> update();
+        }
 
-
-    } while(input_char != 27);
+    } while (input_char != 27);
 }
 
 void Monitor::make_an_event_loop1(FSMGame &fsm) {
     int input_char = -1;
-    do{
+    do {
         Keyboard::getInstance().change_key(KeyboardKey(input_char));
         // STATE_MACHINE
         fsm.Update();
         //std::this_thread::sleep_for(std::chrono::milliseconds(100));
-        
-    }while((input_char = getch()) != ((int)KeyboardKey::ESC)); //27 is ESC
 
-    getch(); 
+    } while ((input_char = getch()) != ((int) KeyboardKey::ESC)); //27 is ESC
+
+    getch();
 
     endwin();
 }
 
 void Monitor::make_an_event_loop2(FSMGame &fsm) {
     int input_char = -1;
-   // printw("вы нашли зелье что бы его забрать нажмите enter или esc чтобы уйти");
-    do{
+    // printw("вы нашли зелье что бы его забрать нажмите enter или esc чтобы уйти");
+    do {
         Keyboard::getInstance().change_key(KeyboardKey(input_char));
         // STATE_MACHINE
         fsm.Update();
-        if((int) Keyboard::getInstance().get_key() == (int) KeyboardKey::ENTER){break;}
+        if ((int) Keyboard::getInstance().get_key() == (int) KeyboardKey::ENTER) { break; }
         //std::this_thread::sleep_for(std::chrono::milliseconds(100));
-        
-    }while((input_char = getch()) != ((int)KeyboardKey::ESC)); //27 is ESC
+
+    } while ((input_char = getch()) != ((int) KeyboardKey::ESC)); //27 is ESC
     printw("wef");
 
-    getch(); 
+    getch();
 
     endwin();
 }
 
-void Monitor::fill_area(std::pair<int, int>* pairs, int color) {
-    attron(COLOR_PAIR(color)); 
-    for (std::pair<int, int>* p = pairs; p->first != -1 && p->second != -1; ++p) {
-        mvaddch(p->second, p->first, ' ' | A_REVERSE); 
+void Monitor::fill_area(std::pair<int, int> *pairs, int color) {
+    attron(COLOR_PAIR(color));
+    for (std::pair<int, int> *p = pairs; p->first != -1 && p->second != -1; ++p) {
+        mvaddch(p->second, p->first, ' ' | A_REVERSE);
     }
-    attroff(COLOR_PAIR(color)); 
+    attroff(COLOR_PAIR(color));
 }
 
-Text::Text(const std::string& text, int colorPair, bool isBold)
-    : text(text), colorPair(colorPair), isBold(isBold) {
+void window_work::fill_area(std::pair<int, int> *pairs, int color) {
+
+    wattron(cur_win, COLOR_PAIR(color));
+
+    for (std::pair<int, int> *p = pairs; p->first != -1 && p->second != -1; ++p) {
+
+        mvwaddch(cur_win, p->second, p->first, ' ' | A_REVERSE);
+
+    }
+
+    wattroff(cur_win, COLOR_PAIR(color));
+
+}
+
+
+void Fight_Map::draw_sprite(std::vector<std::vector<int>> colors, int x_start, int y_start) {
+
+
+    for (int j = 0; j < colors.size(); j++) {
+
+        for (int i = 0; i < colors[j].size(); i++) {
+
+            //wattron(cur_win, COLOR_PAIR(colors[j][i]));
+            fill_rectangle(y_start + i - 10, x_start + j, y_start + i - 10, x_start + j, colors[j][i]);
+            //mvwaddch(cur_win, y_start + i, x_start + j, ' ');
+
+            //wattroff(cur_win, COLOR_PAIR(colors[j][i]));
+
+        }
+
+    }
+
+}
+
+Text::Text(const std::string &text, int colorPair, bool isBold)
+        : text(text), colorPair(colorPair), isBold(isBold) {
 }
 
 void Text::display(int x, int y) const {

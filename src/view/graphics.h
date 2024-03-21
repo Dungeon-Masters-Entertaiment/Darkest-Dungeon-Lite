@@ -86,6 +86,7 @@ class Fight_Map : public window_work {
 public:
     friend class Map;
     friend void Monitor::divide_screen(FSMGame &fsm, Map &map);
+    void draw_sprite(std::vector<std::vector<int>> colors, int x_start, int y_start);
     Fight_Map(WINDOW* win, int y, int x);
 };
 
@@ -99,8 +100,8 @@ static Monitor cur;
 
 class Text {
 public:
-    std::string text; 
-    int colorPair; 
+    std::string text;
+    int colorPair;
     bool isBold; // Жирный текст
 
     Text(const std::string& text, int colorPair, bool isBold = false);

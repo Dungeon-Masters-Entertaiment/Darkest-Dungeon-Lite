@@ -23,9 +23,9 @@ nlohmann::json CombatSkill::toJson() const {
   j["id"] = id;
   j["type"] = static_cast<int>(type);
   j["atk"] = atk;
-  j["dmg"] = {dmg.first, dmg.second};
+//  j["dmg"] = {dmg.first, dmg.second};
   j["crit"] = crit;
-  j["effect"] = effect;
+//  j["effect"] = effect;
   j["launch"] = launch;
   j["targets"] = targets;
   j["is_crit_valid"] = is_crit_valid;

@@ -23,9 +23,8 @@ class CombatSkill : public Skill {
   nlohmann::json toJson() const;
   static CombatSkill fromJson(const nlohmann::json& json);
 
-  NLOHMANN_DEFINE_TYPE_INTRUSIVE(CombatSkill,
+  NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT(CombatSkill,
                                  id,
-                                 type,
                                  atk,
                                  dmg,
                                  crit,

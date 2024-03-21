@@ -1,0 +1,301 @@
+{
+  "name": "Crusader",
+  "health": 71,
+  "combat_skills": [
+    {
+      "id": "smite",
+      "level": 0,
+      "type": "melee",
+      "atk": 85,
+      "dmg": 0,
+      "crit": 0,
+      "launch": 21,
+      "targets": "12",
+      "is_crit_valid": true,
+      "generation_guaranteed": true
+    },
+    {
+      "id": "smite",
+      "level": 1,
+      "type": "melee",
+      "atk": 90,
+      "dmg": 0,
+      "crit": 0,
+      "launch": 21,
+      "targets": "12",
+      "is_crit_valid": true
+    },
+    {
+      "id": "smite",
+      "level": 2,
+      "type": "melee",
+      "atk": 95,
+      "dmg": 0,
+      "crit": 1,
+      "launch": 21,
+      "targets": "12",
+      "is_crit_valid": true
+    },
+    {
+      "id": "smite",
+      "level": 3,
+      "type": "melee",
+      "atk": 100,
+      "dmg": 0,
+      "crit": 2,
+      "launch": 21,
+      "targets": "12",
+      "is_crit_valid": true
+    },
+    {
+      "id": "smite",
+      "level": 4,
+      "type": "melee",
+      "atk": 105,
+      "dmg": 0,
+      "crit": 2,
+      "launch": 21,
+      "targets": "12",
+      "is_crit_valid": true
+    },
+    {
+      "id": "zealous_accusation",
+      "level": 0,
+      "type": "ranged",
+      "atk": 85,
+      "dmg": -40,
+      "crit": 0,
+      "launch": 21,
+      "targets": "12",
+      "is_crit_valid": true
+    },
+    {
+      "id": "zealous_accusation",
+      "level": 1,
+      "type": "ranged",
+      "atk": 90,
+      "dmg": -40,
+      "crit": 0,
+      "launch": 21,
+      "targets": "12",
+      "is_crit_valid": true
+    },
+    {
+      "id": "zealous_accusation",
+      "level": 2,
+      "type": "ranged",
+      "atk": 95,
+      "dmg": -40,
+      "crit": 1,
+      "launch": 21,
+      "targets": "12",
+      "is_crit_valid": true
+    },
+    {
+      "id": "zealous_accusation",
+      "level": 3,
+      "type": "ranged",
+      "atk": 100,
+      "dmg": -40,
+      "crit": 2,
+      "launch": 21,
+      "targets": "12",
+      "is_crit_valid": true
+    },
+    {
+      "id": "zealous_accusation",
+      "level": 4,
+      "type": "ranged",
+      "atk": 105,
+      "dmg": -40,
+      "crit": 2,
+      "launch": 21,
+      "targets": "12",
+      "is_crit_valid": true
+    },
+    {
+      "id": "stunning_blow",
+      "level": 0,
+      "type": "melee",
+      "atk": 90,
+      "dmg": -75,
+      "crit": 0,
+      "launch": 21,
+      "targets": "12",
+      "is_crit_valid": true
+    },
+    {
+      "id": "stunning_blow",
+      "level": 1,
+      "type": "melee",
+      "atk": 95,
+      "dmg": -75,
+      "crit": 0,
+      "launch": 21,
+      "targets": "12",
+      "is_crit_valid": true
+    },
+    {
+      "id": "bulwark_of_faith",
+      "level": 2,
+      "type": "melee",
+      "atk": 0,
+      "dmg": 0,
+      "crit": 0,
+      "launch": 21,
+      "targets": "0",
+      "is_crit_valid": true
+    },
+    {
+      "id": "bulwark_of_faith",
+      "level": 3,
+      "type": "melee",
+      "atk": 0,
+      "dmg": 0,
+      "crit": 0,
+      "launch": 21,
+      "targets": "0",
+      "is_crit_valid": true
+    },
+    {
+      "id": "bulwark_of_faith",
+      "level": 4,
+      "type": "melee",
+      "atk": 0,
+      "dmg": 0,
+      "crit": 0,
+      "launch": 21,
+      "targets": "0",
+      "is_crit_valid": true
+    },
+    {
+      "id": "move",
+      "level": 0,
+      "type": "move",
+      "move": [1, 1],
+      "launch":21
+    },
+    {
+      "id": "battle_heal",
+      "level": 0,
+      "launch": 12,
+      "targets": "@123"
+    },
+    {
+      "id": "battle_heal",
+      "level": 1,
+      "launch": 12,
+      "targets": "@123"
+    },
+    {
+      "id": "battle_heal",
+      "level": 2,
+      "launch": 12,
+      "targets": "@123"
+    },
+    {
+      "id": "battle_heal",
+      "level": 3,
+      "launch": 12,
+      "targets": "@123"
+    },
+    {
+      "id": "battle_heal",
+      "level": 4,
+      "launch": 12,
+      "targets": "@123"
+    },
+    {
+      "id": "holy_lance",
+      "level": 0,
+      "type": "melee",
+      "atk": 85,
+      "dmg": 0,
+      "crit": 5,
+      "move": [0, 1],
+      "launch": 34,
+      "targets": "34",
+      "is_crit_valid": true
+    },
+    {
+      "id": "holy_lance",
+      "level": 1,
+      "type": "melee",
+      "atk": 90,
+      "dmg": 0,
+      "crit": 6,
+      "move": [0, 1],
+      "launch": 34,
+      "targets": "34",
+      "is_crit_valid": true
+    },
+    {
+      "id": "holy_lance",
+      "level": 2,
+      "type": "melee",      "atk": 95,
+      "dmg": 0,
+      "crit": 6,
+      "move": [0, 1],
+      "launch": 34,
+      "targets": "34",
+      "is_crit_valid": true
+    },
+    {
+      "id": "holy_lance",
+      "level": 3,
+      "type": "melee",
+      "atk": 100,
+      "dmg": 0,
+      "crit": 6,
+      "move": [0, 1],
+      "launch": 34,
+      "targets": "34",
+      "is_crit_valid": true
+    },
+    {
+      "id": "holy_lance",
+      "level": 4,
+      "type": "melee",
+      "atk": 105,
+      "dmg": 0,
+      "crit": 7,
+      "move": [0, 1],
+      "launch": 34,
+      "targets": "34",
+      "is_crit_valid": true
+    },
+    {
+      "id": "inspiring_cry",
+      "level": 0,
+      "heal": [1, 1],
+      "launch": 1234,
+      "targets": "@1234"
+    },
+    {
+      "id": "inspiring_cry",
+      "level": 1,
+      "launch": 1234,
+      "targets": "@1234"
+    },
+    {
+      "id": "inspiring_cry",
+      "level": 2,
+      "launch": 1234,
+      "targets": "@1234"
+    },
+    {
+      "id": "inspiring_cry",
+      "level": 3,
+      "launch": 1234,
+      "targets": "@1234"
+    },
+    {
+      "id": "inspiring_cry",
+      "level": 4,
+      "launch": 1234,
+      "targets": "@1234"
+    }
+  ]
+}
+
+

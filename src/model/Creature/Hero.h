@@ -13,6 +13,7 @@ using json = nlohmann::json;
 
 class Hero {
  public:
+
   Hero() = default;
   Hero(std::vector<std::shared_ptr<CombatSkill>> combat_skills) : combat_skills(std::move(combat_skills)) {};
 
@@ -28,8 +29,13 @@ class Hero {
   }
 
   friend void from_json(const nlohmann::json &j, Hero &hero) {
+    j.at("name").get_to(hero.name);
+    j.at("health").get_to(hero.health);
+
+
+    hero.health = j["health"];
     const auto& combat_skills_json = j.at("combat_skills");
-    for (auto it = combat_skills_json.begin(); it != combat_skills_json.end(); ++it) {  
+    for (auto it = combat_skills_json.begin(); it != combat_skills_json.end(); ++it) {
       auto skill = std::make_shared<CombatSkill>();
       it.value().get_to(*skill);
       hero.combat_skills.push_back(skill);
@@ -55,7 +61,7 @@ class Hero {
     bool isDead() const { return health <= 0; }
 
 private:
-    std::string name; // Имя персонажа
+    std::string name = "crusader"; // Имя персонажа
     int health;       // Здоровье
     int damage;       // Урон
 

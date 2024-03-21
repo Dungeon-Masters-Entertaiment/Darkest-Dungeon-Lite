@@ -8,14 +8,9 @@ namespace states {
 
     void FightState::Update(FSM *fsm) {
         KeyboardKey key = keyboard.get_key();
-        
+        auto fsm_game = dynamic_cast<FSMGame*>(fsm);
         if (key == KeyboardKey::ENTER) {
-            heroidx++;
-            if (heroidx >= event.Heroes.getCount()) {
-                heroidx = 0; 
-            }
-
-            std::cout << event.Heroes.get_by_inx(heroidx)->getName() << std::endl;
+            fsm->ChangeState(StateType::WalkingState);
         }
     }
 

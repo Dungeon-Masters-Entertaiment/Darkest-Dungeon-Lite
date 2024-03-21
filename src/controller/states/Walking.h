@@ -64,13 +64,15 @@ namespace states {
 
                     }
                     if(current_room -> events[i] ->getDescription() == "EnemyEncounter") {
-
+                        this->OnExit(fsm);
+                        fsm1->ChangeState(StateType::FightState);
+                        /*fsm1->GetCurState()->OnEnter(fsm);*/
                     }
                     if(current_room -> events[i] ->getDescription() == "Treasure") {
-                         Monitor Treasure_monitor;
+                         /*Monitor Treasure_monitor;
                          fsm->ChangeState(StateType::LootState);
                          Treasure_monitor.make_an_event_loop2(*dynamic_cast<FSMGame *> (fsm));// make_an_event_loop2 нужно только для проверки работоспособности всего
-                         fsm -> ChangeState(StateType::WalkingState);
+                         fsm -> ChangeState(StateType::WalkingState);*/
                     }
                 }
                 current_room -> events.clear();

@@ -3,19 +3,27 @@
 #define DARKEST_DUNGEON_LITE_GAME_H
 #include <memory>
 #include "../model/Drawable/Map.h"
+#include "../model/Creature/Squad.h"
+#include <string>
+#include <sstream>
 //#include "view/graphics.h"
 
 class Map;
 
 class Monitor;
 class Game { //singleton pattern
-    //static Game* _instance;
+    inline static std::shared_ptr<Game> _instance = nullptr;
 
     std::unique_ptr<Map> _map;
+    std::shared_ptr<Squad> _squad;
 public:
-    Game();
-
+    Game() = default;
+    static std::shared_ptr<Game> getInstance();
     void Start();
+    void ParseHeroes();
+    std::shared_ptr<Squad> GetSquad(){
+        return _squad;
+    };
     void End();
     void Pause();
     void Resume();
