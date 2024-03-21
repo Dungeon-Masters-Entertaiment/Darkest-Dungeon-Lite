@@ -8,7 +8,7 @@ public:
     ~PealingPotion() override = default;   
     void use() override {};
     std::string getDescription() const override{
-        std::cout<<"This healing potion adds 4 - 6 health to the selected character";
+        return "This healing potion adds 4 - 6 health to the selected character";
     }
 };
 #endif

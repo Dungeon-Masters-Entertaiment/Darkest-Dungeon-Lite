@@ -274,6 +274,24 @@ void Monitor::make_an_event_loop1(FSMGame &fsm) {
 
     endwin();
 }
+
+void Monitor::make_an_event_loop2(FSMGame &fsm) {
+    int input_char = -1;
+    printw("wwww");
+    do{
+        Keyboard::getInstance().change_key(KeyboardKey(input_char));
+        // STATE_MACHINE
+        fsm.Update();
+        if((int) Keyboard::getInstance().get_key() == (int) KeyboardKey::ENTER){break;}
+        //std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        
+    }while((input_char = getch()) != ((int)KeyboardKey::ESC)); //27 is ESC
+    printw("wef");
+
+    getch(); 
+
+    endwin();
+}
 //Все что ниже использовалось для копирования в класс window_work
 //Все что ниже использовалось для копирования в класс window_work
 //Все что ниже использовалось для копирования в класс window_work
