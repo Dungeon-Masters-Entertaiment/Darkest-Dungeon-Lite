@@ -3,6 +3,9 @@
 #define DARKEST_DUNGEON_LITE_GAME_H
 #include <memory>
 #include "../model/Drawable/Map.h"
+#include "../model/Creature/Squad.h"
+#include <string>
+#include <sstream>
 //#include "view/graphics.h"
 
 class Map;
@@ -12,10 +15,12 @@ class Game { //singleton pattern
     //static Game* _instance;
 
     std::unique_ptr<Map> _map;
+    std::unique_ptr<Squad> _squad;
 public:
     Game();
 
     void Start();
+    void ParseHeroes();
     void End();
     void Pause();
     void Resume();
