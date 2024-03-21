@@ -253,11 +253,11 @@ void Monitor::divide_screen(FSMGame &fsm, Map &map) {
         //Dung_Map -> display_hero();
         map.Draw(Dung_Map, fsm);
         for (int i = 0; i < 3; i++){
-            std::string bmp_name = Game::getInstance()->GetSquad()->get_by_inx(i)->getName();
-            auto bitmap_vector = Bmp_Reader::get_character(bmp_name);
-            Fight_win -> update();
-            Fight_win->draw_sprite(bitmap_vector, 15, 0);
-            Fight_win -> update();
+            //std::string bmp_name = Game::getInstance()->GetSquad()->get_by_inx(i)->getName();
+            //auto bitmap_vector = Bmp_Reader::get_character(bmp_name);
+            //Fight_win -> update();
+            //Fight_win->draw_sprite(bitmap_vector, 15, 0);
+            //Fight_win -> update();
         }
 
     } while (input_char != 27);

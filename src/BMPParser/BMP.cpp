@@ -5,6 +5,25 @@
 #include "BMP.h"
 #include <ncurses.h>
 
+struct {
+    int R, G, B;
+} xtermColors[256] = {{0, 0, 0},
+                      {128, 0, 0},
+                      {0, 128, 0},
+                      {128, 128, 0},
+                      {0, 0, 128},
+                      {128, 0, 128},
+                      {0, 128, 128},
+                      {192, 192, 192},
+                      {128, 128, 128},
+                      {255, 0, 0},
+                      {0, 255, 0},
+                      {255, 255, 0},
+                      {0, 0, 255},
+                      {255, 0, 255},
+                      {0, 255, 255},
+                      {255, 255, 255},
+};
 
 class Bmp_Reader {
 public:
@@ -27,7 +46,7 @@ public:
                                   (b - b_search) * (b - b_search);
                     if (cur_dev < deviation) {
                         deviation = cur_dev;
-                        ret_character[i][j] = color;
+                        //ret_character[i][j] = xtermColors[color];
                         //ret_character[i][j] = COLOR_RED;
                     }
                 }
