@@ -3,13 +3,13 @@
 //
 // #include "src/controller/Game.h"
 #include <iostream>
-//#include "view/graphics.h"
-
-
+// #include "view/graphics.h"
 
 #include "src/controller/Game.h"
-
-
+#include <controller/states/MapState.h>
+#include <fstream>
+#include <jsonParser/JSONParser.h>
+#include "model/MapSaver/MapSaver.h"
 
 int main(int argc, char **argv) {
     /*AntohaFabric generator;
@@ -23,4 +23,5 @@ int main(int argc, char **argv) {
     Game::getInstance()->Start();
     return 0;
 
+  MapSaver::save(&map);
 }
