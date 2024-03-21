@@ -28,8 +28,12 @@ public:
                     if (cur_dev < deviation) {
                         deviation = cur_dev;
                         ret_character[i][j] = color;
+                        //ret_character[i][j] = COLOR_RED;
                     }
                 }
+                //ret_character[i][j] = ((r + g + b) / 3) / 16;
+
+                //ret_character[i][j] = COLOR_RED;
             }
         }
         return ret_character;

@@ -255,7 +255,9 @@ void Monitor::divide_screen(FSMGame &fsm, Map &map) {
         for (int i = 0; i < 3; i++){
             std::string bmp_name = Game::getInstance()->GetSquad()->get_by_inx(i)->getName();
             auto bitmap_vector = Bmp_Reader::get_character(bmp_name);
-            Fight_win->draw_sprite(bitmap_vector, 30, 30);
+            Fight_win -> update();
+            Fight_win->draw_sprite(bitmap_vector, 15, 0);
+            Fight_win -> update();
         }
 
     } while (input_char != 27);
@@ -304,15 +306,15 @@ void Monitor::fill_area(std::pair<int, int> *pairs, int color) {
 
 void window_work::fill_area(std::pair<int, int> *pairs, int color) {
 
-    attron(COLOR_PAIR(color));
+    wattron(cur_win, COLOR_PAIR(color));
 
     for (std::pair<int, int> *p = pairs; p->first != -1 && p->second != -1; ++p) {
 
-        mvaddch(p->second, p->first, ' ' | A_REVERSE);
+        mvwaddch(cur_win, p->second, p->first, ' ' | A_REVERSE);
 
     }
 
-    attroff(COLOR_PAIR(color));
+    wattroff(cur_win, COLOR_PAIR(color));
 
 }
 
@@ -320,15 +322,15 @@ void window_work::fill_area(std::pair<int, int> *pairs, int color) {
 void Fight_Map::draw_sprite(std::vector<std::vector<int>> colors, int x_start, int y_start) {
 
 
-    for (int i = 0; i < colors[0].size(); i++) {
+    for (int j = 0; j < colors.size(); j++) {
 
-        for (int j = 0; j < colors.size(); j++) {
+        for (int i = 0; i < colors[j].size(); i++) {
 
-            attron(COLOR_PAIR(colors[j][i]));
+            //wattron(cur_win, COLOR_PAIR(colors[j][i]));
+            fill_rectangle(y_start + i - 10, x_start + j, y_start + i - 10, x_start + j, colors[j][i]);
+            //mvwaddch(cur_win, y_start + i, x_start + j, ' ');
 
-            mvaddch(y_start + i, x_start + j, ' ' | A_REVERSE);
-
-            attroff(COLOR_PAIR(colors[j][i]));
+            //wattroff(cur_win, COLOR_PAIR(colors[j][i]));
 
         }
 
