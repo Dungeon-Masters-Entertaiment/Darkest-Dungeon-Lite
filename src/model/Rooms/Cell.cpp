@@ -17,6 +17,8 @@ void to_json(nlohmann::json &j, const Cell &cell) {
   j["y"] = cell.y;
   j["width"] = cell.width;
   j["height"] = cell.height;
+  j["events"] = nlohmann::json::array();
+
 }
 void from_json(const nlohmann::json &j, Cell &cell) {
   cell.chr = j.at("chr").get<char>();

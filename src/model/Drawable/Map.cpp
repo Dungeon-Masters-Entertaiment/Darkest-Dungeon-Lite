@@ -100,9 +100,10 @@ void to_json(json &j, const Map &map) {
         json hall_json = *hall;
         j["halls"].push_back(hall_json);
     }
+    j["starting_position_id"] = map._starting_position->id;
 }
 void from_json(const json &j, Map &map){
-    map._body = j.at("body").get<std::vector<std::vector<char>>>();
+    // map._body = j.at("body").get<std::vector<std::vector<char>>>();
     // for (auto &room : j.at("rooms")) {
     //     std::shared_ptr<Room> room_ptr = std::make_shared<Room>();
     //     room_ptr = room.get<std::shared_ptr<Room>>();

@@ -26,7 +26,11 @@ public:
   friend class Game;
 
 public:
-  Map(int width, int height) { _body.assign(width, std::vector<char>(height)); }
+  Map() = default;
+  Map(int width, int height) {
+    _body.assign(width, std::vector<char>(height));
+  }
+
 
   Map &operator=(const Map &) = delete;
 

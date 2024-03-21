@@ -3,3 +3,12 @@
 //
 
 #include "MapSaver.h"
+#include "fstream"
+
+
+void MapSaver::save(Map *map) {
+    std::ofstream of("out.json");
+    nlohmann::json j = *map;
+    of << j;
+    of.close();
+}
