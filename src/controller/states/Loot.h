@@ -10,6 +10,8 @@
 #include "../../../keyboard.h"
 #include "../../model/GameItems/Items.h"
 #include "../../model/GameItems/РealingPotion.h"
+#include "../../model/GameItems/Gold.h"
+
 class State;
 namespace states {
 
@@ -18,7 +20,7 @@ class LootState : public State {
 
   void Update(FSM *fsm) override {
     if((int) Keyboard::getInstance().get_key() == (int) KeyboardKey::ENTER) {
-      Inventory::getInstance().addItem(std::make_shared<PealingPotion>());
+      Inventory::getInstance().addItem(std::make_shared<Gold>());
     }
   };
 
