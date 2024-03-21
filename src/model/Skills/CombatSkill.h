@@ -35,5 +35,5 @@ class CombatSkill : public Skill {
                                  generation_guaranteed,
                                  move)
 };
-#endif // COMBATSKILL_H
+#endif 
 
