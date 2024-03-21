@@ -6,6 +6,6 @@ public:
      ~BossFight() override = default;
     void triggerEvent() override{};
     std::string getDescription() const override {
-        return "BF";
+        return "BossFight";
     };
 };
