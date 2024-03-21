@@ -204,6 +204,7 @@ int Dungeon_Map::get_mv() {
         default:
             break;
     }
+
     return cur_side;
 }
 
