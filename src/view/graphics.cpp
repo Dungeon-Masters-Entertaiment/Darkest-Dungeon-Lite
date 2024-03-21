@@ -292,6 +292,30 @@ void Monitor::make_an_event_loop2(FSMGame &fsm) {
 
     endwin();
 }
+
+void Monitor::fill_area(std::pair<int, int>* pairs, int color) {
+    attron(COLOR_PAIR(color)); 
+    for (std::pair<int, int>* p = pairs; p->first != -1 && p->second != -1; ++p) {
+        mvaddch(p->second, p->first, ' ' | A_REVERSE); 
+    }
+    attroff(COLOR_PAIR(color)); 
+}
+
+Text::Text(const std::string& text, int colorPair, bool isBold)
+    : text(text), colorPair(colorPair), isBold(isBold) {
+}
+
+void Text::display(int x, int y) const {
+    attron(COLOR_PAIR(colorPair));
+    if (isBold) {
+        attron(A_BOLD);
+    }
+    mvprintw(y, x, "%s", text.c_str());
+    if (isBold) {
+        attroff(A_BOLD);
+    }
+    attroff(COLOR_PAIR(colorPair));
+}
 //Все что ниже использовалось для копирования в класс window_work
 //Все что ниже использовалось для копирования в класс window_work
 //Все что ниже использовалось для копирования в класс window_work

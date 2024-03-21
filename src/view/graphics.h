@@ -22,10 +22,9 @@ struct BlinkingArea { // в каждой area ровно один color
     std::vector<std::vector <std::pair <int, int>>> area;
     std::vector <int> colors;
 };
+
+
 // это набор областей с одним и тем же цветом
-
-
-
 
 class Monitor{
 public:
@@ -97,6 +96,19 @@ public:
     Abilities_Map(WINDOW* win, int y, int x);
 };
 static Monitor cur;
+
+class Text {
+public:
+    std::string text; 
+    int colorPair; 
+    bool isBold; // Жирный текст
+
+    Text(const std::string& text, int colorPair, bool isBold = false);
+
+    // Метод для отображения текста
+    void display(int x, int y) const;
+};
+
 
 #endif //DARKEST_DUNGEON_LITE_GRAPHICS_H
 
