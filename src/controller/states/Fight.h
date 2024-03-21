@@ -5,11 +5,11 @@
 #include "../../../keyboard.h"
 
 
- namespace states {
+namespace states {
 
     class FightState : public StateMachine {
     protected:
-        Keyboard& keyboard = Keyboard::getInstance();
+        Keyboard &keyboard = Keyboard::getInstance();
         int heroidx, enemyidx, skillidx;
         EnemyEncounter event;
     public:
@@ -18,18 +18,25 @@
             enemyidx = 0;
         }
 
-        void Handle(FSM *fsm) ;
+        virtual void Handle(FSM *fsm) override;
 
-        void Update(FSM *fsm) ;
-        
-        void OnExit(FSM *fsm) ;
+        virtual void Update(FSM *fsm) override;
+
+        virtual void OnExit(FSM *fsm) override;
+
+        virtual void Render(FSM *fsm) override {};
+
+        virtual void OnEnter(FSM *fsm) override {};
+
 
         // Getters 
         int getHero() { return heroidx; }
+
         int gerEnemy() { return enemyidx; }
+
         int getSkill() { return skillidx; }
     };
-} 
+}
 
 
 // heroidx - random() 
