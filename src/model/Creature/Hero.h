@@ -55,7 +55,7 @@ class Hero {
     bool isDead() const { return health <= 0; }
 
 private:
-    std::string name; // Имя персонажа
+    std::string name = "crusader"; // Имя персонажа
     int health;       // Здоровье
     int damage;       // Урон
 

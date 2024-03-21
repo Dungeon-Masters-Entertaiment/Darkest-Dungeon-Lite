@@ -3,8 +3,9 @@
 #include <iostream>
 #include "../../model/Rooms/Events/EnemyEncounter.h"
 #include "../../../keyboard.h"
-
-
+#include "../../model/Creature/Monster.h"
+#include "../FSM.h"
+#include "AllieTurnState.h"
 namespace states {
 
     class FightState : public FSM, public State {
@@ -12,8 +13,10 @@ namespace states {
         Keyboard &keyboard = Keyboard::getInstance();
         int heroidx, enemyidx, skillidx;
         EnemyEncounter event;
+        std::map<StateType, State *> states;
+        std::vector <std::shared_ptr<Monster>> enemies;
     public:
-        FightState() {
+        FightState(){
             heroidx = 0;
             enemyidx = 0;
         }
@@ -24,7 +27,15 @@ namespace states {
 
         virtual void Render() override {};
 
-        virtual void OnEnter() override {};
+        virtual void OnEnter() override {
+            this->states[StateType::AllieTurnState] = new states::AllieTurnState();
+            states[StateType::FightState] = new states::FightState();
+            enemies.clear();
+            for (int i = 0; i < 3; i++){
+                enemies.push_back(std::make_shared<Monster>());
+            }
+            std::cout << "Fight started" << std::endl;
+        };
 
         virtual void OnExit() override {};
 

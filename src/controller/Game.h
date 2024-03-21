@@ -15,12 +15,15 @@ class Game { //singleton pattern
     inline static std::shared_ptr<Game> _instance = nullptr;
 
     std::unique_ptr<Map> _map;
-    std::unique_ptr<Squad> _squad;
+    std::shared_ptr<Squad> _squad;
 public:
     Game() = default;
     static std::shared_ptr<Game> getInstance();
     void Start();
     void ParseHeroes();
+    std::shared_ptr<Squad> GetSquad(){
+        return _squad;
+    };
     void End();
     void Pause();
     void Resume();
