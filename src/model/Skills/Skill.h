@@ -9,7 +9,7 @@
 #include <utility>
 #include <nlohmann/json.hpp>
 
-enum class SkillType { MELEE, RANGED, MOVE, NONE, TELEPORT };
+enum class SkillType;
 
 class Skill {
  protected:
@@ -40,7 +40,6 @@ class Skill {
 
   NLOHMANN_DEFINE_TYPE_INTRUSIVE(Skill,
       id,
-      type,
       atk,
       dmg,
       crit,
