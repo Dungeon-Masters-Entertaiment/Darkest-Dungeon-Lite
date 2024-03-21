@@ -1,8 +1,6 @@
 //
 // Created by Ivan Novikov on 09.03.2024.
 //
-
-/*
 #include <cstdio>
 #include "BMP.h"
 #include <ncurses.h>
@@ -35,4 +33,4 @@ class Bmp_Reader {
         return ret_character;
     }
 };
-*/
+

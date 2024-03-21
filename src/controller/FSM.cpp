@@ -13,7 +13,7 @@
 #include <memory>
 
 FSMGame::FSMGame() {
-  states[StateType::CityState] = new states::СityState();
+  states[StateType::CityState] = new states::CityState();
   states[StateType::BuildingState] = new states::BuildingState();
   states[StateType::MapState] = new states::MapState();
   states[StateType::WalkingState] = new states::WalkingState();
