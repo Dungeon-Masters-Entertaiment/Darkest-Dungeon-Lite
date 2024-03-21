@@ -8,7 +8,7 @@
 class State;
 namespace states {
 
-class СityState : public State {
+class CityState : public State {
   void Handle(FSM *fsm) override {};
 
   void Update(FSM *fsm) override {};

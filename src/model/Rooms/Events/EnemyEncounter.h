@@ -12,6 +12,6 @@ public:
     
     void triggerEvent() override{};
     std::string getDescription() const override {
-        return "EE";
+        return "EnemyEncounter";
     };
 };

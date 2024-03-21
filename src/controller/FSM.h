@@ -16,7 +16,8 @@ enum class StateType {
   MapState,
   WalkingState,
   LootState,
-  FightState
+  FightState, 
+  InventoryState
 };
 
 class FSM {

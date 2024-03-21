@@ -1,25 +1,19 @@
-//
-// Created by Daniel Chiliaev on 18/03/2024.
-//
-
-#ifndef STATE_LOOT_H
-#define STATE_LOOT_H
-#include <memory>
+#ifndef INVENTORY_H
+#define INVENTORY_H
 #include "../State.h"
 #include "../../../Inventory.h"
-#include "../../../keyboard.h"
-#include "../../model/GameItems/Items.h"
-#include "../../model/GameItems/РealingPotion.h"
 class State;
 namespace states {
 
-class LootState : public State {
+class InventoryState : public State {
   void Handle(FSM *fsm) override {};
 
   void Update(FSM *fsm) override {
+    /*
     if((int) Keyboard::getInstance().get_key() == (int) KeyboardKey::ENTER) {
-      Inventory::getInstance().addItem(std::make_shared<PealingPotion>());
+        if(Inventory::getInstance().getsizeItem() == )
     }
+    */
   };
 
   void Render(FSM *fsm) override {};
@@ -29,4 +23,5 @@ class LootState : public State {
   void OnExit(FSM *fsm) override {};
 };
 }
-#endif //STATE_LOOT_H
+
+#endif // STATE_CITY_H

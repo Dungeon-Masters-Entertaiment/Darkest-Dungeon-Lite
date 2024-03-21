@@ -3,7 +3,7 @@
 enum class KeyboardKey : int {
     // Специальные клавиши
     ESC = 27,
-    ENTER = 13,
+    ENTER = 10,
     BACKSPACE = 8,
     TAB = 9,
     SPACE = 32,

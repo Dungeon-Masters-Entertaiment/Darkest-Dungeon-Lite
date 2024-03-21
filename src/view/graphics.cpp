@@ -260,6 +260,62 @@ void Monitor::divide_screen(FSMGame &fsm, Map &map) {
     } while(input_char != 27);
 }
 
+void Monitor::make_an_event_loop1(FSMGame &fsm) {
+    int input_char = -1;
+    do{
+        Keyboard::getInstance().change_key(KeyboardKey(input_char));
+        // STATE_MACHINE
+        fsm.Update();
+        //std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        
+    }while((input_char = getch()) != ((int)KeyboardKey::ESC)); //27 is ESC
+
+    getch(); 
+
+    endwin();
+}
+
+void Monitor::make_an_event_loop2(FSMGame &fsm) {
+    int input_char = -1;
+   // printw("вы нашли зелье что бы его забрать нажмите enter или esc чтобы уйти");
+    do{
+        Keyboard::getInstance().change_key(KeyboardKey(input_char));
+        // STATE_MACHINE
+        fsm.Update();
+        if((int) Keyboard::getInstance().get_key() == (int) KeyboardKey::ENTER){break;}
+        //std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        
+    }while((input_char = getch()) != ((int)KeyboardKey::ESC)); //27 is ESC
+    printw("wef");
+
+    getch(); 
+
+    endwin();
+}
+
+void Monitor::fill_area(std::pair<int, int>* pairs, int color) {
+    attron(COLOR_PAIR(color)); 
+    for (std::pair<int, int>* p = pairs; p->first != -1 && p->second != -1; ++p) {
+        mvaddch(p->second, p->first, ' ' | A_REVERSE); 
+    }
+    attroff(COLOR_PAIR(color)); 
+}
+
+Text::Text(const std::string& text, int colorPair, bool isBold)
+    : text(text), colorPair(colorPair), isBold(isBold) {
+}
+
+void Text::display(int x, int y) const {
+    attron(COLOR_PAIR(colorPair));
+    if (isBold) {
+        attron(A_BOLD);
+    }
+    mvprintw(y, x, "%s", text.c_str());
+    if (isBold) {
+        attroff(A_BOLD);
+    }
+    attroff(COLOR_PAIR(colorPair));
+}
 //Все что ниже использовалось для копирования в класс window_work
 //Все что ниже использовалось для копирования в класс window_work
 //Все что ниже использовалось для копирования в класс window_work

@@ -64,6 +64,7 @@ void Map::Draw(std::shared_ptr<window_work> monitor, FSMGame &fsm) {
   // (center_x - fsm.this_room->x + fsm.this_room->width) + 1  + center_y, 2 *
   // fsm.this_room->width + 1  + center_y, COLOR_GREEN, COLOR_RED);
 
+
   // Dung_monitor->draw_blinking_rectangle(2 * fsm.this_room->x)
 
   // debug-вывод
