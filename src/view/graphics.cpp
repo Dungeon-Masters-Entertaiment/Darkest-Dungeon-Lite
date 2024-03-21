@@ -116,7 +116,20 @@ void window_work::fill_area(std::pair<int, int> *pairs, int color) {
 
 }
 
-Fight_Map::Fight_Map(WINDOW *win, int y, int x) {
+void window_work::change_main_window(int height, int width) {
+    if(main_win == 1){
+        resize_win(height - height / 3 * 2 - 1, width / 2);
+        mvwin(cur_win, height / 3 * 2, width / 2);
+        main_win = false;
+    } else{
+        resize_win(height / 3 * 2, width);
+        mvwin(cur_win, 0, 0);
+        main_win = true;
+    }
+}
+
+Fight_Map::Fight_Map(WINDOW *win, int y, int x, bool main_w) {
+    main_win = main_w;
     cur_win = win;
     y_cur = y;
     x_cur = x;
@@ -128,7 +141,8 @@ Fight_Map::Fight_Map(WINDOW *win, int y, int x) {
         init_pair(i + 1, 1, i);
     }
 }
-Abilities_Map::Abilities_Map(WINDOW *win, int y, int x) {
+Abilities_Map::Abilities_Map(WINDOW *win, int y, int x, bool main_w) {
+    main_win = main_w;
     cur_win = win;
     y_cur = y;
     x_cur = x;
@@ -141,7 +155,8 @@ Abilities_Map::Abilities_Map(WINDOW *win, int y, int x) {
     }
 }
 
-Dungeon_Map :: Dungeon_Map(WINDOW* win, int y, int x) : window_work() {
+Dungeon_Map :: Dungeon_Map(WINDOW* win, int y, int x, bool main_w) : window_work() {
+    main_win = main_w;
     cur_win = win;
     y_cur = y;
     x_cur = x;
@@ -218,11 +233,11 @@ void Monitor::divide_screen(FSMGame &fsm, Map &map) {
     getmaxyx(stdscr, height, width);
     width = width - (width % 2 == 1);
     WINDOW *win = newwin(height / 3 * 2, width, 0, 0);
+    auto Fight_win = std::make_shared<Fight_Map>(win, 1, 1, 1);
     WINDOW *win2 = newwin(height / 3, width / 2, height / 3 * 2, 0);
+    auto Abilities_win = std::make_shared<Abilities_Map>(win2, 1, 1, 0);
     WINDOW *win3 = newwin(height / 3, width / 2, height / 3 * 2, width / 2);
-    auto Fight_win = std::make_shared<Fight_Map>(win, 1, 1);
-    auto Abilities_win = std::make_shared<Abilities_Map>(win2, 1, 1);
-    auto Dung_Map = std::make_shared<Dungeon_Map>(win3, 1, 1); // Создаем класс карты
+    auto Dung_Map = std::make_shared<Dungeon_Map>(win3, 1, 1, 0); // Создаем класс карты
     refresh(); // Обновляем ВЕСЬ экран
     Fight_win -> paint_sides();
     Abilities_win -> paint_sides();
@@ -253,13 +268,16 @@ void Monitor::divide_screen(FSMGame &fsm, Map &map) {
         Abilities_win -> paint_sides();
         Dung_Map -> paint_sides();
         int c = Dung_Map -> get_mv();
+        if (c == (int)'b') {
+            Fight_win -> change_main_window(height, width);
+            Dung_Map -> change_main_window(height, width);
+        }
         //Dung_Map -> display_hero();
         map.Draw(Dung_Map, fsm);
 
 
     } while(input_char != 27);
 }
-
 void Monitor::make_an_event_loop1(FSMGame &fsm) {
     int input_char = -1;
     do{
@@ -294,15 +312,15 @@ void Monitor::make_an_event_loop2(FSMGame &fsm) {
 }
 
 void Monitor::fill_area(std::pair<int, int>* pairs, int color) {
-    attron(COLOR_PAIR(color)); 
+    attron(COLOR_PAIR(color));
     for (std::pair<int, int>* p = pairs; p->first != -1 && p->second != -1; ++p) {
-        mvaddch(p->second, p->first, ' ' | A_REVERSE); 
+        mvaddch(p->second, p->first, ' ' | A_REVERSE);
     }
-    attroff(COLOR_PAIR(color)); 
+    attroff(COLOR_PAIR(color));
 }
 
 Text::Text(const std::string& text, int colorPair, bool isBold)
-    : text(text), colorPair(colorPair), isBold(isBold) {
+        : text(text), colorPair(colorPair), isBold(isBold) {
 }
 
 void Text::display(int x, int y) const {

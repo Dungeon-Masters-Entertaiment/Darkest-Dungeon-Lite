@@ -22,9 +22,10 @@ struct BlinkingArea { // в каждой area ровно один color
     std::vector<std::vector <std::pair <int, int>>> area;
     std::vector <int> colors;
 };
-
-
 // это набор областей с одним и тем же цветом
+
+
+
 
 class Monitor{
 public:
@@ -54,12 +55,13 @@ protected:
     int y_mx, x_mx;
     int y_cur;
     int x_cur;
+    bool main_win;
 public:
     //friend class Map;
     virtual void update();
     virtual void resize_win(int new_y, int new_x);
     virtual void paint_sides();
-
+    virtual void change_main_window(int height, int width);
     virtual void draw_dot(int x, int y);
     virtual void draw_rectangle(int x1, int y1, int x2, int y2);
     virtual void draw_colored_dot(int x, int y, int color);
@@ -73,7 +75,7 @@ class Dungeon_Map : public window_work {
 public:
     friend class Map;
     friend void Monitor::divide_screen(FSMGame &fsm, Map &map);
-    Dungeon_Map(WINDOW* win, int y, int x);
+    Dungeon_Map(WINDOW* win, int y, int x, bool main_win);
     void display_hero();
     void mv_up(); // Движение вверх
     void mv_down(); // Движение вниз
@@ -86,21 +88,21 @@ class Fight_Map : public window_work {
 public:
     friend class Map;
     friend void Monitor::divide_screen(FSMGame &fsm, Map &map);
-    Fight_Map(WINDOW* win, int y, int x);
+    Fight_Map(WINDOW* win, int y, int x, bool main_win);
 };
 
 class Abilities_Map : public window_work {
 public:
     friend class Map;
     friend void Monitor::divide_screen(FSMGame &fsm, Map &map);
-    Abilities_Map(WINDOW* win, int y, int x);
+    Abilities_Map(WINDOW* win, int y, int x, bool main_win);
 };
 static Monitor cur;
 
 class Text {
 public:
-    std::string text; 
-    int colorPair; 
+    std::string text;
+    int colorPair;
     bool isBold; // Жирный текст
 
     Text(const std::string& text, int colorPair, bool isBold = false);
@@ -108,7 +110,5 @@ public:
     // Метод для отображения текста
     void display(int x, int y) const;
 };
-
-
 #endif //DARKEST_DUNGEON_LITE_GRAPHICS_H
 
