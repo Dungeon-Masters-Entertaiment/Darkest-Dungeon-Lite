@@ -5,12 +5,18 @@
 #define DARKEST_DUNGEON_LITE_GRAPHICS_H
 
 
-#include "BMPParser/BMP.h"
+
 #include <chrono>
 #include <cmath>
+#include <ncurses.h>
+
+
+#include "BMPParser/BMP.h"
 #include "model/MapGenerators/MapFabric.h"
 #include "controller/FSM.h"
 #include "controller/Game.h"
+
+
 
 struct BlinkingArea { // в каждой area ровно один color
     std::vector<std::vector <std::pair <int, int>>> area;
