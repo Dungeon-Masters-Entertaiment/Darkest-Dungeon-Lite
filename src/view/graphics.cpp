@@ -113,24 +113,8 @@ void window_work::draw_blinking_rectangle(int x1, int y1, int x2, int y2, short 
 }
 
 void window_work::fill_area(std::pair<int, int> *pairs, int color) {
-    attron(COLOR_PAIR(color));
-    for (std::pair<int, int>* p = pairs; p->first != -1 && p->second != -1; ++p) {
-        mvaddch(p->second, p->first, ' ' | A_REVERSE);
-    }
-    attroff(COLOR_PAIR(color));
+
 }
-
-void window_work::draw_sprite(std::vector<std::vector<int>> colors, int x_start, int y_start) {
-
-    for (int i = 0; i < colors[0].size(); i++) {
-        for (int j = 0; j < colors.size(); j++) {
-            attron(COLOR_PAIR(colors[j][i]));
-            mvaddch(y_start + i, x_start + j, ' ' | A_REVERSE);
-            attroff(COLOR_PAIR(colors[j][i]));
-        }
-    }
-}
-
 
 Fight_Map::Fight_Map(WINDOW *win, int y, int x) {
     cur_win = win;
@@ -259,7 +243,7 @@ void Monitor::divide_screen(FSMGame &fsm, Map &map) {
             width = n_width;
             width = width - (width % 2 == 1);
             Fight_win -> resize_win(height / 3 * 2, width);
-            Abilities_win -> resize_win(height - height / 3 * 2, width / 2);
+            Abilities_win -> resize_win(height - height / 3 * 2, width / 2);;
             mvwin(win2, height / 3 * 2, 0);
             Dung_Map -> resize_win(height - height / 3 * 2, width / 2);
             mvwin(win3, height / 3 * 2, width / 2);
@@ -309,6 +293,13 @@ void Monitor::make_an_event_loop2(FSMGame &fsm) {
     endwin();
 }
 
+void Monitor::fill_area(std::pair<int, int>* pairs, int color) {
+    attron(COLOR_PAIR(color)); 
+    for (std::pair<int, int>* p = pairs; p->first != -1 && p->second != -1; ++p) {
+        mvaddch(p->second, p->first, ' ' | A_REVERSE); 
+    }
+    attroff(COLOR_PAIR(color)); 
+}
 
 Text::Text(const std::string& text, int colorPair, bool isBold)
     : text(text), colorPair(colorPair), isBold(isBold) {
