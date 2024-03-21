@@ -19,7 +19,7 @@ public:
                 short r_search, g_search, b_search;
 
                 ret_character[i][j] = 0;
-                int deviation = 1000000;
+                int deviation = 100000000;
 
                 for (int color = 0; color < 16; color++) {
                     color_content((short) color, &r_search, &g_search, &b_search);
