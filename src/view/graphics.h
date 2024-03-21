@@ -67,6 +67,7 @@ public:
     virtual void draw_blinking_rectangle(int x1, int y1, int x2, int y2, short colour_1, short colour_2);
     virtual void fill_rectangle(int x1, int y1, int x2, int y2, int color);
     virtual void fill_area(std::pair <int, int> * pairs, int color);
+    virtual void draw_sprite(std::vector<std::vector<int>> colors, int x_start, int y_start);
 
 };
 class Dungeon_Map : public window_work {
@@ -108,6 +109,8 @@ public:
     // Метод для отображения текста
     void display(int x, int y) const;
 };
+
+
 
 
 #endif //DARKEST_DUNGEON_LITE_GRAPHICS_H
