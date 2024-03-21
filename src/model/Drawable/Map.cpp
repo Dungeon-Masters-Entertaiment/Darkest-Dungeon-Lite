@@ -32,7 +32,11 @@ void Map::Draw(std::shared_ptr<window_work> monitor, FSMGame & fsm) {
         //Dung_monitor->draw_blinking_rectangle(2 * (room->x - fsm.this_room->x + 1), (room->y - fsm.this_room->y + 1), 2 * (room->x - fsm.this_room->x + room->width) + 1, room->y - fsm.this_room->x + room->height, COLOR_GREEN, COLOR_RED);
         Dung_monitor->fill_rectangle(2 * room->x + 2 + (center_x - cur_pos_x), room->y + 1 + (center_y - cur_pos_y), 2 * (room->x + room->width) + 1 + (center_x - cur_pos_x), room->y + room->height + (center_y - cur_pos_y), COLOR_CYAN);
     }
-    Dung_monitor->fill_rectangle(2 * fsm.this_room->x + 2 + (center_x - cur_pos_x), fsm.this_room->y + 1 + (center_y - cur_pos_y), 2 * (fsm.this_room->x + fsm.this_room->width) + 1 + (center_x - cur_pos_x), fsm.this_room->y + fsm.this_room->height + (center_y - cur_pos_y), COLOR_BLUE);
+    if(std::dynamic_pointer_cast<Room>(fsm.this_room) != nullptr){
+        Dung_monitor->fill_rectangle(2 * fsm.this_room->x + 2 + (center_x - cur_pos_x), fsm.this_room->y + 1 + (center_y - cur_pos_y), 2 * (fsm.this_room->x + fsm.this_room->width) + 1 + (center_x - cur_pos_x), fsm.this_room->y + fsm.this_room->height + (center_y - cur_pos_y), COLOR_BLUE);
+    } else {
+        Dung_monitor->fill_rectangle(2 * fsm.this_room->x + 2 + (center_x - cur_pos_x)  + 2, fsm.this_room->y + 1 + (center_y - cur_pos_y) + 1, 2 * (fsm.this_room->x + fsm.this_room->width) + 1 + (center_x - cur_pos_x) + 2, fsm.this_room->y + fsm.this_room->height + (center_y - cur_pos_y) + 1, COLOR_BLUE);
+    }
     //Dung_monitor->draw_blinking_rectangle(center_x + 2, 1 + center_y, 2 * (center_x - fsm.this_room->x + fsm.this_room->width) + 1  + center_y, 2 * fsm.this_room->width + 1  + center_y, COLOR_GREEN, COLOR_RED);
 
     //Dung_monitor->draw_blinking_rectangle(2 * fsm.this_room->x)
