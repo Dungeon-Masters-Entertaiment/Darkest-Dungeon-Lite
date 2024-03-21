@@ -7,7 +7,7 @@
 
 namespace states {
 
-    class FightState : public StateMachine {
+    class FightState : public FSM, public State {
     protected:
         Keyboard &keyboard = Keyboard::getInstance();
         int heroidx, enemyidx, skillidx;
@@ -17,6 +17,16 @@ namespace states {
             heroidx = 0;
             enemyidx = 0;
         }
+
+        virtual void ChangeState(StateType state_type) override {};
+
+        virtual void Update() override {};
+
+        virtual void Render() override {};
+
+        virtual void OnEnter() override {};
+
+        virtual void OnExit() override {};
 
         virtual void Handle(FSM *fsm) override;
 
@@ -29,7 +39,7 @@ namespace states {
         virtual void OnEnter(FSM *fsm) override {};
 
 
-        // Getters 
+        // Getters
         int getHero() { return heroidx; }
 
         int gerEnemy() { return enemyidx; }
