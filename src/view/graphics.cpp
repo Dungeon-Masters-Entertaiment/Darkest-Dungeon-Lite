@@ -252,14 +252,13 @@ void Monitor::divide_screen(FSMGame &fsm, Map &map) {
         int c = Dung_Map->get_mv();
         //Dung_Map -> display_hero();
         map.Draw(Dung_Map, fsm);
+        std::string bmp_name = Game::getInstance()->GetSquad()->get_by_inx(0)->getName();
+        auto bitmap_vector = Bmp_Reader::get_character(bmp_name);
         for (int i = 0; i < 3; i++){
-            //std::string bmp_name = Game::getInstance()->GetSquad()->get_by_inx(i)->getName();
-            //auto bitmap_vector = Bmp_Reader::get_character(bmp_name);
-            //Fight_win -> update();
-            //Fight_win->draw_sprite(bitmap_vector, 15, 0);
-            //Fight_win -> update();
+            Fight_win -> update();
+            Fight_win->draw_sprite(bitmap_vector, 15 , 20 + i * 35);
         }
-
+        Fight_win -> update();
     } while (input_char != 27);
 }
 
@@ -320,8 +319,6 @@ void window_work::fill_area(std::pair<int, int> *pairs, int color) {
 
 
 void Fight_Map::draw_sprite(std::vector<std::vector<int>> colors, int x_start, int y_start) {
-
-
     for (int j = 0; j < colors.size(); j++) {
 
         for (int i = 0; i < colors[j].size(); i++) {
@@ -333,9 +330,7 @@ void Fight_Map::draw_sprite(std::vector<std::vector<int>> colors, int x_start, i
             //wattroff(cur_win, COLOR_PAIR(colors[j][i]));
 
         }
-
     }
-
 }
 
 Text::Text(const std::string &text, int colorPair, bool isBold)
