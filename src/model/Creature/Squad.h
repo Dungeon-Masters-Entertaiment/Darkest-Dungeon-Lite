@@ -11,7 +11,7 @@ public:
     virtual ~Squad() = default;
 
     // Методы
-    void addHero(const std::shared_ptr<Hero>& hero); 
+    void addHero(const std::shared_ptr<Hero>& hero);
     void removeHero(int index); // Удаление героя из отряда по индексу
     void attackSquad(Squad& enemySquad); // Атака другого отряда (Рандомно)
     void attackSquad(Squad& enemySquad, int enemyindx, int indx, int damage); // Атака другого отряда, определенного персонажа

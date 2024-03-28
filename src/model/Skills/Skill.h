@@ -9,16 +9,16 @@
 #include <utility>
 #include <nlohmann/json.hpp>
 
-enum class SkillType { MELEE, RANGED, MOVE, NONE, TELEPORT };
+enum class SkillType;
 
 class Skill {
  protected:
   std::string id;
   SkillType type;
   int atk;
-  std::pair<int, int> dmg;
+  int dmg;
   int crit;
-  std::string effect;
+//  std::string effect;
   int launch;
   std::string targets;
 
@@ -29,7 +29,6 @@ class Skill {
   const std::string& getId() const;
   SkillType getType() const;
   int getAtk() const;
-  const std::pair<int, int>& getDmg() const;
   int getCrit() const;
   const std::string& getEffect() const;
   int getLaunch() const;
@@ -40,7 +39,6 @@ class Skill {
 
   NLOHMANN_DEFINE_TYPE_INTRUSIVE(Skill,
       id,
-      type,
       atk,
       dmg,
       crit,

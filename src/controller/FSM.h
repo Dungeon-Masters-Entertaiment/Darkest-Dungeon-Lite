@@ -17,7 +17,9 @@ enum class StateType {
   WalkingState,
   LootState,
   FightState, 
-  InventoryState
+  InventoryState,
+  AllieTurnState,
+  EnemyTurnState,
 };
 
 class FSM {
@@ -58,6 +60,8 @@ public:
   void OnEnter() override;
 
   void OnExit() override;
+
+  State* GetCurState() { return curr_state; }
 };
 
 #endif // DARKEST_DUNGEON_LITE_FSM_H

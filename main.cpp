@@ -20,8 +20,7 @@ int main(int argc, char **argv) {
     
     
     //cur.divide_screen();
-    Game game;
-    game.Start();
+    Game::getInstance()->Start();
     return 0;
 
 }
